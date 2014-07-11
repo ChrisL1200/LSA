@@ -1,0 +1,54 @@
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <!-- <p class="lead">Search for your new home</p> -->
+    <form ng-submit="updateBounds()">
+      <div class="row">
+        <div class="col-lg-6">
+          <input type="text" ng-model="locationSelected" placeholder="Search for your new home" typeahead="address for address in getLocation($viewValue)" class="form-control">
+        </div>
+        <div class="col-lg-3">
+          <select ng-model="incomeLimit" ng-options="income.label for income in incomes" class="filter-select">
+            <option value="">Home Price Range</option>
+          </select>
+        </div>
+        <div class="col-lg-3">
+          <select ng-model="incomeLimit" ng-options="income.label for income in incomes" class="filter-select">
+            <option value="">Another Filter</option>
+          </select>
+        </div>
+  </div>
+    </form>
+  </div>
+</header>
+
+<div class="container main-content">
+  <div class="row">
+    <div class="col-lg-8">
+      <google-map center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true">
+        <marker coords='marker.coordinates' ng-repeat="marker in markers">
+          <!-- <marker-label content='"Virginia"' anchor='"[50,50]"'></marker-label> -->
+        </marker>  
+      </google-map>
+    </div>
+    <div class="col-lg-4 right-panel">
+      <div class="row marker-result" ng-repeat="marker in markers">
+        <div class="col-lg-4">
+          <progressbar animate="false" value="marker.scores.test" type="danger" max="10"><b>{{marker.scores.test}}</b></progressbar>
+          <progressbar animate="false" value="marker.scores.crime" type="primary" max="10"><b>{{marker.scores.crime}}</b></progressbar>
+          <progressbar animate="false" value="marker.scores.realEstate" type="warning" max="10"><b>{{marker.scores.realEstate}}</b></progressbar>
+        </div>
+        <div class="col-lg-8">
+          <p class="lead">{{marker.schoolDistrict}}</p>
+          <h3><span class="label label-success">{{marker.scores.total}}</span></h3>
+          <button type="button" class="btn btn-info" ng-click="updateRoute('/homes')">View Homes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+      <p><a href="https://twitter.com/chrisl1200">@chrisl1200</a></p>
+  </div>
+</footer>
