@@ -52,11 +52,19 @@ var all = {
     clientSecret: process.env.TWITTER_SECRET || 'secret',
     callbackURL:  'http://localhost:9000/auth/twitter/callback'
   },
-
   google: {
     clientID:     process.env.GOOGLE_ID || 'id',
     clientSecret: process.env.GOOGLE_SECRET || 'secret',
     callbackURL:  'http://localhost:9000/auth/google/callback'
+  },
+  trulia: {
+    key: 't8jq2cezcuhsaybmq6a33kdu'
+  },
+  education: {
+    key: '23cbcf09d914ed637cb83a306959287d'
+  },
+  zillow: {
+    key: 'X1-ZWz1b6epidczrf_8p8sy'
   }
 };
 

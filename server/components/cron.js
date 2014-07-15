@@ -26,26 +26,62 @@
 // http.request(options, callback).end();
 
 // Trulia: t8jq2cezcuhsaybmq6a33kdu
-var zips = ["20112"];
 
 var CronJob = require('cron').CronJob;
-var job = new CronJob('00 * * * * *', function(){
+var Trulia = require('./apis/trulia');
+var Zillow = require('./apis/zillow');
+var Education = require('./apis/education');
+var Score = require('../api/score/score.model');
+// var job = new CronJob('00 * * * * *', function(){
+	Score.remove({}, function(err) { 
+   console.log('collection removed') 
 	var schoolAverageHomePrices = {};
-	// Iterate through all states (Trulia) -> Iterate through all cities (Trulia) -> Iterate through all neighborhoods (Trulia)
-	for(var i = 0; i < zips.length; i++) {
+	// Iterate through all states (Trulia) -> Iterate through all zips (Trulia)
+	Trulia.getZipCodesInState("VA", function(zipCodes) {
+		for(var i = 0; i < zipCodes.length; i++) {
+			// Get all zip code data (Zillow)
+			Education.schoolSearch(zipCodes[i].name[0], function(schools) {
+				var parsedSchools = JSON.parse(schools);
+				for(var j = 0; j < parsedSchools.length; j++) {
+					Score.create({
+				  		coordinates: {
+				  			latitude: parsedSchools[j].school.latitude,
+				  			longitude: parsedSchools[j].school.longitude
+				  		},
+				  		zipCode: parseInt(parsedSchools[j].school.zip),
+				  		scores: {
+				  			total: parsedSchools[j].school.studentteacherratio.total
+				  		},
+				  		school: {
+				  			name: parsedSchools[j].school.schoolname,
+  							gradelevel: parsedSchools[j].school.gradelevel,
+  							id: parsedSchools[j].school.schoolid
+				  		}
+					});
+				}
+			});
+			// Zillow.getDemographics(zipCodes[i].name[0], function(demographics){
+			// 	console.log(demographics.pages[0].page[0].tables[0].table[0].data[0].attribute[0].values[0].nation[0].value[0]["_"]);
+			// 	var score = (500000 - parseInt(demographics.pages[0].page[0].tables[0].table[0].data[0].attribute[0].values[0].nation[0].value[0]["_"]))/40000;
+			// 	Score.create({
+			// 	  coordinates: {
+			// 	  	latitude: parseFloat(demographics.region[0].latitude[0]),
+			// 	  	longitude: parseFloat(demographics.region[0].longitude[0])
+			// 	  },
+			// 	  zipCode: parseInt(demographics.region[0].zip[0]),
+			// 	  scores: {
+			// 	  	total: score
+			// 	  }
+			// 	});	
+			// });
 
-	  // Get all houses for sale (Zillow)
+	      // Get nearby schools (Education.com)
 
-	    // Iterate over all houses (Paging as well)
+	      // Get school test data / metadata (Education.com) if school hasn't been retrieved
+		}
+	});
 
-	      // Get nearby schools (Great Schools)
-
-	      // Update average home price per school (schoolAverageHomePrices)
-
-	      // Get school test data / metadata (Great Schools or Education.com) if school hasn't been retrieved
-
-	}
-
+	console.log("Start time: " + new Date().toString());
     // Iterate over schoolAverageHomePrices
 
       // Calculate LSA
@@ -57,7 +93,9 @@ var job = new CronJob('00 * * * * *', function(){
     // Rename temp to lsa collection
 
     console.log("Every minute");
-  }, function () {},
-  true /* Start the job right now */,
-  "America/Los_Angeles" /* Time zone of this job. */
-);
+
+});
+//   }, function () {},
+//   true /* Start the job right now */,
+//   "America/Los_Angeles" /* Time zone of this job. */
+// );

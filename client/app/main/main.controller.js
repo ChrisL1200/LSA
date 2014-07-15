@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('lsaApp')
-  .controller('MainCtrl', function ($scope, $http) {
+  .controller('MainCtrl', function ($scope, $http, Lsascore) {
     $scope.getLocation = function(val) {
     return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
       params: {
@@ -18,6 +18,11 @@ angular.module('lsaApp')
     });
   };
     $scope.incomes = [{label: "Less than 200,000", value: 200000},{label: "200,000 - 300,000", value: 250000},{label: "More than 300,000", value: 300000}]
+    
+    Lsascore.get({}, function(response) {
+      $scope.markers = response;
+    }); 
+
     $scope.map = {
       center: {
         latitude: 38,
@@ -25,55 +30,55 @@ angular.module('lsaApp')
       },
       zoom: 6
     };
-    $scope.markers = [{
-      coordinates: {
-        latitude: 38,
-        longitude: -79.5
-      },
-      schoolDistrict: "Fairfax County",
-      scores: {
-        test: 9.3,
-        realEstate: 5.5,
-        crime: 3.7,
-        total: 5.9
-      }
-    },{
-      coordinates: {
-        latitude: 38,
-        longitude: -79.9
-      },
-      schoolDistrict: "Prince William County",
-      scores: {
-        test: 9.3,
-        realEstate: 5.5,
-        crime: 3.7,
-        total: 5.5
-      }
-    },{
-      coordinates: {
-        latitude: 38,
-        longitude: -79.1
-      },
-      schoolDistrict: "Loudon County",
-      scores: {
-        test: 9.3,
-        realEstate: 5.5,
-        crime: 3.7,
-        total: 5.3
-      }
-    },{
-      coordinates: {
-        latitude: 38.3,
-        longitude: -79.5
-      },
-      schoolDistrict: "Spotsylvania County",
-      scores: {
-        test: 9.3,
-        realEstate: 5.5,
-        crime: 3.7,
-        total: 5.1
-      }
-    }];
+    // $scope.markers = [{
+    //   coordinates: {
+    //     latitude: 38,
+    //     longitude: -79.5
+    //   },
+    //   schoolDistrict: "Fairfax County",
+    //   scores: {
+    //     test: 9.3,
+    //     realEstate: 5.5,
+    //     crime: 3.7,
+    //     total: 5.9
+    //   }
+    // },{
+    //   coordinates: {
+    //     latitude: 38,
+    //     longitude: -79.9
+    //   },
+    //   schoolDistrict: "Prince William County",
+    //   scores: {
+    //     test: 9.3,
+    //     realEstate: 5.5,
+    //     crime: 3.7,
+    //     total: 5.5
+    //   }
+    // },{
+    //   coordinates: {
+    //     latitude: 38,
+    //     longitude: -79.1
+    //   },
+    //   schoolDistrict: "Loudon County",
+    //   scores: {
+    //     test: 9.3,
+    //     realEstate: 5.5,
+    //     crime: 3.7,
+    //     total: 5.3
+    //   }
+    // },{
+    //   coordinates: {
+    //     latitude: 38.3,
+    //     longitude: -79.5
+    //   },
+    //   schoolDistrict: "Spotsylvania County",
+    //   scores: {
+    //     test: 9.3,
+    //     realEstate: 5.5,
+    //     crime: 3.7,
+    //     total: 5.1
+    //   }
+    // }];
     $scope.updateBounds = function() {
       var geometry = _.where($scope.lastSelected, { 'formatted_address': $scope.locationSelected })[0].geometry;
       // $scope.map.center.latitude = geometry.location.lat;
@@ -89,23 +94,5 @@ angular.module('lsaApp')
         }
       };
       var z = 13;
-    };
-
-    $scope.awesomeThings = [];
-
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-    });
-
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
-        return;
-      }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
-    };
-
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
     };
   });
