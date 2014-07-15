@@ -1,11 +1,18 @@
 'use strict';
 
 var _ = require('lodash');
-var Score = require('./score.model');
+var Score = require('./score.model'),
+    url = require('url');
 
 // Get list of scores
 exports.index = function(req, res) {
-  Score.find().sort({'scores.total': -1}).limit(100).exec(function (err, scores) {
+  var url_parts = url.parse(req.url, true);
+  var query = url_parts.query;
+  Score.find().sort({'scores.total': -1})
+  .where('coordinates.latitude').gt(query.southwestLat).lt(query.northeastLat)
+  .where('coordinates.longitude').gt(query.southwestLong).lt(query.northeastLong)
+  .limit(100)
+  .exec(function (err, scores) {
     if(err) { return handleError(res, err); }
     return res.json(200, scores);
   });
