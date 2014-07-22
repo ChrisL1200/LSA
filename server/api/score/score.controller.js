@@ -11,7 +11,7 @@ exports.index = function(req, res) {
   Score.find().sort({'scores.total': -1})
   .where('coordinates.latitude').gt(query.southwestLat).lt(query.northeastLat)
   .where('coordinates.longitude').gt(query.southwestLong).lt(query.northeastLong)
-  .limit(100)
+  .limit(20)
   .exec(function (err, scores) {
     if(err) { return handleError(res, err); }
     return res.json(200, scores);

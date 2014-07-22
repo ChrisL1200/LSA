@@ -65,6 +65,11 @@ var all = {
   },
   zillow: {
     key: 'X1-ZWz1b6epidczrf_8p8sy'
+  },
+  spark: {
+    client_id: "r4pjgm1lhd7e7d2cbbplzz16",
+    client_secret: "3xa3sv9zrfjd3yg6d6xkq5h74",
+    redirect_uri: "https://post-office-project.herokuapp.com"
   }
 };
 

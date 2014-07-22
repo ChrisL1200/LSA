@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('lsaApp')
-  .controller('MainCtrl', function ($scope, $http, Lsascore) {
+  .controller('MainCtrl', function ($scope, $http, $timeout, Lsascore) {
     $scope.getLocation = function(val) {
     return $http.get('https://maps.googleapis.com/maps/api/geocode/json', {
       params: {
@@ -21,8 +21,27 @@ angular.module('lsaApp')
     var updateScore = function() {
       Lsascore.get({northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude }, function(response) {
         $scope.markers = response;
+        _.each($scope.markers, function (marker) {
+
+          marker.coordz = {latitude: 46, longitude: -77};
+          marker.closeClick = function () {
+            marker.showWindow = false;
+            $scope.$apply();
+          };
+          marker.onClicked = function ()  {
+            onMarkerClicked(marker);
+          };
+        });
       });
     } 
+
+    var onMarkerClicked = function (marker) {
+      angular.forEach($scope.markers, function(marker) {
+        marker.showWindow = false;
+      });
+      marker.showWindow = true;
+      $scope.$apply();
+    };
 
     $scope.map = {
       center: {
@@ -40,11 +59,53 @@ angular.module('lsaApp')
             latitude: 36.5407589,
             longitude: -83.675415
          }
-      }
+      },
+      polylines: [
+            {
+              id: 1,
+              path: [
+                {
+                  latitude: 38.466012,
+                  longitude: -76.24215719999999
+                },
+                {
+                  latitude: 38.466012,
+                  longitude: -77.24215719999999
+                },
+                {
+                  latitude: 37.466012,
+                  longitude: -77.24215719999999
+                },
+                {
+                  latitude: 37.466012,
+                  longitude: -76.24215719999999
+                },
+                {
+                  latitude: 38.466012,
+                  longitude: -76.24215719999999
+                }
+              ],
+              stroke: {
+                color: '#6060FB',
+                weight: 3
+              },
+              editable: true,
+              draggable: false,
+              geodesic: false,
+              visible: true,
+              clickable: true
+            }
+          ]
     };
+    var keyPromise;
 
     $scope.$watch('map.bounds', function(newVal, oldVal) {
-      updateScore();
+      $scope.markers = [];
+      if(keyPromise)
+        $timeout.cancel(keyPromise);
+      keyPromise = $timeout(function() {
+        updateScore();
+      }, 400);
     }, true);
     $scope.updateBounds = function() {
       var geometry = _.where($scope.lastSelected, { 'formatted_address': $scope.locationSelected })[0].geometry;
@@ -58,6 +119,5 @@ angular.module('lsaApp')
           longitude: geometry.bounds.southwest.lng
         }
       };
-      var z = 13;
     };
   });

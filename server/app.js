@@ -17,7 +17,7 @@ mongoose.connect(config.mongo.uri, config.mongo.options);
 // Populate DB with sample data
 if(config.seedDB) { require('./config/seed'); }
 
-require('./components/cron');
+// require('./components/cron');
 // Setup server
 var app = express();
 var server = require('http').createServer(app);
