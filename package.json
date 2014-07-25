@@ -27,7 +27,8 @@
     "connect-mongo": "^0.4.1",
     "socket.io": "~0.9.16",
     "socketio-jwt": "^2.0.2",
-    "xml2js": "0.4.4"
+    "xml2js": "0.4.4",
+    "point-in-polygon": "*"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
