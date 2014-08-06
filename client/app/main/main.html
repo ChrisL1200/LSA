@@ -40,9 +40,10 @@
     </div>
     <div class="col-lg-4 right-panel">
       <div class="btn-group">
-        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Left'" uncheckable>Elementary</label>
-        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Middle'" uncheckable>Middle</label>
-        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Right'" uncheckable>High</label>
+        <label class="btn btn-primary" ng-model="gradeLevel" btn-radio="'Elementary'" uncheckable>Elementary</label>
+        <label class="btn btn-primary" ng-model="gradeLevel" btn-radio="'Middle'" uncheckable>Middle</label>
+        <label class="btn btn-primary" ng-model="gradeLevel" btn-radio="'High'" uncheckable>High</label>
+        <label class="btn btn-primary" ng-model="gradeLevel" btn-radio="''" uncheckable>All</label>
       </div>
       <hr>
       <div class="row marker-result" ng-repeat="marker in markers">

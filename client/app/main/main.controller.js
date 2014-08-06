@@ -24,9 +24,10 @@ angular.module('lsaApp')
     //Filters
     $scope.incomes = [{label: "Less than 200,000", value: 200000},{label: "200,000 - 300,000", value: 250000},{label: "More than 300,000", value: 300000}]
     
+    $scope.gradeLevel = "";
     //Bound change callback
     var updateScore = function() {
-      Lsascore.get({northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude }, function(response) {
+      Lsascore.get({northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude, gradeLevel: $scope.gradeLevel }, function(response) {
         $scope.markers = response;
         _.each($scope.markers, function (marker) {
           marker.closeClick = function () {
@@ -48,8 +49,13 @@ angular.module('lsaApp')
         $timeout.cancel(keyPromise);
       keyPromise = $timeout(function() {
         updateScore();
-      }, 400);
+      }, 250);
     }, true);
+
+    $scope.$watch('gradeLevel', function(newVal, oldVal) {
+      $scope.markers = [];
+      updateScore();
+    });
 
     //Marker Click Callback
     var onMarkerClicked = function (marker) {
