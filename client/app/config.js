@@ -1,13 +1,12 @@
 angular.module('lsaApp').constant('Config', {
-  autocompleteService: 'https://maps.googleapis.com/maps/api/geocode/json',
+  autocompleteService: 'https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCc2xSsYmFpNiHcRk-DuHkSVVxi9Rt9xFA&region=US',
   mapDefaults: {
       center: {
-        latitude: 38,
-        longitude: -79.5
+        latitude: 37.96771449141076,
+        longitude: -76.74215720000001
       },
       zoom: 6,
-      draggable: true,
-      bounds: {
+      bounds: { 
          northeast: {
             latitude: 39.466012,
             longitude: -75.24215719999999

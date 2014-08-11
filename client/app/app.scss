@@ -1,5 +1,6 @@
 $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 $fa-font-path: "/bower_components/font-awesome/fonts";
+$primary-color: #547;
 
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'font-awesome/scss/font-awesome';
@@ -22,6 +23,16 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
     }
 }
 
+.primary-color {
+	background-color: $primary-color;
+	color:white;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 // Component styles are injected through grunt
 // injector
 @import 'account/login/login.scss';

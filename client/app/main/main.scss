@@ -18,7 +18,7 @@
     padding: 15px;
     text-align: center;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-    background: #4393B9;
+    background: $primary-color;
 }
 
 .footer {
@@ -36,6 +36,7 @@
 .right-panel {
     overflow-y: scroll;
     height: 500px;    
+    margin-top: -10px;
 }
 
 .lead {
@@ -51,4 +52,10 @@
     padding: 6px;
     width: 100%;
 }
+
+.school-image {
+    height: 80px;
+    width: 120px;
+}
+
 .angular-google-map-container { height: 500px; }

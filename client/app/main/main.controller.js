@@ -3,6 +3,7 @@
 angular.module('lsaApp')
   .controller('MainCtrl', function ($scope, $http, $timeout, Lsascore, Config) {
     $scope.map = Config.mapDefaults;
+    var hack = true;
 
     //Autocomplete service
     $scope.getLocation = function(val) {
@@ -23,13 +24,13 @@ angular.module('lsaApp')
 
     //Filters
     $scope.incomes = [{label: "Less than 200,000", value: 200000},{label: "200,000 - 300,000", value: 250000},{label: "More than 300,000", value: 300000}]
-    
-    $scope.gradeLevel = "";
-    //Bound change callback
+
+    //Update Score
     var updateScore = function() {
-      Lsascore.get({northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude, gradeLevel: $scope.gradeLevel }, function(response) {
-        $scope.markers = response;
-        _.each($scope.markers, function (marker) {
+      $scope.scorePromise = Lsascore.get({northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude, gradeLevel: $scope.gradeLevel }, function(response) {
+        $scope.map.markers = response;
+        _.each($scope.map.markers, function (marker) {
+          marker.showWindow = false;
           marker.closeClick = function () {
             marker.showWindow = false;
             $scope.$apply();
@@ -38,30 +39,34 @@ angular.module('lsaApp')
             onMarkerClicked(marker);
           };
         });
-      });
+      }).$promise;
     } 
 
     var keyPromise;
 
     $scope.$watch('map.bounds', function(newVal, oldVal) {
-      $scope.markers = [];
-      if(keyPromise)
-        $timeout.cancel(keyPromise);
-      keyPromise = $timeout(function() {
-        updateScore();
-      }, 250);
+      if(newVal !== oldVal) {
+        if(!hack) {
+          if(keyPromise)
+            $timeout.cancel(keyPromise);
+          keyPromise = $timeout(function() {
+            updateScore();
+          }, 250);
+        }
+        else {
+          hack = false;
+        }
+      }
     }, true);
 
     $scope.$watch('gradeLevel', function(newVal, oldVal) {
-      $scope.markers = [];
-      updateScore();
+      if(newVal !== oldVal) {
+        updateScore();
+      }
     });
-
+    
     //Marker Click Callback
     var onMarkerClicked = function (marker) {
-      angular.forEach($scope.markers, function(marker) {
-        marker.showWindow = false;
-      });
       marker.showWindow = true;
       $scope.$apply();
     };
@@ -80,4 +85,7 @@ angular.module('lsaApp')
         }
       };
     };
+
+    //Initial Load
+    updateScore();
   });

@@ -12,8 +12,11 @@
           </select>
         </div>
         <div class="col-lg-3">
-          <select ng-model="incomeLimit" ng-options="income.label for income in incomes" class="filter-select">
-            <option value="">Another Filter</option>
+          <select ng-model="gradeLevel" class="filter-select">
+            <option value="">All Grade Levels</option>
+            <option value="Elementary">Elementary</option>
+            <option value="Middle">Middle</option>
+            <option value="High">High</option>
           </select>
         </div>
   </div>
@@ -24,39 +27,41 @@
 <div class="container main-content">
   <div class="row">
     <div class="col-lg-8">
-      <google-map center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true">
-      <polylines models="map.polylines" path="'path'" stroke="'stroke'"
-                  geodesic="'geodesic'" fit="'false'" draggable="'draggable'"></polylines>
-        <markers models="markers" coords="'coordinates'" idKey="'_id'">
-          <windows show="'showWindow'" closeClick="'closeClick'" ng-cloak>
+      <google-map center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true" ng-if="map.markers.length > 0">
+      <!-- <polylines models="map.polylines" path="'path'" stroke="'stroke'"
+                  geodesic="'geodesic'" draggable="'draggable'"></polylines> -->
+        <marker ng-repeat="marker in map.markers" coords="marker.coordinates" idKey="marker._id'" click="marker.onClicked">
+          <window show="showWindow" closeClick="closeClick" ng-cloak>
             <div>
-                <a class="lead" href="/school/{{school.id}}" ng-non-bindable>{{school.name}}</a>
-                <h3><span class="label label-success" ng-non-bindable>{{scores.total}}</span></h3>
-                <button type="button" class="btn btn-info" ng-click="updateRoute('/homes')" ng-non-bindable>View Homes</button>
+                <h4 class="media-heading truncate lead"><a ng-href="/school/{{marker.school.id}}" title="{{marker.school.name}}">{{marker.school.name}}</a></h4>
+                <h3>
+                  <span class="label label-success pull-right">{{marker.scores.total}}</span>
+                  <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
+                </h3>
             </div>
-          </windows>
-        </markers>  
+          </window>
+        </marker> 
       </google-map>
     </div>
-    <div class="col-lg-4 right-panel">
-      <div class="btn-group">
-        <label class="btn btn-primary" ng-model="gradeLevel" btn-radio="'Elementary'" uncheckable>Elementary</label>
-        <label class="btn btn-primary" ng-model="gradeLevel" btn-radio="'Middle'" uncheckable>Middle</label>
-        <label class="btn btn-primary" ng-model="gradeLevel" btn-radio="'High'" uncheckable>High</label>
-        <label class="btn btn-primary" ng-model="gradeLevel" btn-radio="''" uncheckable>All</label>
-      </div>
-      <hr>
-      <div class="row marker-result" ng-repeat="marker in markers">
-        <!-- <div class="col-lg-4"> -->
-          <!-- <progressbar animate="false" value="marker.scores.test" type="danger" max="10"><b>{{marker.scores.test}}</b></progressbar>
-          <progressbar animate="false" value="marker.scores.crime" type="primary" max="10"><b>{{marker.scores.crime}}</b></progressbar>
-          <progressbar animate="false" value="marker.scores.realEstate" type="warning" max="10"><b>{{marker.scores.realEstate}}</b></progressbar> -->
-        <!-- </div> -->
-        <div class="col-lg-12">
+    <div class="col-lg-4 right-panel" cg-busy="scorePromise">
+      <div class="row marker-result" ng-repeat="marker in map.markers">
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object school-image" src="http://images.prd.mris.com/image/V2/1/Yu59d899Ocpyr_RnF0-8qNJX1oYibjwp9TiLy-bZvU9vRJ2iC1zSQgFwW-fTCs6tVkKrj99s7FFm5Ygwl88xIA.jpg">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading truncate lead"><a ng-href="/school/{{marker.school.id}}" title="{{marker.school.name}}">{{marker.school.name}}</a></h4>
+            <h3>
+              <span class="label label-success pull-right">{{marker.scores.total}}</span>
+              <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
+            </h3>
+          </div>
+        </div>
+        <!-- <div class="col-lg-12">
           <a class="lead" ng-href="/school/{{marker.school.id}}">{{marker.school.name}}</a>
           <h3><span class="label label-success">{{marker.scores.total}}</span></h3>
-          <button type="button" class="btn btn-info" ng-click="updateRoute('/homes')">View Homes</button>
-        </div>
+          <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
+        </div> -->
       </div>
     </div>
   </div>

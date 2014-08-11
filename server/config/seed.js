@@ -47,6 +47,3 @@ console.dir([
     inside([ 4.9, 1.2 ], polygon),
     inside([ 1.8, 1.1 ], polygon)
 ]);
-
-var pattern = /High/;
-console.log(pattern.exec("High,Middle"));

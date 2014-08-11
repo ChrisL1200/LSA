@@ -6,7 +6,8 @@ angular.module('lsaApp', [
   'ngSanitize',
   'ui.bootstrap',
   'ngRoute',
-  'google-maps'
+  'google-maps',
+  'cgBusy'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
