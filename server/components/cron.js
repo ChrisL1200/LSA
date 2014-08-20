@@ -33,8 +33,7 @@ var Zillow = require('./apis/zillow');
 var Education = require('./apis/education');
 var Score = require('../api/score/score.model');
 // var job = new CronJob('00 * * * * *', function(){
-	Score.remove({}, function(err) { 
-   console.log('collection removed') 
+	Score.remove({}, function(err) {  
 	var schoolAverageHomePrices = {};
 	// Iterate through all states (Trulia) -> Iterate through all zips (Trulia)
 	Trulia.getZipCodesInState("VA", function(zipCodes) {
@@ -80,20 +79,6 @@ var Score = require('../api/score/score.model');
 	      // Get school test data / metadata (Education.com) if school hasn't been retrieved
 		}
 	});
-
-	console.log("Start time: " + new Date().toString());
-    // Iterate over schoolAverageHomePrices
-
-      // Calculate LSA
-
-      // Store in mongo temp collection
-
-    // Delete lsa collection
-
-    // Rename temp to lsa collection
-
-    console.log("Every minute");
-
 });
 //   }, function () {},
 //   true /* Start the job right now */,
