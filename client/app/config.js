@@ -5,6 +5,7 @@ angular.module('lsaApp').constant('Config', {
         latitude: 37.96771449141076,
         longitude: -76.74215720000001
       },
+      polylines: [],
       zoom: 6,
       bounds: { 
          northeast: {
@@ -15,42 +16,17 @@ angular.module('lsaApp').constant('Config', {
             latitude: 36.5407589,
             longitude: -83.675415
          }
-      },
-      polylines: [
-        {
-          id: 1,
-          path: [
-            {
-              latitude: 38.466012,
-              longitude: -76.24215719999999
-            },
-            {
-              latitude: 38.466012,
-              longitude: -77.24215719999999
-            },
-            {
-              latitude: 37.466012,
-              longitude: -77.24215719999999
-            },
-            {
-              latitude: 37.466012,
-              longitude: -76.24215719999999
-            },
-            {
-              latitude: 38.466012,
-              longitude: -76.24215719999999
-            }
-          ],
-          stroke: {
-            color: '#6060FB',
-            weight: 3
-          },
-          editable: true,
-          draggable: false,
-          geodesic: false,
-          visible: true,
-          clickable: true
-        }
-      ]
-    }
+      }
+    },
+  defaultPolyline: {
+    stroke: {
+      color: '#6060FB',
+      weight: 3
+    },
+    editable: true,
+    draggable: false,
+    geodesic: false,
+    visible: true,
+    clickable: true
+  }
 });

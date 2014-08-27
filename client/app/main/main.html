@@ -1,5 +1,5 @@
 <header class="hero-unit" id="banner">
-  <div class="container">
+  <div class="">
     <!-- <p class="lead">Search for your new home</p> -->
     <form ng-submit="updateBounds()">
       <div class="row">
@@ -24,12 +24,12 @@
   </div>
 </header>
 
-<div class="container main-content">
+<div class="">
   <div class="row">
     <div class="col-lg-8">
-      <google-map center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true" ng-if="map.markers.length > 0">
-      <!-- <polylines models="map.polylines" path="'path'" stroke="'stroke'"
-                  geodesic="'geodesic'" draggable="'draggable'"></polylines> -->
+      <google-map center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true">
+      <polylines models="map.polylines" path="'path'" stroke="'stroke'"
+                  geodesic="'geodesic'" draggable="'draggable'"></polylines>
         <marker ng-repeat="marker in map.markers" coords="marker.coordinates" idKey="marker._id'" click="marker.onClicked">
           <window show="showWindow" closeClick="closeClick" ng-cloak>
             <div>
@@ -67,8 +67,8 @@
   </div>
 </div>
 
-<footer class="footer">
-  <div class="container">
+<!-- <footer class="footer">
+  <div class="">
       <p><a href="https://twitter.com/chrisl1200">@chrisl1200</a></p>
   </div>
-</footer>
+</footer> -->

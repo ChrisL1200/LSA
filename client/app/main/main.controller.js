@@ -1,10 +1,20 @@
 'use strict';
 
 angular.module('lsaApp')
-  .controller('MainCtrl', function ($scope, $http, $timeout, Lsascore, Config) {
+  .controller('MainCtrl', function ($scope, $http, $timeout, Lsascore, Config, Boundary) {
     $scope.map = Config.mapDefaults;
-    var hack = true;
-
+    Boundary.query({}, function(boundaries){
+      angular.forEach(boundaries, function(boundary) {
+        var newPolyline = angular.copy(Config.defaultPolyline);
+        angular.forEach(boundary.wkt, function(latLong) {
+          delete latLong['_id'];
+        });
+        newPolyline.path = boundary.wkt;
+        if($scope.map.polylines.length < 15) {
+          $scope.map.polylines.push(newPolyline);
+        }
+      }); 
+    });
     //Autocomplete service
     $scope.getLocation = function(val) {
       return $http.get(Config.autocompleteService, {
@@ -46,16 +56,11 @@ angular.module('lsaApp')
 
     $scope.$watch('map.bounds', function(newVal, oldVal) {
       if(newVal !== oldVal) {
-        if(!hack) {
           if(keyPromise)
             $timeout.cancel(keyPromise);
           keyPromise = $timeout(function() {
             updateScore();
           }, 250);
-        }
-        else {
-          hack = false;
-        }
       }
     }, true);
 
