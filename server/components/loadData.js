@@ -5,7 +5,7 @@ var _ = require('lodash');
 var Boundary = require('../api/boundary/boundary.model');
 // First I want to read the file
 Boundary.remove({}, function(err) { 
-fs.readFile('./data/maponics_sample_us_school_districts_wkt.txt', 'utf8', function read(err, data) {
+fs.readFile(__dirname + '/../data/maponics_sample_us_school_districts_wkt.txt', 'utf8', function read(err, data) {
     if (err) {
         throw err;
     }
