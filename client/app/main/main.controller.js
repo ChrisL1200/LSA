@@ -1,20 +1,10 @@
 'use strict';
 
 angular.module('lsaApp')
-  .controller('MainCtrl', function ($scope, $http, $timeout, Lsascore, Config, Boundary) {
+  .controller('MainCtrl', function ($scope, $http, $timeout, Lsascore, Config, Homes) {
     $scope.map = Config.mapDefaults;
-    Boundary.query({}, function(boundaries){
-      angular.forEach(boundaries, function(boundary) {
-        var newPolyline = angular.copy(Config.defaultPolyline);
-        angular.forEach(boundary.wkt, function(latLong) {
-          delete latLong['_id'];
-        });
-        newPolyline.path = boundary.wkt;
-        if($scope.map.polylines.length < 15) {
-          $scope.map.polylines.push(newPolyline);
-        }
-      }); 
-    });
+    $scope.currentView = 'schools';
+
     //Autocomplete service
     $scope.getLocation = function(val) {
       return $http.get(Config.autocompleteService, {
@@ -33,23 +23,42 @@ angular.module('lsaApp')
     };
 
     //Filters
-    $scope.incomes = [{label: "Less than 200,000", value: 200000},{label: "200,000 - 300,000", value: 250000},{label: "More than 300,000", value: 300000}]
+    $scope.incomes = Config.incomes;
 
     //Update Score
     var updateScore = function() {
-      $scope.scorePromise = Lsascore.get({northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude, gradeLevel: $scope.gradeLevel }, function(response) {
-        $scope.map.markers = response;
-        _.each($scope.map.markers, function (marker) {
-          marker.showWindow = false;
-          marker.closeClick = function () {
+      if($scope.map.bounds.northeast) {
+        $scope.scorePromise = Lsascore.query({northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude, gradeLevel: $scope.gradeLevel }, function(response) {
+          $scope.map.markers = response;
+          _.each($scope.map.markers, function (marker) {
+            //Delete
+            marker.coordinates = {
+              latitude: marker.wkt[0].latitude,
+              longitude: marker.wkt[0].longitude
+            };
+            //Initialize markers
             marker.showWindow = false;
-            $scope.$apply();
-          };
-          marker.onClicked = function ()  {
-            onMarkerClicked(marker);
-          };
-        });
-      }).$promise;
+            marker.closeClick = function () {
+              marker.showWindow = false;
+              $scope.$apply();
+            };
+            marker.onClicked = function ()  {
+              onMarkerClicked(marker);
+            };
+
+            //Initialize polylines
+            var newPolyline = angular.copy(Config.defaultPolyline);
+            angular.forEach(marker.wkt, function(latLong) {
+              delete latLong['_id'];
+            });
+            newPolyline.path = marker.wkt;
+            newPolyline.boundaryClick = function() {
+              alert("WOOT");
+            };
+            // $scope.map.polylines.push(newPolyline);
+          });
+        }).$promise;
+      }
     } 
 
     var keyPromise;
@@ -91,6 +100,17 @@ angular.module('lsaApp')
       };
     };
 
+    $scope.setHomes = function(school) {
+      $scope.currentView = 'homes';
+      $scope.homePromise = Homes.retrieve({}, {boundary: school.wkt}, function(homes) {
+        $scope.map.markers = homes;
+      }).$promise;
+    };
+
+    $scope.setSchools = function() {
+      $scope.currentView = 'schools';
+      updateScore();
+    }
     //Initial Load
     updateScore();
   });

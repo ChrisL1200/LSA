@@ -1,5 +1,5 @@
 <header class="hero-unit" id="banner">
-  <div class="">
+  <div>
     <!-- <p class="lead">Search for your new home</p> -->
     <form ng-submit="updateBounds()">
       <div class="row">
@@ -24,16 +24,16 @@
   </div>
 </header>
 
-<div class="">
+<div>
   <div class="row">
     <div class="col-lg-8">
       <google-map center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true">
-      <polylines models="map.polylines" path="'path'" stroke="'stroke'"
+      <polylines models="map.polylines" path="'path'" stroke="'stroke'" clickable="'boundaryClick'"
                   geodesic="'geodesic'" draggable="'draggable'"></polylines>
         <marker ng-repeat="marker in map.markers" coords="marker.coordinates" idKey="marker._id'" click="marker.onClicked">
           <window show="showWindow" closeClick="closeClick" ng-cloak>
             <div>
-                <h4 class="media-heading truncate lead"><a ng-href="/school/{{marker.school.id}}" title="{{marker.school.name}}">{{marker.school.name}}</a></h4>
+                <h4 class="media-heading truncate lead"><a ng-href="/school/{{marker.nces_schid}}" title="{{marker.sch_name}}">{{marker.sch_name}}</a></h4>
                 <h3>
                   <span class="label label-success pull-right">{{marker.scores.total}}</span>
                   <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
@@ -43,17 +43,19 @@
         </marker> 
       </google-map>
     </div>
-    <div class="col-lg-4 right-panel" cg-busy="scorePromise">
-      <div class="row marker-result" ng-repeat="marker in map.markers">
+    <div class="col-lg-4 right-panel" cg-busy="scorePromise" ng-if="currentView === 'schools'">
+      <H3>Schools</h3>
+      <hr>
+      <div class="row marker-result" ng-repeat="marker in map.markers" ng-if="map.markers.length > 0">
         <div class="media">
           <a class="pull-left" href="#">
             <img class="media-object school-image" src="http://images.prd.mris.com/image/V2/1/Yu59d899Ocpyr_RnF0-8qNJX1oYibjwp9TiLy-bZvU9vRJ2iC1zSQgFwW-fTCs6tVkKrj99s7FFm5Ygwl88xIA.jpg">
           </a>
           <div class="media-body">
-            <h4 class="media-heading truncate lead"><a ng-href="/school/{{marker.school.id}}" title="{{marker.school.name}}">{{marker.school.name}}</a></h4>
+            <h4 class="media-heading truncate lead"><a ng-href="/school/{{marker.nces_schid}}" title="{{marker.sch_name}}">{{marker.sch_name}}</a></h4>
             <h3>
               <span class="label label-success pull-right">{{marker.scores.total}}</span>
-              <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
+              <button type="button" class="btn primary-color" ng-click="setHomes(marker)">View Homes</button>
             </h3>
           </div>
         </div>
@@ -62,6 +64,24 @@
           <h3><span class="label label-success">{{marker.scores.total}}</span></h3>
           <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
         </div> -->
+      </div>
+      <div ng-if="map.markers.length === 0">
+        No Schools Found
+      </div>
+    </div>
+    <div class="col-lg-4 right-panel" cg-busy="scorePromise" ng-if="currentView === 'homes'">
+      <H3>Homes</h3>
+      <hr>
+      <div class="row marker-result" ng-repeat="marker in map.markers" ng-if="map.markers.length > 0">
+        
+        <!-- <div class="col-lg-12">
+          <a class="lead" ng-href="/school/{{marker.school.id}}">{{marker.school.name}}</a>
+          <h3><span class="label label-success">{{marker.scores.total}}</span></h3>
+          <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
+        </div> -->
+      </div>
+      <div ng-if="map.markers.length === 0">
+        No Homes Found in this School District <a ng-click="setSchools()">Go Back to Schools View</a>
       </div>
     </div>
   </div>

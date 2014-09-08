@@ -16,7 +16,11 @@ var ScoreSchema = new Schema({
   	name: String,
   	gradelevel: String,
   	id: String
-  }
+  },
+  path: [{
+    latitude: Number,
+    longitude: Number
+  }]
 });
 
-module.exports = mongoose.model('Score', ScoreSchema);
+module.exports = mongoose.model('School', ScoreSchema);
