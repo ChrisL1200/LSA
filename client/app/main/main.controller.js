@@ -55,7 +55,7 @@ angular.module('lsaApp')
             newPolyline.boundaryClick = function() {
               alert("WOOT");
             };
-            // $scope.map.polylines.push(newPolyline);
+            $scope.map.polylines.push(newPolyline);
           });
         }).$promise;
       }
