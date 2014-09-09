@@ -8,12 +8,11 @@ var Score = require('./score.model'),
 exports.index = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
-  //Filter based on school type: {$or : [{a: 3}, {b: 4}]}
-  Score.find()
-  //{"school.gradelevel": new RegExp(query.gradeLevel)}).sort({'scores.total': -1}
-  // .where('coordinates.latitude').gt(query.southwestLat).lt(query.northeastLat)
-  // .where('coordinates.longitude').gt(query.southwestLong).lt(query.northeastLong)
-  .limit(5)
+  Score.find({"ed_level": new RegExp(query.gradeLevel)})
+  .sort({'score': -1})
+  .where('coordinates.latitude').gt(query.southwestLat).lt(query.northeastLat)
+  .where('coordinates.longitude').gt(query.southwestLong).lt(query.northeastLong)
+  .limit(25)
   .exec(function (err, scores) {
     if(err) { return handleError(res, err); }
     return res.json(200, scores);

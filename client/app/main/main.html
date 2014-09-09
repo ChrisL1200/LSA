@@ -14,28 +14,27 @@
         <div class="col-lg-3">
           <select ng-model="gradeLevel" class="filter-select">
             <option value="">All Grade Levels</option>
-            <option value="Elementary">Elementary</option>
-            <option value="Middle">Middle</option>
-            <option value="High">High</option>
+            <option value="P">Elementary</option>
+            <option value="M">Middle</option>
+            <option value="H">High</option>
           </select>
         </div>
   </div>
     </form>
   </div>
 </header>
-
 <div>
   <div class="row">
     <div class="col-lg-8">
       <google-map center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true">
       <polylines models="map.polylines" path="'path'" stroke="'stroke'" clickable="'boundaryClick'"
-                  geodesic="'geodesic'" draggable="'draggable'"></polylines>
+                  geodesic="'geodesic'" draggable="'draggable'" ng-if="map.markers.length < 10"></polylines>
         <marker ng-repeat="marker in map.markers" coords="marker.coordinates" idKey="marker._id'" click="marker.onClicked">
           <window show="showWindow" closeClick="closeClick" ng-cloak>
             <div>
                 <h4 class="media-heading truncate lead"><a ng-href="/school/{{marker.nces_schid}}" title="{{marker.sch_name}}">{{marker.sch_name}}</a></h4>
                 <h3>
-                  <span class="label label-success pull-right">{{marker.scores.total}}</span>
+                  <span class="label pull-right" ng-style="{backgroundColor: marker.lsaColor}">{{marker.score}}</span>
                   <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
                 </h3>
             </div>
@@ -54,7 +53,7 @@
           <div class="media-body">
             <h4 class="media-heading truncate lead"><a ng-href="/school/{{marker.nces_schid}}" title="{{marker.sch_name}}">{{marker.sch_name}}</a></h4>
             <h3>
-              <span class="label label-success pull-right">{{marker.scores.total}}</span>
+              <span class="label pull-right" ng-style="{backgroundColor: marker.lsaColor}">{{marker.score}}</span>
               <button type="button" class="btn primary-color" ng-click="setHomes(marker)">View Homes</button>
             </h3>
           </div>
@@ -69,7 +68,7 @@
         No Schools Found
       </div>
     </div>
-    <div class="col-lg-4 right-panel" cg-busy="scorePromise" ng-if="currentView === 'homes'">
+    <div class="col-lg-4 right-panel" cg-busy="homePromise" ng-if="currentView === 'homes'">
       <H3>Homes</h3>
       <hr>
       <div class="row marker-result" ng-repeat="marker in map.markers" ng-if="map.markers.length > 0">

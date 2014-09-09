@@ -4,6 +4,7 @@ angular.module('lsaApp')
   .controller('MainCtrl', function ($scope, $http, $timeout, Lsascore, Config, Homes) {
     $scope.map = Config.mapDefaults;
     $scope.currentView = 'schools';
+    $scope.incomes = Config.incomes;
 
     //Autocomplete service
     $scope.getLocation = function(val) {
@@ -22,21 +23,22 @@ angular.module('lsaApp')
       });
     };
 
-    //Filters
-    $scope.incomes = Config.incomes;
-
     //Update Score
     var updateScore = function() {
       if($scope.map.bounds.northeast) {
         $scope.scorePromise = Lsascore.query({northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude, gradeLevel: $scope.gradeLevel }, function(response) {
           $scope.map.markers = response;
+          $scope.map.polylines = [];
           _.each($scope.map.markers, function (marker) {
-            //Delete
-            marker.coordinates = {
-              latitude: marker.wkt[0].latitude,
-              longitude: marker.wkt[0].longitude
-            };
-            //Initialize markers
+            var red = Math.round((255*(10-marker.score))/10);
+            var green = Math.round((255*marker.score)/10);
+            if(red < 16) {
+              red += 16;
+            }
+            if(green < 16) {
+              green += 16;
+            }
+            marker.lsaColor = "#" + red.toString(16) + green.toString(16) + "00";
             marker.showWindow = false;
             marker.closeClick = function () {
               marker.showWindow = false;
@@ -48,9 +50,6 @@ angular.module('lsaApp')
 
             //Initialize polylines
             var newPolyline = angular.copy(Config.defaultPolyline);
-            angular.forEach(marker.wkt, function(latLong) {
-              delete latLong['_id'];
-            });
             newPolyline.path = marker.wkt;
             newPolyline.boundaryClick = function() {
               alert("WOOT");
@@ -64,7 +63,7 @@ angular.module('lsaApp')
     var keyPromise;
 
     $scope.$watch('map.bounds', function(newVal, oldVal) {
-      if(newVal !== oldVal) {
+      if(newVal !== oldVal && $scope.currentView === 'schools') {
           if(keyPromise)
             $timeout.cancel(keyPromise);
           keyPromise = $timeout(function() {
@@ -100,8 +99,22 @@ angular.module('lsaApp')
       };
     };
 
+    //When user views homes
     $scope.setHomes = function(school) {
       $scope.currentView = 'homes';
+      $scope.map.bounds = {
+        northeast: {
+          latitude: _.max(school.wkt, 'latitude').latitude,
+          longitude: _.max(school.wkt, 'longitude').longitude
+        },
+        southwest: {
+          latitude: _.min(school.wkt, 'latitude').latitude,
+          longitude: _.min(school.wkt, 'longitude').longitude
+        }
+      };
+      var newPolyline = angular.copy(Config.defaultPolyline);
+      newPolyline.path = school.wkt;
+      $scope.map.polylines = [newPolyline];
       $scope.homePromise = Homes.retrieve({}, {boundary: school.wkt}, function(homes) {
         $scope.map.markers = homes;
       }).$promise;
