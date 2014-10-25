@@ -8,7 +8,8 @@ var Score = require('./score.model'),
 exports.index = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
-  Score.find({"ed_level": new RegExp(query.gradeLevel)})
+  // {"ed_level": new RegExp(query.gradeLevel)}
+  Score.find()
   .sort({'score': -1})
   .where('coordinates.latitude').gt(query.southwestLat).lt(query.northeastLat)
   .where('coordinates.longitude').gt(query.southwestLong).lt(query.northeastLong)
