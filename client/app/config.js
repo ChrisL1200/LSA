@@ -7,7 +7,9 @@ angular.module('lsaApp').constant('Config', {
     },
     polylines: [],
     zoom: 13,
-    bounds: { }
+    bounds: { },
+    polys: [],
+    draw: undefined
   },
   defaultPolyline: {
     stroke: {

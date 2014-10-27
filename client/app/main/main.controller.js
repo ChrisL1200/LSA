@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('lsaApp')
-  .controller('MainCtrl', function ($scope, $http, $timeout, Lsascore, Config, Homes) {
+  .controller('MainCtrl', function ($scope, $http, $timeout, Lsascore, Config, Homes, drawChannel, clearChannel) {
     $scope.map = Config.mapDefaults;
     $scope.currentView = 'schools';
     $scope.incomes = Config.incomes;
@@ -52,8 +52,9 @@ angular.module('lsaApp')
             var newPolyline = angular.copy(Config.defaultPolyline);
             newPolyline.path = marker.wkt;
             newPolyline.boundaryClick = function() {
-              alert("WOOT");
+              console.log("hi");
             };
+
             $scope.map.polylines.push(newPolyline);
           });
         }).$promise;
@@ -123,7 +124,18 @@ angular.module('lsaApp')
     $scope.setSchools = function() {
       $scope.currentView = 'schools';
       updateScore();
-    }
+    };
+
+    var clear = function(){
+      $scope.map.polys = [];
+    };
+    var draw = function(){
+      $scope.map.draw();//should be defined by now
+    };
+    //add beginDraw as a subscriber to be invoked by the channel, allows controller to controller coms
+    drawChannel.add(draw);
+    clearChannel.add(clear);
+
     //Initial Load
     updateScore();
   });

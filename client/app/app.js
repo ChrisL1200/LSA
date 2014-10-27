@@ -6,7 +6,7 @@ angular.module('lsaApp', [
   'ngSanitize',
   'ui.bootstrap',
   'ngRoute',
-  'google-maps',
+  'google-maps'.ns(),
   'cgBusy'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
@@ -45,7 +45,7 @@ angular.module('lsaApp', [
     };
   })
 
-  .run(function ($rootScope, $location, Auth) {
+  .run(function ($rootScope, $location, Auth, $templateCache) {
     $rootScope.updateRoute = function(route) {
       $location.path(route);
     };
@@ -55,4 +55,6 @@ angular.module('lsaApp', [
         $location.path('/login');
       }
     });
+    $templateCache.put('draw.tpl.html', '<button class="btn btn-lg btn-primary"  ng-click="drawWidget.controlClick()">Draw</button>');
+    $templateCache.put('clear.tpl.html', '<button class="btn btn-lg btn-primary"  ng-click="clearWidget.controlClick()">Clear</button>');
   });

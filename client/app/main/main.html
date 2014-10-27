@@ -26,11 +26,13 @@
 <div>
   <div class="row">
     <div class="col-lg-8">
-      <google-map center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true">
-      <polylines models="map.polylines" path="'path'" stroke="'stroke'" clickable="'boundaryClick'"
-                  geodesic="'geodesic'" draggable="'draggable'" ng-if="map.markers.length < 10"></polylines>
-        <marker ng-repeat="marker in map.markers" coords="marker.coordinates" idKey="marker._id'" click="marker.onClicked">
-          <window show="showWindow" closeClick="closeClick" ng-cloak>
+      <ui-gmap-google-map center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true">
+      <ui-gmap-map-control template="draw.tpl.html" position="top-right" index="1" controller="mapWidgetCtrl"></ui-gmap-map-control>
+        <ui-gmap-map-control template="clear.tpl.html" position="top-right" index="1" controller="mapWidgetCtrl"></ui-gmap-map-control>
+      <ui-gmap-free-draw-polygons polygons='map.polys' draw='map.draw'></ui-gmap-free-draw-polygons>
+      <ui-gmap-polygon path="polyline.path" clickable='true' fill="{color: '#ff0000', opacity: polyline.selected ? 0.8 : 0.0 }" ng-if="map.markers.length < 10" ng-repeat="polyline in map.polylines"></ui-gmap-polygon>
+        <ui-gmap-marker ng-repeat="marker in map.markers" coords="marker.coordinates" idKey="'marker._id'" click="marker.onClicked">
+          <ui-gmap-window show="showWindow" closeClick="closeClick" ng-cloak>
             <div>
                 <h4 class="media-heading truncate lead"><a ng-href="/school/{{marker.nces_schid}}" title="{{marker.sch_name}}">{{marker.sch_name}}</a></h4>
                 <h3>
@@ -38,11 +40,11 @@
                   <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
                 </h3>
             </div>
-          </window>
-        </marker> 
-      </google-map>
+          </ui-gmap-window>
+        </ui-gmap-marker> 
+      </ui-gmap-google-map>
     </div>
-    <div class="col-lg-4 right-panel" cg-busy="scorePromise" ng-if="currentView === 'schools'">
+    <div class="col-lg-4 right-panel" ng-if="currentView === 'schools'">
       <H3>Schools</h3>
       <hr>
       <div class="row marker-result" ng-repeat="marker in map.markers" ng-if="map.markers.length > 0">
