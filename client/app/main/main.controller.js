@@ -26,7 +26,16 @@ angular.module('lsaApp')
     //Update Score
     var updateScore = function() {
       if($scope.map.bounds.northeast) {
-        $scope.scorePromise = Lsascore.query({northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude, gradeLevel: $scope.gradeLevel }, function(response) {
+        var parsedPolygons = [];
+        angular.forEach($scope.map.polys, function(poly) {
+          var path = [];
+          angular.forEach(poly.getPath().j, function(latLong) {
+            path.push([latLong.lat(), latLong.lng()]);
+          });
+          parsedPolygons.push(path);
+        });
+        $scope.scorePromise = Lsascore.retrieve({northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude, 
+          gradeLevel: $scope.gradeLevel }, {polygons: parsedPolygons}, function(response) {
           $scope.map.markers = response;
           $scope.map.polylines = [];
           _.each($scope.map.markers, function (marker) {
@@ -126,15 +135,20 @@ angular.module('lsaApp')
       updateScore();
     };
 
-    var clear = function(){
+    $scope.clearPolygons = function() {
       $scope.map.polys = [];
+      updateScore();  
     };
-    var draw = function(){
-      $scope.map.draw();//should be defined by now
+
+    $scope.applyPolygons = function() {
+      updateScore();          
+    };
+
+    var draw = function() {
+      $scope.map.draw(); //should be defined by now
     };
     //add beginDraw as a subscriber to be invoked by the channel, allows controller to controller coms
     drawChannel.add(draw);
-    clearChannel.add(clear);
 
     //Initial Load
     updateScore();

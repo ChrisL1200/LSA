@@ -2,7 +2,8 @@
 
 var _ = require('lodash');
 var Score = require('./score.model'),
-    url = require('url');
+    url = require('url'),
+    inside = require('point-in-polygon');
 
 // Get list of scores
 exports.index = function(req, res) {
@@ -31,10 +32,30 @@ exports.show = function(req, res) {
 
 // Creates a new score in the DB.
 exports.create = function(req, res) {
-  Score.create(req.body, function(err, score) {
+  var url_parts = url.parse(req.url, true);
+  var query = url_parts.query;
+  // {"ed_level": new RegExp(query.gradeLevel)}
+  Score.find()
+  .sort({'score': -1})
+  .where('coordinates.latitude').gt(query.southwestLat).lt(query.northeastLat)
+  .where('coordinates.longitude').gt(query.southwestLong).lt(query.northeastLong)
+  .limit(25)
+  .exec(function (err, scores) {
     if(err) { return handleError(res, err); }
-    return res.json(201, score);
-  });
+    var filteredScores = [];
+    var polygonsPresent = req.body.polygons && req.body.polygons.length > 0;
+    if(polygonsPresent) {
+      _.each(req.body.polygons, function(poly) {
+        _.each(scores, function(score) {
+          if(inside([score.coordinates.latitude, score.coordinates.longitude], poly)) {
+            filteredScores.push(score);
+            console.log("Inside " + score.sch_name);
+          }
+        });
+      });
+    }
+    return res.json(200, polygonsPresent ? filteredScores : scores);
+  });  
 };
 
 // Updates an existing score in the DB.

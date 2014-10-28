@@ -26,9 +26,12 @@
 <div>
   <div class="row">
     <div class="col-lg-8">
+      <div ng-if="map.polys.length > 0">
+        <button class="btn btn-danger" ng-click="clearPolygons()">Clear</button>
+        <button class="btn btn-success" ng-click="applyPolygons()">Apply</button>
+      </div>
       <ui-gmap-google-map center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true">
       <ui-gmap-map-control template="draw.tpl.html" position="top-right" index="1" controller="mapWidgetCtrl"></ui-gmap-map-control>
-        <ui-gmap-map-control template="clear.tpl.html" position="top-right" index="1" controller="mapWidgetCtrl"></ui-gmap-map-control>
       <ui-gmap-free-draw-polygons polygons='map.polys' draw='map.draw'></ui-gmap-free-draw-polygons>
       <ui-gmap-polygon path="polyline.path" clickable='true' fill="{color: '#ff0000', opacity: polyline.selected ? 0.8 : 0.0 }" ng-if="map.markers.length < 10" ng-repeat="polyline in map.polylines"></ui-gmap-polygon>
         <ui-gmap-marker ng-repeat="marker in map.markers" coords="marker.coordinates" idKey="'marker._id'" click="marker.onClicked">
