@@ -56,5 +56,4 @@ angular.module('lsaApp', [
       }
     });
     $templateCache.put('draw.tpl.html', '<button class="btn btn-primary" ng-click="drawWidget.controlClick()"><i class="fa fa-pencil"></i></button>');
-    $templateCache.put('clear.tpl.html', '<button class="btn btn-primary" ng-click="clearWidget.controlClick()" ng-show="drawWidget.drawing">tits<i class="fa fa-ban"></i></button>');
   });

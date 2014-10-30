@@ -16,7 +16,29 @@ exports.show = function(req, res) {
 
 // Creates a new homes in the DB.
 exports.create = function(req, res) {
-  console.log("create");  
+  var url_parts = url.parse(req.url, true);
+  var query = url_parts.query;
+  // {"ed_level": new RegExp(query.gradeLevel)}
+  Score.find()
+  .sort({'score': -1})
+  .where('coordinates.latitude').gt(query.southwestLat).lt(query.northeastLat)
+  .where('coordinates.longitude').gt(query.southwestLong).lt(query.northeastLong)
+  .limit(25)
+  .exec(function (err, homes) {
+    if(err) { return handleError(res, err); }
+    var filteredHomes = [];
+    var polygonsPresent = req.body.polygons && req.body.polygons.length > 0;
+    if(polygonsPresent) {
+      _.each(req.body.polygons, function(poly) {
+        _.each(homes, function(home) {
+          if(inside([home.coordinates.latitude, home.coordinates.longitude], poly)) {
+            filteredScores.push(home);
+          }
+        });
+      });
+    }
+    return res.json(200, polygonsPresent ? filteredHomes : homes);
+  }); 
 };
 
 // Updates an existing homes in the DB.

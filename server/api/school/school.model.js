@@ -3,12 +3,12 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var ScoreSchema = new Schema({
+var SchoolSchema = new Schema({
   coordinates: {
   	latitude: Number,
   	longitude: Number
   },
-  zipCode: Number,
+  phone: String,
   scores: {
   	total: Number
   },
@@ -23,4 +23,4 @@ var ScoreSchema = new Schema({
   }]
 });
 
-module.exports = mongoose.model('Score', ScoreSchema);
+module.exports = mongoose.model('School', SchoolSchema);

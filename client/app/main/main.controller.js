@@ -122,10 +122,11 @@ angular.module('lsaApp')
           longitude: _.min(school.wkt, 'longitude').longitude
         }
       };
+      var requestBounds = {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
       var newPolyline = angular.copy(Config.defaultPolyline);
       newPolyline.path = school.wkt;
       $scope.map.polylines = [newPolyline];
-      $scope.homePromise = Homes.retrieve({}, {boundary: school.wkt}, function(homes) {
+      $scope.homePromise = Homes.retrieve(requestBounds, {polygons: [school.wkt]}, function(homes) {
         $scope.map.markers = homes;
       }).$promise;
     };

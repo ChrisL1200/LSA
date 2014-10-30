@@ -49,7 +49,6 @@ exports.create = function(req, res) {
         _.each(scores, function(score) {
           if(inside([score.coordinates.latitude, score.coordinates.longitude], poly)) {
             filteredScores.push(score);
-            console.log("Inside " + score.sch_name);
           }
         });
       });
