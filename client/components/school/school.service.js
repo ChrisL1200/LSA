@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('lsaApp')
-  .service('Lsascore', function Lsascore($resource) {
-    var lsaScore = $resource('/api/scores', {}, {
+  .service('School', function School($resource) {
+  	var school = $resource('/api/schools', {}, {
     	get: {method: 'GET', isArray:true},
     	retrieve: {method: 'POST', isArray: true}
     });
 
-    return lsaScore;
+    return school;
   });

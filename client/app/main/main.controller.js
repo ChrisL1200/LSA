@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('lsaApp')
-  .controller('MainCtrl', function ($scope, $http, $timeout, Lsascore, Config, Homes, drawChannel, clearChannel) {
+  .controller('MainCtrl', function ($scope, $http, $timeout, School, Config, Homes, drawChannel, clearChannel) {
     $scope.map = Config.mapDefaults;
     $scope.currentView = 'schools';
     $scope.incomes = Config.incomes;
@@ -34,11 +34,18 @@ angular.module('lsaApp')
           });
           parsedPolygons.push(path);
         });
-        $scope.scorePromise = Lsascore.retrieve({northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude, 
-          gradeLevel: $scope.gradeLevel }, {polygons: parsedPolygons}, function(response) {
-          $scope.map.markers = response;
+        var requestBounds = {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
+
+        $scope.homePromise = Homes.retrieve(requestBounds, {polygons: parsedPolygons}, function(homes) {
+          $scope.map.homes = homes;
+        }).$promise;
+
+        requestBounds.gradeLevel = $scope.gradeLevel;
+
+        $scope.scorePromise = School.retrieve(requestBounds, {polygons: parsedPolygons}, function(response) {
+          $scope.map.schools = response;
           $scope.map.polylines = [];
-          _.each($scope.map.markers, function (marker) {
+          _.each($scope.map.schools, function (marker) {
             var red = Math.round((255*(10-marker.score))/10);
             var green = Math.round((255*marker.score)/10);
             if(red < 16) {
@@ -60,10 +67,6 @@ angular.module('lsaApp')
             //Initialize polylines
             var newPolyline = angular.copy(Config.defaultPolyline);
             newPolyline.path = marker.wkt;
-            newPolyline.boundaryClick = function() {
-              console.log("hi");
-            };
-
             $scope.map.polylines.push(newPolyline);
           });
         }).$promise;

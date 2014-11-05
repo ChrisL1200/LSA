@@ -2,6 +2,8 @@
 
 var _ = require('lodash');
 var School = require('./school.model');
+var url = require('url');
+var inside = require('point-in-polygon');
 
 // Get list of schools
 exports.index = function(req, res) {
@@ -22,10 +24,29 @@ exports.show = function(req, res) {
 
 // Creates a new school in the DB.
 exports.create = function(req, res) {
-  School.create(req.body, function(err, school) {
+  var url_parts = url.parse(req.url, true);
+  var query = url_parts.query;
+  // {"ed_level": new RegExp(query.gradeLevel)}
+  School.find({"ed_level": new RegExp(query.gradeLevel)})
+  .sort({'score': -1})
+  .where('coordinates.latitude').gt(query.southwestLat).lt(query.northeastLat)
+  .where('coordinates.longitude').gt(query.southwestLong).lt(query.northeastLong)
+  .limit(25)
+  .exec(function (err, schools) {
     if(err) { return handleError(res, err); }
-    return res.json(201, school);
-  });
+    var filteredSchools = [];
+    var polygonsPresent = req.body.polygons && req.body.polygons.length > 0;
+    if(polygonsPresent) {
+      _.each(req.body.polygons, function(poly) {
+        _.each(schools, function(school) {
+          if(inside([school.coordinates.latitude, school.coordinates.longitude], poly)) {
+            filteredSchools.push(school);
+          }
+        });
+      });
+    }
+    return res.json(200, polygonsPresent ? filteredSchools : schools);
+  });  
 };
 
 // Updates an existing school in the DB.

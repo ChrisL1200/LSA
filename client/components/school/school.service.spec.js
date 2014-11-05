@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: Lsascore', function () {
+describe('Service: School', function () {
 
   // load the service's module
   beforeEach(module('lsaApp'));
 
   // instantiate service
-  var Lsascore;
-  beforeEach(inject(function (_Lsascore_) {
-    Lsascore = _Lsascore_;
+  var School;
+  beforeEach(inject(function (_School_) {
+    School = _School_;
   }));
 
   it('should do something', function () {
-    expect(!!Lsascore).toBe(true);
+    expect(!!School).toBe(true);
   });
 
 });
