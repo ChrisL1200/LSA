@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('lsaApp')
+angular.module('cruvitaApp')
   .controller('AdminCtrl', function ($scope, $http, Auth, User) {
 
     $http.get('/api/users').success(function(users) {

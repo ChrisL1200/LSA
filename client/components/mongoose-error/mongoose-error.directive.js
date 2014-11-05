@@ -3,7 +3,7 @@
 /**
  * Removes server error when user updates input
  */
-angular.module('lsaApp')
+angular.module('cruvitaApp')
   .directive('mongooseError', function () {
     return {
       restrict: 'A',

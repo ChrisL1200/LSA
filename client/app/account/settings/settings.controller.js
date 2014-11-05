@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('lsaApp')
+angular.module('cruvitaApp')
   .controller('SettingsCtrl', function ($scope, User, Auth) {
     $scope.errors = {};
 

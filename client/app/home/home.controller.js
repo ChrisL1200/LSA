@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('cruvitaApp')
-  .controller('SchoolCtrl', function ($scope) {
+  .controller('HomeCtrl', function ($scope) {
     $scope.message = 'Hello';
   });

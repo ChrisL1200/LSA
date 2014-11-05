@@ -1,5 +1,5 @@
 {
-  "name": "LSA",
+  "name": "Cruvita",
   "version": "0.0.0",
   "dependencies": {
     "angular": ">=1.2.*",
@@ -7,7 +7,7 @@
     "es5-shim": "~3.0.1",
     "jquery": "~1.11.0",
     "bootstrap-sass-official": "~3.1.1",
-    "bootstrap": "~3.1.1",
+    "angular-bootstrap": "~0.11.2",
     "angular-resource": ">=1.2.*",
     "angular-cookies": ">=1.2.*",
     "angular-sanitize": ">=1.2.*",

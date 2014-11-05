@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('lsaApp')
+angular.module('cruvitaApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     // $scope.menu = [{
     //   'title': 'Home',

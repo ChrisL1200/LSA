@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('lsaApp')
+angular.module('cruvitaApp')
   .controller('LoginCtrl', function ($scope, Auth, $location, $window) {
     $scope.user = {};
     $scope.errors = {};

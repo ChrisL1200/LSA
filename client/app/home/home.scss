@@ -1,0 +1,29 @@
+/**************************************************/
+/****** Splash/Home Page Styles *******************/
+/**************************************************/
+.home{
+  width: 100%;
+  height: 100%;
+
+  h1 {
+    color: white;
+    text-align: center;
+  }
+
+  &.container-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: stretch;
+  }
+
+  &.splash-bkgd-graphic{
+    background: url('../assets/images/splash-bkgd-graphic.png');
+    background-position: 50% 50%;
+    background-size: 100%;
+  }
+
+  .overlay{
+    background-color: rgba(100, 100, 100, .4);
+  }
+}

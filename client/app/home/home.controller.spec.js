@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Controller: HomesCtrl', function () {
+describe('Controller: HomeCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('lsaApp'));
+  beforeEach(module('cruvitaApp'));
 
-  var HomesCtrl, scope;
+  var HomeCtrl, scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    HomesCtrl = $controller('HomesCtrl', {
+    HomeCtrl = $controller('HomeCtrl', {
       $scope: scope
     });
   }));

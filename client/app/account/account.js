@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('lsaApp')
+angular.module('cruvitaApp')
   .config(function ($routeProvider) {
     $routeProvider
       .when('/login', {

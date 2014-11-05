@@ -3,8 +3,8 @@
 angular.module('cruvitaApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/school/:id', {
-        templateUrl: 'app/school/school.html',
-        controller: 'SchoolCtrl'
+      .when('/listing', {
+        templateUrl: 'app/listing/listing.html',
+        controller: 'ListingCtrl'
       });
   });

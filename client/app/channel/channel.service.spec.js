@@ -3,7 +3,7 @@
 describe('Service: channel', function () {
 
   // load the service's module
-  beforeEach(module('lsaApp'));
+  beforeEach(module('cruvitaApp'));
 
   // instantiate service
   var channel;

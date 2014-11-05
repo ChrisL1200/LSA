@@ -3,7 +3,7 @@
 describe('Controller: SchoolCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('lsaApp'));
+  beforeEach(module('cruvitaApp'));
 
   var SchoolCtrl, scope;
 

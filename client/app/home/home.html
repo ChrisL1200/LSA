@@ -1,0 +1,15 @@
+<section ng-controller="MainCtrl" class="home container-flex splash-bkgd-graphic">
+  <form class="col col-100 overlay" ng-submit="updateBounds()">
+    <section  class="center col col-50">
+    <article class="col col-100">
+      <h1>Catchphrase about how we operate</h1>
+      <div>Graphic</div>
+    </article>
+    <button class="col col-100" type="submit">
+    Search in your area
+    </button>
+    <div class="col col-100">
+      <input type="text" ng-model="locationSelected" placeholder="Search for your new home" typeahead="address for address in getLocation($viewValue)" class="form-control">
+    </div>
+  </form>
+</section>

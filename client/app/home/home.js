@@ -3,8 +3,8 @@
 angular.module('cruvitaApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/admin', {
-        templateUrl: 'app/admin/admin.html',
-        controller: 'AdminCtrl'
+      .when('/', {
+        templateUrl: 'app/home/home.html',
+        controller: 'HomeCtrl'
       });
   });

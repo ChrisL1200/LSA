@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('lsaApp')
+angular.module('cruvitaApp')
   .service('School', function School($resource) {
   	var school = $resource('/api/schools', {}, {
     	get: {method: 'GET', isArray:true},

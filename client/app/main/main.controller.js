@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('lsaApp')
+angular.module('cruvitaApp')
   .controller('MainCtrl', function ($scope, $http, $timeout, School, Config, Homes, drawChannel, clearChannel) {
     $scope.map = Config.mapDefaults;
     $scope.currentView = 'schools';
@@ -71,7 +71,7 @@ angular.module('lsaApp')
           });
         }).$promise;
       }
-    } 
+    }
 
     var keyPromise;
 
@@ -90,14 +90,14 @@ angular.module('lsaApp')
         updateScore();
       }
     });
-    
+
     //Marker Click Callback
     var onMarkerClicked = function (marker) {
       marker.showWindow = true;
       $scope.$apply();
     };
 
-    //Update bounds when input is entered 
+    //Update bounds when input is entered
     $scope.updateBounds = function() {
       var geometry = _.where($scope.lastSelected, { 'formatted_address': $scope.locationSelected })[0].geometry;
       $scope.map.bounds = {
@@ -141,11 +141,11 @@ angular.module('lsaApp')
 
     $scope.clearPolygons = function() {
       $scope.map.polys = [];
-      updateScore();  
+      updateScore();
     };
 
     $scope.applyPolygons = function() {
-      updateScore();          
+      updateScore();
     };
 
     var draw = function() {

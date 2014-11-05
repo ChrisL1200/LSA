@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('lsaApp')
+angular.module('cruvitaApp')
   .controller('mapWidgetCtrl', function ($scope, drawChannel, clearChannel) {
   	$scope.drawWidget = {
         controlClick: function () {

@@ -17,7 +17,7 @@ mongoose.connect(config.mongo.uri, config.mongo.options);
 // Populate DB with sample data
 if(config.seedDB) { require('./config/seed'); }
 
-// Calculate LSA Scores
+// Calculate Cruvita Scores
 // require('./components/loadData');
 // Setup server
 var app = express();

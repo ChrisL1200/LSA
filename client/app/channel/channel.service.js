@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('lsaApp')
+angular.module('cruvitaApp')
   .factory('channel', function(){
       return function () {
         var callbacks = [];

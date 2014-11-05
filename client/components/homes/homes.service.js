@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('lsaApp')
+angular.module('cruvitaApp')
   .service('Homes', function Homes($resource) {
 
     var homes = $resource('/api/homes', {}, {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('lsaApp')
+angular.module('cruvitaApp')
   .service('clearChannel', function(channel) {
   	return new channel();
   });
