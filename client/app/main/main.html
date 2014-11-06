@@ -1,48 +1,25 @@
-  <header class="search-overlay">
-    <!-- <p class="lead">Search for your new home</p> -->
-    <form ng-submit="updateBounds()">
-      <div class="row">
-        <div class="col-lg-12">
-          <input type="text" ng-model="locationSelected" placeholder="Search for your new home" typeahead="address for address in getLocation($viewValue)" class="form-control">
-        </div>
-        <!--div class="col-lg-3">
-          <select ng-model="incomeLimit" ng-options="income.label for income in incomes" class="filter-select">
-            <option value="">Home Price Range</option>
-          </select>
-        </div>
-        <div class="col-lg-3">
-          <select ng-model="gradeLevel" class="filter-select">
-            <option value="">All Grade Levels</option>
-            <option value="P">Elementary</option>
-            <option value="M">Middle</option>
-            <option value="H">High</option>
-          </select>
-        </div-->
-      </div>
-    </form>
-  </header>
-
-  <section class="container-flex">
-    <div class="col col-75" cg-busy="scorePromise">
+<section class="container-flex">
+  <div class="col col-75" cg-busy="scorePromise">
+    <div class="map">
       <div ng-if="map.polys.length > 0">
         <button class="btn btn-danger" ng-click="clearPolygons()">Clear</button>
         <button class="btn btn-success" ng-click="applyPolygons()">Apply</button>
       </div>
       <ui-gmap-google-map center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true">
-      <ui-gmap-map-control template="draw.tpl.html" position="top-right" index="1" controller="mapWidgetCtrl"></ui-gmap-map-control>
-      <ui-gmap-free-draw-polygons polygons='map.polys' draw='map.draw'></ui-gmap-free-draw-polygons>
-      <ui-gmap-polygon path="polyline.path" clickable='true' fill="{color: '#ff0000', opacity: polyline.selected ? 0.8 : 0.0 }" ng-if="map.schools.length < 10" ng-repeat="polyline in map.polylines"></ui-gmap-polygon>
-        <ui-gmap-marker ng-repeat="school in map.schools" coords="school.coordinates" idKey="'school._id'" click="school.onClicked">
-          <ui-gmap-window show="showWindow" closeClick="closeClick" ng-cloak>
-            <div>
-                <h4 class="media-heading truncate lead"><a ng-href="/school/{{school.nces_schid}}" title="{{school.sch_name}}">{{school.sch_name}}</a></h4>
-                <h3>
-                  <span class="label pull-right" ng-style="{backgroundColor: school.lsaColor}">{{school.score}}</span>
-                  <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
-                </h3>
-            </div>
-          </ui-gmap-window>
-        </ui-gmap-marker>
+        <ui-gmap-map-control template="draw.tpl.html" position="top-right" index="1" controller="mapWidgetCtrl"></ui-gmap-map-control>
+        <ui-gmap-free-draw-polygons polygons='map.polys' draw='map.draw'></ui-gmap-free-draw-polygons>
+        <ui-gmap-polygon path="polyline.path" clickable='true' fill="{color: '#ff0000', opacity: polyline.selected ? 0.8 : 0.0 }" ng-if="map.schools.length < 10" ng-repeat="polyline in map.polylines"></ui-gmap-polygon>
+          <ui-gmap-marker ng-repeat="school in map.schools" coords="school.coordinates" idKey="'school._id'" click="school.onClicked">
+            <ui-gmap-window show="showWindow" closeClick="closeClick" ng-cloak>
+              <div>
+                  <h4 class="media-heading truncate lead"><a ng-href="/school/{{school.nces_schid}}" title="{{school.sch_name}}">{{school.sch_name}}</a></h4>
+                  <h3>
+                    <span class="label pull-right" ng-style="{backgroundColor: school.lsaColor}">{{school.score}}</span>
+                    <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
+                  </h3>
+              </div>
+            </ui-gmap-window>
+          </ui-gmap-marker>
         <ui-gmap-marker ng-repeat="home in map.homes" coords="home.coordinates" idKey="'home._id'" click="home.onClicked">
           <ui-gmap-window show="showWindow" closeClick="closeClick" ng-cloak>
             <div>
@@ -51,53 +28,49 @@
           </ui-gmap-window>
         </ui-gmap-marker>
       </ui-gmap-google-map>
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>School</th>
-            <th>Location</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="school in map.schools | orderBy:'score' | limitTo: 5" ng-if="map.schools.length" ng-click="setHomes(school)">
-            <td>{{$index + 1}}</td>
-            <td>{{school.sch_name | titleCase}}</td>
-            <td><reverse-geocode lat="{{school.coordinates.latitude}}" lng="{{school.coordinates.longitude}}"></reverse-geocode></td>
-            <td class="tableScore">{{school.score}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div ng-if="!map.schools.length">No Schools Found</div>
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>School</th>
+          <th>Location</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="school in map.schools | orderBy:'score' | limitTo: 5" ng-if="map.schools.length" ng-click="setHomes(school)">
+          <td>{{$index + 1}}</td>
+          <td>{{school.sch_name | titleCase}}</td>
+          <td><reverse-geocode lat="{{school.coordinates.latitude}}" lng="{{school.coordinates.longitude}}"></reverse-geocode></td>
+          <td class="tableScore">{{school.score}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div ng-if="!map.schools.length">No Schools Found</div>
+  </div>
+
+  <section class="col col-25" cg-busy="homePromise">
+    <div class="homeList">
+      <h3>Homes</h3>
+      <div class="row school-result" ng-repeat="school in map.schools" ng-if="map.schools.length > 0">
+
+        <!-- <div class="col-lg-12">
+          <a class="lead" ng-href="/school/{{school.school.id}}">{{school.school.name}}</a>
+          <h3><span class="label label-success">{{school.scores.total}}</span></h3>
+          <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
+        </div> -->
+      </div>
+      <div ng-if="map.schools.length === 0">
+        No Homes Found in this School District <a ng-click="setSchools()">Go Back to Schools View</a>
+      </div>
     </div>
 
-    <section class="col col-25" cg-busy="homePromise">
-      <div class="homeList">
-        <h3>Homes</h3>
-        <div class="row school-result" ng-repeat="school in map.schools" ng-if="map.schools.length > 0">
-
-          <!-- <div class="col-lg-12">
-            <a class="lead" ng-href="/school/{{school.school.id}}">{{school.school.name}}</a>
-            <h3><span class="label label-success">{{school.scores.total}}</span></h3>
-            <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
-          </div> -->
-        </div>
-        <div ng-if="map.schools.length === 0">
-          No Homes Found in this School District <a ng-click="setSchools()">Go Back to Schools View</a>
-        </div>
-      </div>
-
-      <div class="agentList">
-        Sponsored Agents
-      </div>
-      <div class="adSpace1">
-        Sponsored Ad Space
-      </div>
-    </section>
+    <div class="agentList">
+      Sponsored Agents
+    </div>
+    <div class="adSpace1">
+      Sponsored Ad Space
+    </div>
   </section>
-  <!-- <footer class="footer">
-    <div class="">
-        <p><a href="https://twitter.com/chrisl1200">@chrisl1200</a></p>
-    </div>
-  </footer> -->
+</section>

@@ -3,23 +3,19 @@
 /********** Results Page Styles *******************/
 /**************************************************/
 
-.search-overlay{
-  position: absolute;
-  top: 15px;
-  left: 25%;
-  right: 25%;
-  z-index: 5000;
+.map {
+    display: block;
 }
 
-.homeList{
+.homeList {
     height: 350px;
 }
 
-.agentList{
+.agentList {
     height: 200px;
 }
 
-.adSpace1{
+.adSpace1 {
     height: 200px;
 }
 
@@ -92,4 +88,13 @@
     }
 
     tr{cursor: pointer;}
+}
+
+/**************************************************/
+/********** Responsive Page Styles ****************/
+/**************************************************/
+
+
+@media screen and (max-width: 992px) {
+  .map{display: none;}
 }
