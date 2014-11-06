@@ -1,3 +1,4 @@
+@import '../assets/styles/_variables.scss';
 /**************************************************/
 /********** Results Page Styles *******************/
 /**************************************************/
@@ -71,4 +72,12 @@
 
 .angular-google-map-container { height: 500px; }
 
-.table tr{cursor: pointer;}
+.table {
+    thead tr{
+        background-color: darken($bkgd, 15);
+        border-top: 4px solid darken($bkgd, 25);
+        color: white;
+    }
+
+    tr{cursor: pointer;}
+}

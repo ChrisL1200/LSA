@@ -2,14 +2,20 @@
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'font-awesome/scss/font-awesome';
 @import '../assets/styles/_variables.scss';
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700,400italic);
 
 /**************************************************/
 /************** App-wide Styles *******************/
 /**************************************************/
 /* apply a natural box layout model to all elements, but allowing components to change */
-html, body{ height: 100%;}
+html, body{ height: 100%; background-color: $bkgd;}
 html {
   box-sizing: border-box;
+}
+
+body{
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
 }
 
 *, *:before, *:after {

@@ -52,7 +52,6 @@
         </ui-gmap-marker>
       </ui-gmap-google-map>
       <div class="col col-100">
-        <h3>Schools</h3>
         <table class="table table-hover">
           <thead>
             <tr>
@@ -65,7 +64,7 @@
           <tbody>
             <tr ng-repeat="school in map.schools | orderBy:'score' | limitTo: 5" ng-if="map.schools.length" ng-click="setHomes(school)">
               <td>{{$index + 1}}</td>
-              <td>{{school.sch_name}}</td>
+              <td>{{school.sch_name | titleCase}}</td>
               <td><reverse-geocode lat="{{school.coordinates.latitude}}" lng="{{school.coordinates.longitude}}"></reverse-geocode></td>
               <td class="tableScore">{{school.score}}</td>
             </tr>

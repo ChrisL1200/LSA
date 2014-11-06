@@ -57,4 +57,18 @@ angular.module('cruvitaApp', [
       }
     });
     $templateCache.put('draw.tpl.html', '<button class="btn btn-primary" ng-click="drawWidget.controlClick()"><i class="fa fa-pencil"></i></button>');
+  })
+  .filter('capitalize', function() {
+    return function(input, scope) {
+      if (input) {
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+      }
+    }
+  })
+  .filter('titleCase', function(){
+    return function(input, scope) {
+      if (input) {
+        return input.replace(/\w*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+      }
+    }
   });
