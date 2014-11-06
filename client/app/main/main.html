@@ -51,43 +51,50 @@
           </ui-gmap-window>
         </ui-gmap-marker>
       </ui-gmap-google-map>
-      <div class="col col-100">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>School</th>
-              <th>Location</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="school in map.schools | orderBy:'score' | limitTo: 5" ng-if="map.schools.length" ng-click="setHomes(school)">
-              <td>{{$index + 1}}</td>
-              <td>{{school.sch_name | titleCase}}</td>
-              <td><reverse-geocode lat="{{school.coordinates.latitude}}" lng="{{school.coordinates.longitude}}"></reverse-geocode></td>
-              <td class="tableScore">{{school.score}}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div ng-if="!map.schools.length">No Schools Found</div>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>School</th>
+            <th>Location</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="school in map.schools | orderBy:'score' | limitTo: 5" ng-if="map.schools.length" ng-click="setHomes(school)">
+            <td>{{$index + 1}}</td>
+            <td>{{school.sch_name | titleCase}}</td>
+            <td><reverse-geocode lat="{{school.coordinates.latitude}}" lng="{{school.coordinates.longitude}}"></reverse-geocode></td>
+            <td class="tableScore">{{school.score}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div ng-if="!map.schools.length">No Schools Found</div>
+    </div>
+
+    <section class="col col-25" cg-busy="homePromise">
+      <div class="homeList">
+        <h3>Homes</h3>
+        <div class="row school-result" ng-repeat="school in map.schools" ng-if="map.schools.length > 0">
+
+          <!-- <div class="col-lg-12">
+            <a class="lead" ng-href="/school/{{school.school.id}}">{{school.school.name}}</a>
+            <h3><span class="label label-success">{{school.scores.total}}</span></h3>
+            <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
+          </div> -->
+        </div>
+        <div ng-if="map.schools.length === 0">
+          No Homes Found in this School District <a ng-click="setSchools()">Go Back to Schools View</a>
+        </div>
       </div>
-    </div>
 
-    <div class="col col-25" cg-busy="homePromise">
-    <h3>Homes</h3>
-    <div class="row school-result" ng-repeat="school in map.schools" ng-if="map.schools.length > 0">
-
-      <!-- <div class="col-lg-12">
-        <a class="lead" ng-href="/school/{{school.school.id}}">{{school.school.name}}</a>
-        <h3><span class="label label-success">{{school.scores.total}}</span></h3>
-        <button type="button" class="btn primary-color" ng-click="updateRoute('/homes')">View Homes</button>
-      </div> -->
-    </div>
-    <div ng-if="map.schools.length === 0">
-      No Homes Found in this School District <a ng-click="setSchools()">Go Back to Schools View</a>
-    </div>
-    </div>
+      <div class="agentList">
+        Sponsored Agents
+      </div>
+      <div class="adSpace1">
+        Sponsored Ad Space
+      </div>
+    </section>
   </section>
   <!-- <footer class="footer">
     <div class="">
