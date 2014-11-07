@@ -1,12 +1,9 @@
 angular.module('cruvitaApp').constant('Config', {
   autocompleteService: 'https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCc2xSsYmFpNiHcRk-DuHkSVVxi9Rt9xFA&region=US',
   mapDefaults: {
-    center: {
-      latitude: 38.85224705857221,
-      longitude: -77.30183794999999
-    },
-    polylines: [],
+    center: {},
     zoom: 13,
+    polylines: [],
     bounds: { },
     polys: [],
     draw: undefined

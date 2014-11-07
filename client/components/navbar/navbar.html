@@ -5,7 +5,7 @@
 
   <form ng-submit="updateBounds()">
     <div class="col-xs-6 headerSearch">
-      <input type="text" ng-model="locationSelected" placeholder="Search for your new home" typeahead="address for address in getLocation($viewValue)" class="form-control">
+      <input type="text" ng-model="locationSelected" placeholder="Search for your new home" ng-submit="updateBounds()" typeahead="address for address in getLocation($viewValue)" class="form-control">
     </div>
   </form>
 

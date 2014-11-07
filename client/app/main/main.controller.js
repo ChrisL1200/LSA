@@ -1,27 +1,11 @@
 'use strict';
 
 angular.module('cruvitaApp')
-  .controller('MainCtrl', function ($scope, $http, $timeout, School, Config, Homes, drawChannel, clearChannel) {
+  .controller('MainCtrl', function ($scope, $http, $timeout, School, Config, Homes, drawChannel, clearChannel, Location, $routeParams) {
     $scope.map = Config.mapDefaults;
     $scope.currentView = 'schools';
     $scope.incomes = Config.incomes;
-
-    //Autocomplete service
-    $scope.getLocation = function(val) {
-      return $http.get(Config.autocompleteService, {
-        params: {
-          address: val,
-          sensor: false
-        }
-      }).then(function(res){
-        var addresses = [];
-        $scope.lastSelected = res.data.results;
-        angular.forEach(res.data.results, function(item){
-          addresses.push(item.formatted_address);
-        });
-        return addresses;
-      });
-    };
+    $scope.getLocation = Location.autocomplete;
 
     //Update Score
     var updateScore = function() {
@@ -99,7 +83,7 @@ angular.module('cruvitaApp')
 
     //Update bounds when input is entered
     $scope.updateBounds = function() {
-      var geometry = _.where($scope.lastSelected, { 'formatted_address': $scope.locationSelected })[0].geometry;
+      var geometry = _.where(Location.lastSelected, { 'formatted_address': $scope.locationSelected })[0].geometry;
       $scope.map.bounds = {
         northeast: {
           latitude: geometry.bounds.northeast.lat,
@@ -153,6 +137,13 @@ angular.module('cruvitaApp')
     };
     //add beginDraw as a subscriber to be invoked by the channel, allows controller to controller coms
     drawChannel.add(draw);
+
+    if($routeParams.NELONG) {
+      $scope.map.center = {
+          latitude: (parseFloat($routeParams.NELAT) + parseFloat($routeParams.SWLAT))/2,
+          longitude: (parseFloat($routeParams.NELONG) + parseFloat($routeParams.SWLONG))/2
+      }
+    }
 
     //Initial Load
     updateScore();
