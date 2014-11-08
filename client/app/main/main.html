@@ -42,11 +42,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="school in map.schools | orderBy:'score' | limitTo: 5" ng-if="map.schools.length" ng-click="getHomes(school)">
+        <tr ng-repeat="school in map.schools | orderBy:'score' | limitTo: 5" ng-if="map.schools.length">
           <td>{{$index + 1}}</td>
-          <td>{{school.sch_name | titleCase}}</td>
+          <td><a ng-click="getHomes(school)">{{school.sch_name | titleCase}}</a</td>
           <td><reverse-geocode lat="{{school.coordinates.latitude}}" lng="{{school.coordinates.longitude}}"></reverse-geocode></td>
-          <td class="tableScore">{{school.score}}</td>
+          <td class="tableScore">{{school.score}} <a ng-if="selectedSchool._id === school._id" ng-click="unselectSchool()">Unselect</a></td>
         </tr>
       </tbody>
     </table>

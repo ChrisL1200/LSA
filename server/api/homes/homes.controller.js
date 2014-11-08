@@ -4,9 +4,7 @@ var _ = require('lodash');
 
 // Get list of homess
 exports.index = function(req, res) {
-  console.log("index");  
-    return res.json(200, []); 
-
+  return res.json(200, []); 
 };
 
 // Get a single homes

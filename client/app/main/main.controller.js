@@ -106,17 +106,6 @@ angular.module('cruvitaApp')
 
     //When user views homes
     $scope.getHomes = function(school) {
-      // $scope.currentView = 'homes';
-      // $scope.map.bounds = {
-      //   northeast: {
-      //     latitude: _.max(school.wkt, 'latitude').latitude,
-      //     longitude: _.max(school.wkt, 'longitude').longitude
-      //   },
-      //   southwest: {
-      //     latitude: _.min(school.wkt, 'latitude').latitude,
-      //     longitude: _.min(school.wkt, 'longitude').longitude
-      //   }
-      // };
       $scope.selectedSchool = school;
       $scope.schoolPromise = School.get({id: $scope.selectedSchool._id}, function(school) {
         schoolCallback([school]);
@@ -137,6 +126,10 @@ angular.module('cruvitaApp')
       updateScore();
     };
 
+    $scope.unselectSchool = function() {
+      $scope.selectedSchool = undefined;
+      updateScore();
+    };
     var draw = function() {
       $scope.map.draw(); //should be defined by now
     };
