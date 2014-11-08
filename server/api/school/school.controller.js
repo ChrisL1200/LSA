@@ -28,10 +28,10 @@ exports.create = function(req, res) {
   var query = url_parts.query;
   // {"ed_level": new RegExp(query.gradeLevel)}
   School.find({"ed_level": new RegExp(query.gradeLevel)})
+  .lean()
   .sort({'score': -1})
   .where('coordinates.latitude').gt(query.southwestLat).lt(query.northeastLat)
   .where('coordinates.longitude').gt(query.southwestLong).lt(query.northeastLong)
-  .limit(25)
   .exec(function (err, schools) {
     if(err) { return handleError(res, err); }
     var filteredSchools = [];
@@ -44,6 +44,14 @@ exports.create = function(req, res) {
           }
         });
       });
+    }
+
+    if(schools.length > 10) {
+      _.each(schools, function(school) {
+        delete school.wkt;
+      });
+      console.log("TY");
+      // schools = _.map(schools, function(o) { return _.omit(o, 'wkt'); });
     }
     return res.json(200, polygonsPresent ? filteredSchools : schools);
   });  
