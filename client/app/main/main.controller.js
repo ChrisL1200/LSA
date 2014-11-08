@@ -68,7 +68,7 @@ angular.module('cruvitaApp')
     var keyPromise;
 
     $scope.$watch('map.bounds', function(newVal, oldVal) {
-      if(newVal !== oldVal) {
+      if(newVal !== oldVal && !$scope.selectedSchool) {
           if(keyPromise)
             $timeout.cancel(keyPromise);
           keyPromise = $timeout(function() {
@@ -108,6 +108,7 @@ angular.module('cruvitaApp')
     $scope.getHomes = function(school) {
       $scope.selectedSchool = school;
       $scope.schoolPromise = School.get({id: $scope.selectedSchool._id}, function(school) {
+        $scope.map.center = school.coordinates;
         schoolCallback([school]);
       }).$promise;
     };
