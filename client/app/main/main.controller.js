@@ -29,30 +29,38 @@ angular.module('cruvitaApp')
         $scope.scorePromise = School.retrieve(requestBounds, {polygons: parsedPolygons}, function(response) {
           $scope.map.schools = response;
           $scope.map.polylines = [];
-          _.each($scope.map.schools, function (marker) {
-            var red = Math.round((255*(10-marker.score))/10);
-            var green = Math.round((255*marker.score)/10);
+          _.each($scope.map.schools, function (school) {
+            var red = Math.round((255*(10-school.score))/10);
+            var green = Math.round((255*school.score)/10);
             if(red < 16) {
               red += 16;
             }
             if(green < 16) {
               green += 16;
             }
-            marker.lsaColor = "#" + red.toString(16) + green.toString(16) + "00";
-            marker.showWindow = false;
-            marker.closeClick = function () {
-              marker.showWindow = false;
+            school.lsaColor = "#" + red.toString(16) + green.toString(16) + "00";
+            school.showWindow = false;
+            school.closeClick = function () {
+              school.showWindow = false;
               $scope.$apply();
             };
-            marker.onClicked = function ()  {
-              onMarkerClicked(marker);
+            school.onClicked = function ()  {
+              onMarkerClicked(school);
             };
 
             //Initialize polylines
             var newPolyline = angular.copy(Config.defaultPolyline);
-            newPolyline.path = marker.wkt;
+            newPolyline.path = school.wkt;
+            newPolyline.id = school._id;
+
+      // var selectedPolygon = _.find($scope.map.polylines, {id: school._id});
+      // selectedPolygon.selected = true;
+            if(school._id === $scope.selectedSchool._id) {
+              newPolyline.selected = true; 
+            }
             $scope.map.polylines.push(newPolyline);
           });
+
         }).$promise;
       }
     }
@@ -60,12 +68,12 @@ angular.module('cruvitaApp')
     var keyPromise;
 
     $scope.$watch('map.bounds', function(newVal, oldVal) {
-      if(newVal !== oldVal && $scope.currentView === 'schools') {
+      if(newVal !== oldVal) {
           if(keyPromise)
             $timeout.cancel(keyPromise);
           keyPromise = $timeout(function() {
             updateScore();
-          }, 250);
+          }, 500);
       }
     }, true);
 
@@ -98,7 +106,7 @@ angular.module('cruvitaApp')
 
     //When user views homes
     $scope.setHomes = function(school) {
-      $scope.currentView = 'homes';
+      // $scope.currentView = 'homes';
       $scope.map.bounds = {
         northeast: {
           latitude: _.max(school.wkt, 'latitude').latitude,
@@ -109,13 +117,16 @@ angular.module('cruvitaApp')
           longitude: _.min(school.wkt, 'longitude').longitude
         }
       };
-      var requestBounds = {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
-      var newPolyline = angular.copy(Config.defaultPolyline);
-      newPolyline.path = school.wkt;
-      $scope.map.polylines = [newPolyline];
-      $scope.homePromise = Homes.retrieve(requestBounds, {polygons: [school.wkt]}, function(homes) {
-        $scope.map.markers = homes;
-      }).$promise;
+      $scope.selectedSchool = school;
+      // var requestBounds = {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
+      // var newPolyline = angular.copy(Config.defaultPolyline);
+      // newPolyline.path = school.wkt;
+      // $scope.map.polylines = [newPolyline];
+      // $scope.map.schools = [];
+      // $scope.homePromise = Homes.retrieve(requestBounds, {polygons: [school.wkt]}, function(homes) {
+      //   $scope.map.schools = [school];
+      //   $scope.map.homes = homes;
+      // }).$promise;
     };
 
     $scope.setSchools = function() {
