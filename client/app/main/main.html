@@ -57,6 +57,16 @@
     <div class="homeList">
       <h3>Homes</h3>
       <div class="row school-result" ng-repeat="home in map.homes" ng-if="map.homes.length > 0">
+        <div class="media">
+          <a class="media-left" href="#">
+            <img ng-src="{{home.listing.photos[0].photo[0].mediaurl[0]}}" style="height:64px;width:64px">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading">House heading</h4>
+              <div>{{home.listing.address[0].fullstreetaddress[0]}}</div>
+              <div>{{home.listing.address[0].city[0]}}, {{home.listing.address[0].stateorprovince[0]}}</div>
+          </div>
+        </div>
         <div>{{home.listing.address[0].fullstreetaddress[0]}}</div>
         <div>{{home.listing.address[0].city[0]}}, {{home.listing.address[0].stateorprovince[0]}}</div>
       </div>
