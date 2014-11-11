@@ -6,7 +6,7 @@ angular.module('cruvitaApp')
     $scope.currentView = 'schools';
     $scope.incomes = Config.incomes;
     $scope.getLocation = Location.autocomplete;
-    $scope.selectedHome = {};
+    $scope.homeWindow = {};
 
     //Update Score
     var updateScore = function() {
@@ -29,14 +29,12 @@ angular.module('cruvitaApp')
               longitude: home.listing.location[0].longitude[0]
             };
             // home.icon = 'assets/images/yeoman.png';
-            home.showWindow = false;
             home.closeClick = function () {
-              $scope.selectedHome = {};
-              $scope.$apply();
+              $scope.homeWindow = {};
             };
             home.onClicked = function ()  {
-              $scope.selectedHome = home;
-              $scope.selectedHome.showWindow = true;
+              $scope.homeWindow = home;
+              $scope.homeWindow.showWindow = true;
             };
           });
         }).$promise;
@@ -62,13 +60,12 @@ angular.module('cruvitaApp')
           green += 16;
         }
         school.lsaColor = "#" + red.toString(16) + green.toString(16) + "00";
-        school.showWindow = false;
         school.closeClick = function () {
-          school.showWindow = false;
-          $scope.$apply();
+          $scope.schoolWindow = {};
         };
         school.onClicked = function ()  {
-          onMarkerClicked(school);
+          $scope.schoolWindow = school;
+          $scope.schoolWindow.showWindow = true;
         };
 
         //Initialize polylines
@@ -99,13 +96,6 @@ angular.module('cruvitaApp')
         updateScore();
       }
     });
-
-    //Marker Click Callback
-    var onMarkerClicked = function (marker) {
-      alert(JSON.stringify(marker));
-      marker.showWindow = true;
-      $scope.$apply();
-    };
 
     //Update bounds when input is entered
     $scope.updateBounds = function() {

@@ -21,14 +21,14 @@
             </ui-gmap-window>
           </ui-gmap-marker> -->
           <ui-gmap-markers models="map.schools" coords="'coordinates'" idKey="'_id'" click="'onClicked'">
-            <ui-gmap-windows show="'showWindow'" closeClick="'closeClick'" ng-cloak>
-                <p ng-non-bindable>This is an info window at {{ latitude | number:4 }}, {{ longitude | number:4 }}!</p>
-            </ui-gmap-windows>
           </ui-gmap-markers>
+        <ui-gmap-window coords="schoolWindow.coordinates" idKey="schoolWindow._id" show="schoolWindow.showWindow" closeClick="schoolWindow.closeClick" isIconVisibleOnClick="false">
+            <p>This is an info window at {{ schoolWindow.coordinates.latitude | number:4 }}, {{ schoolWindow.coordinates.longitude | number:4 }}!</p>
+        </ui-gmap-window>
         <ui-gmap-markers models="map.homes" coords="'coordinates'" idKey="'_id'" click="'onClicked'" icon="'icon'">
         </ui-gmap-markers>
-        <ui-gmap-window coords="selectedHome.coordinates" idKey="selectedHome._id" show="selectedHome.showWindow" closeClick="selectedHome.closeClick" isIconVisibleOnClick="false">
-            <p>This is an info window at {{ selectedHome.coordinates.latitude | number:4 }}, {{ selectedHome.coordinates.longitude | number:4 }}!</p>
+        <ui-gmap-window coords="homeWindow.coordinates" idKey="homeWindow._id" show="homeWindow.showWindow" closeClick="homeWindow.closeClick" isIconVisibleOnClick="false">
+            <p>This is an info window at {{ homeWindow.coordinates.latitude | number:4 }}, {{ homeWindow.coordinates.longitude | number:4 }}!</p>
         </ui-gmap-window>
       </ui-gmap-google-map>
     </div>
