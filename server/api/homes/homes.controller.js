@@ -1,9 +1,13 @@
 'use strict';
 
 var _ = require('lodash');
+var Homes = require('./homes.model');
+var url = require('url');
+var inside = require('point-in-polygon');
 
 // Get list of homess
 exports.index = function(req, res) {
+    console.log("zoob");
   return res.json(200, []); 
 };
 
@@ -16,12 +20,10 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
-  // {"ed_level": new RegExp(query.gradeLevel)}
-  Score.find()
-  .sort({'score': -1})
-  .where('coordinates.latitude').gt(query.southwestLat).lt(query.northeastLat)
-  .where('coordinates.longitude').gt(query.southwestLong).lt(query.northeastLong)
+  Homes.find()
   .limit(25)
+  .where('listing.location.latitude').gt(query.southwestLat).lt(query.northeastLat)
+  .where('listing.location.longitude').gt(query.southwestLong).lt(query.northeastLong)
   .exec(function (err, homes) {
     if(err) { return handleError(res, err); }
     var filteredHomes = [];

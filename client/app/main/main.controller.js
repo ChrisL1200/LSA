@@ -6,6 +6,7 @@ angular.module('cruvitaApp')
     $scope.currentView = 'schools';
     $scope.incomes = Config.incomes;
     $scope.getLocation = Location.autocomplete;
+    $scope.selectedHome = {};
 
     //Update Score
     var updateScore = function() {
@@ -22,6 +23,22 @@ angular.module('cruvitaApp')
 
         $scope.homePromise = Homes.retrieve(requestBounds, {polygons: parsedPolygons}, function(homes) {
           $scope.map.homes = homes;
+          angular.forEach($scope.map.homes, function(home) {
+            home.coordinates = {
+              latitude: home.listing.location[0].latitude[0],
+              longitude: home.listing.location[0].longitude[0]
+            };
+            // home.icon = 'assets/images/yeoman.png';
+            home.showWindow = false;
+            home.closeClick = function () {
+              $scope.selectedHome = {};
+              $scope.$apply();
+            };
+            home.onClicked = function ()  {
+              $scope.selectedHome = home;
+              $scope.selectedHome.showWindow = true;
+            };
+          });
         }).$promise;
 
         requestBounds.gradeLevel = $scope.gradeLevel;
@@ -85,6 +102,7 @@ angular.module('cruvitaApp')
 
     //Marker Click Callback
     var onMarkerClicked = function (marker) {
+      alert(JSON.stringify(marker));
       marker.showWindow = true;
       $scope.$apply();
     };
