@@ -1,7 +1,8 @@
 /*Custom Imports*/
-@import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
-@import 'font-awesome/scss/font-awesome';
-@import '../assets/styles/_variables.scss';
+@import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
+@import '../bower_components/font-awesome/scss/font-awesome';
+@import '_variables.scss';
+
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700,400italic);
 
 /**************************************************/
@@ -41,7 +42,7 @@ body{
   z-index: 10000;
 
   .cruvitaLogo{
-    background: url('../assets/images/cruvita_logo.png');
+    background: url('/assets/images/cruvita_logo.png');
     height: 60px;
     width: 250px;
     background-size: 100%;
@@ -187,6 +188,7 @@ body{
 
 // Component styles are injected through grunt
 // injector
+@import '_variables.scss';
 @import 'account/login/login.scss';
 @import 'admin/admin.scss';
 @import 'home/home.scss';

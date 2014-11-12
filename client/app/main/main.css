@@ -1,0 +1,118 @@
+/**************************************************/
+/********** Results Page Styles *******************/
+/**************************************************/
+/* line 6, main.scss */
+.map {
+  display: block;
+}
+
+/* line 10, main.scss */
+.homeList {
+  height: 350px;
+}
+
+/* line 14, main.scss */
+.agentList {
+  height: 200px;
+}
+
+/* line 18, main.scss */
+.adSpace1 {
+  height: 200px;
+}
+
+/* line 22, main.scss */
+.thing-form {
+  margin: 20px 0;
+}
+
+/* line 26, main.scss */
+#banner {
+  border-bottom: none;
+  margin-top: -20px;
+}
+
+/* line 31, main.scss */
+#banner h1 {
+  font-size: 60px;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+/* line 37, main.scss */
+.hero-unit {
+  position: relative;
+  padding: 15px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  background: #547;
+}
+
+/* line 45, main.scss */
+.footer {
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 15px;
+  border-top: 1px solid #E5E5E5;
+}
+
+/* line 52, main.scss */
+.marker-result {
+  border-bottom: 1px solid #E5E5E5;
+  padding: 10px;
+}
+
+/* line 57, main.scss */
+.right-panel {
+  overflow-y: scroll;
+  height: 500px;
+}
+
+/* line 62, main.scss */
+.lead {
+  margin-bottom: -10px;
+  font-size: 16px;
+}
+
+/* line 67, main.scss */
+.main-content {
+  padding: 15px;
+}
+
+/* line 71, main.scss */
+.filter-select {
+  padding: 6px;
+  width: 100%;
+}
+
+/* line 76, main.scss */
+.school-image {
+  height: 80px;
+  width: 120px;
+}
+
+/* line 81, main.scss */
+.angular-google-map-container {
+  height: 500px;
+}
+
+/* line 84, main.scss */
+.table thead tr {
+  background-color: #cfcfcf;
+  border-top: 4px solid #b5b5b5;
+  color: white;
+}
+/* line 90, main.scss */
+.table tr {
+  cursor: pointer;
+}
+
+/**************************************************/
+/********** Responsive Page Styles ****************/
+/**************************************************/
+@media screen and (max-width: 992px) {
+  /* line 99, main.scss */
+  .map {
+    display: none;
+  }
+}
