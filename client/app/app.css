@@ -10618,7 +10618,7 @@ body {
 }
 /* line 44, app.scss */
 .header .cruvitaLogo {
-  background: url("../assets/images/cruvita_logo.png");
+  background: url("/assets/images/cruvita_logo.png");
   height: 60px;
   width: 250px;
   background-size: 100%;
@@ -10903,7 +10903,7 @@ body {
 }
 /* line 20, home/home.scss */
 .home.splash-bkgd-graphic {
-  background: url("../assets/images/splash-bkgd-graphic.png");
+  background: url("/assets/images/splash-bkgd-graphic.png");
   background-position: 50% 50%;
   background-size: 100%;
 }

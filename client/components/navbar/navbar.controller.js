@@ -17,6 +17,8 @@ angular.module('cruvitaApp')
       $location.path('/login');
     };
 
+    console.log('location', $location.path());
+
     $scope.isActive = function(route) {
       return route === $location.path();
     };

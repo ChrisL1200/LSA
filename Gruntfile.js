@@ -54,6 +54,15 @@ module.exports = function (grunt) {
           '!<%= yeoman.client %>/app/app.js'],
         tasks: ['injector:scripts']
       },
+      injectSass: {
+        files: [
+          '<%= yeoman.client %>/{app,components}/**/*.{scss,sass}'],
+        tasks: ['injector:sass', 'autoprefixer']
+      },
+      css: {
+        files: '**/*.scss',
+        tasks: ['compass']
+      },
       injectCss: {
         files: [
           '<%= yeoman.client %>/{app,components}/**/*.css'
@@ -70,11 +79,6 @@ module.exports = function (grunt) {
           '<%= yeoman.client %>/{app,components}/**/*.mock.js'
         ],
         tasks: ['newer:jshint:all', 'karma']
-      },
-      injectSass: {
-        files: [
-          '<%= yeoman.client %>/{app,components}/**/*.{scss,sass}'],
-        tasks: ['injector:sass', 'autoprefixer']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -422,7 +426,7 @@ module.exports = function (grunt) {
     compass: {
       server: {
         options: {
-          sassDir:'<%= yeoman.client %>/app',
+          sassDir:'<%= yeoman.client %>/app/*.scss',
           cssDir:'<%= yeoman.client %>/app',
         }
       }
@@ -517,7 +521,6 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'clean:server',
         'env:all',
-        'compass',
         'injector:sass',
         'concurrent:server',
         'injector',
@@ -530,7 +533,6 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'env:all',
-      'compass',
       'injector:sass',
       'concurrent:server',
       'injector',
@@ -561,7 +563,6 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'clean:server',
         'env:all',
-        'compass',
         'injector:sass',
         'concurrent:test',
         'injector',
@@ -575,7 +576,6 @@ module.exports = function (grunt) {
         'clean:server',
         'env:all',
         'env:test',
-        'compass',
         'injector:sass',
         'concurrent:test',
         'injector',
@@ -595,7 +595,6 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'concurrent:dist',
-    'compass',
     'injector:sass',
     'injector',
     'bowerInstall',
