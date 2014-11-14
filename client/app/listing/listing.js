@@ -3,7 +3,7 @@
 angular.module('cruvitaApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/listing', {
+      .when('/listing/:homeId', {
         templateUrl: 'app/listing/listing.html',
         controller: 'ListingCtrl'
       });
