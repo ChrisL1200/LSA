@@ -1,7 +1,8 @@
 /*Custom Imports*/
-@import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
+@import '../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap';
 @import '../bower_components/font-awesome/scss/font-awesome';
 @import '_variables.scss';
+@import 'compass/css3';
 
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700,400italic);
 
@@ -12,9 +13,10 @@
 html, body{ height: 100%; background-color: $bkgd;}
 html {
   box-sizing: border-box;
+  font-size: 17px;
 }
 
-body{
+html body{
   font-family: 'Lato', sans-serif;
   font-weight: 400;
 }
@@ -92,7 +94,6 @@ body{
   .col-100 {
     width: 100%;
   }
-
   .col-75 {
     width: 75%;
   }
@@ -144,7 +145,7 @@ body{
       z-index: 10000;
 
       & > a{
-        font-size: 18px;
+        font-size: 1.1rem;
       }
     }
     .headerMenu{display: none;}
@@ -191,7 +192,10 @@ body{
 @import '_variables.scss';
 @import 'account/login/login.scss';
 @import 'admin/admin.scss';
+@import 'ads/ads.scss';
+@import 'agents/agents.scss';
 @import 'home/home.scss';
 @import 'listing/listing.scss';
 @import 'main/main.scss';
+@import 'result/result.scss';
 // endinjector

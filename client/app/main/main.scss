@@ -9,6 +9,41 @@
 
 .homeList {
     height: 350px;
+    overflow-y: scroll;
+    border-bottom: 1px double shade($bkgd, 20%);
+
+    .homeResult{
+        border-bottom: 1px solid shade($bkgd, 20%);
+        position:relative;
+        display: table;
+        width: 100%;
+
+        &:hover{
+            background-color: tint($cru-blue, 80%);
+            cursor: pointer;
+        }
+
+        .media-left, .media-body{
+            padding-right: 10px;
+
+            &:after{clear:both;}
+        }
+
+        h4{text-align: right;}
+        .result-info{display:block; font-size: .75rem; text-align: right;}
+    }
+
+    .homeResult:nth-of-type(last-child){ border: none;}
+
+    .homesHeader{
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: white;
+        background-color: shade($bkgd, 20%);
+    }
 }
 
 .agentList {
@@ -29,7 +64,7 @@
 }
 
 #banner h1 {
-    font-size: 60px;
+    font-size: 4rem;
     line-height: 1;
     letter-spacing: -1px;
 }
@@ -61,7 +96,7 @@
 
 .lead {
     margin-bottom: -10px;
-    font-size: 16px;
+    font-size: .9rem;
 }
 
 .main-content {

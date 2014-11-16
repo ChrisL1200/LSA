@@ -57,17 +57,19 @@ module.exports = function (grunt) {
       injectSass: {
         files: [
           '<%= yeoman.client %>/{app,components}/**/*.{scss,sass}'],
-        tasks: ['injector:sass', 'autoprefixer']
+        tasks: ['injector:sass', 'compass', 'autoprefixer']
       },
       css: {
-        files: '**/*.scss',
-        tasks: ['compass']
-      },
-      injectCss: {
         files: [
-          '<%= yeoman.client %>/{app,components}/**/*.css'
+          '<%= yeoman.client %>/app/*.scss'
         ],
-        tasks: ['injector:css']
+        tasks: [
+          ['injector:sass','compass', 'autoprefixer']
+        ],
+        options: {
+          livereload: true,
+          force: true
+        }
       },
       mochaTest: {
         files: ['server/**/*.spec.js'],
@@ -424,11 +426,12 @@ module.exports = function (grunt) {
 
     // Compiles Sass to CSS
     compass: {
-      server: {
+      'dist': {
         options: {
-          sassDir:'<%= yeoman.client %>/app/*.scss',
-          cssDir:'<%= yeoman.client %>/app',
-        }
+          sassDir:'<%= yeoman.client %>/app/',
+          specify: '<%= yeoman.client %>/app/app.scss',
+          cssDir:'<%= yeoman.client %>/app/',
+        },
       }
     },
 

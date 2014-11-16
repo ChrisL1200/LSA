@@ -43,22 +43,11 @@
 
   <section class="col col-25" cg-busy="homePromise">
     <div class="homeList">
-      <h3>Homes</h3>
-      <div class="row school-result media" ng-repeat="home in map.homes" ng-if="map.homes.length > 0">
-          <a class="media-left" ng-href="listing/{{home._id}}">
-            <img ng-src="/api/images?url={{home.listing.photos[0].photo[0].storedId}}" style="height:64px;width:64px">
-          </a>
-          <div class="media-body">
-            <h4 class="media-heading">House heading</h4>
-              <div>{{home.listing.address[0].fullstreetaddress[0]}}</div>
-              <div>{{home.listing.address[0].city[0]}}, {{home.listing.address[0].stateorprovince[0]}}</div>
-          </div>
-        </div>
-        <div>{{home.listing.address[0].fullstreetaddress[0]}}</div>
-        <div>{{home.listing.address[0].city[0]}}, {{home.listing.address[0].stateorprovince[0]}}</div>
-        <div ng-if="map.homes.length === 0">
-          No Homes Found
-        </div>
+      <span class="homesHeader">{{map.homes.length}} Homes</span>
+      <result ng-repeat="home in map.homes" ng-if="map.homes.length > 0" home="home"></result>
+      <div ng-if="map.homes.length === 0">
+        No Homes Found
+      </div>
     </div>
 
     <div class="agentList">
