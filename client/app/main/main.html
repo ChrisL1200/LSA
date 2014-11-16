@@ -46,7 +46,7 @@
       <h3>Homes</h3>
       <div class="row school-result media" ng-repeat="home in map.homes" ng-if="map.homes.length > 0">
           <a class="media-left" ng-href="listing/{{home._id}}">
-            <img ng-src="{{home.listing.photos[0].photo[0].mediaurl[0]}}" style="height:64px;width:64px">
+            <img ng-src="/api/images?url={{home.listing.photos[0].photo[0].storedId}}" style="height:64px;width:64px">
           </a>
           <div class="media-body">
             <h4 class="media-heading">House heading</h4>
