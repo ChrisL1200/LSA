@@ -6,6 +6,7 @@ angular.module('cruvitaApp')
     $scope.homeId = $routeParams.homeId;
     console.log('id', $scope.listingID);
 
-//FUNCTION IN PROGRESS
-//    $scope.listingPromise = Homes.retrieve
+		$scope.listingPromise = Homes.get({homeId: $scope.homeId}, function(listing) {
+			$scope.listing = listing;
+		})
   });

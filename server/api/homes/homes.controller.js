@@ -13,7 +13,11 @@ exports.index = function(req, res) {
 
 // Get a single homes
 exports.show = function(req, res) {
-  console.log("SHOW");  
+  Homes.findById(req.params.id, function (err, home) {
+    if(err) { return handleError(res, err); }
+    if(!home) { return res.send(404); }
+    return res.json(home);
+  });
 };
 
 // Creates a new homes in the DB.
