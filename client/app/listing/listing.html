@@ -1,3 +1,46 @@
-<div class="col-md-12">
-This is the listing view.
-</div>
+<section class="container-flex">
+  <div class="col col-50">
+    <div ng-controller="CarouselCtrl">
+      <div>
+        <carousel interval="myInterval">
+          <slide ng-repeat="slide in listing.photos[0].photo" active="slide.active">
+            <img ng-src="{{slide.mediaurl[0]}}" style="margin:auto;">
+          </slide>
+        </carousel>
+      </div>
+      <div class="clearfix"></div>
+
+      <div class="row">
+          <div class="col-xs-2" ng-repeat="thumb in listing.photos[0].photo"  ng-click="select(slide)">
+              <div class="thumbnail">
+                  <img src="{{thumb.mediaurl[0]}}">
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="listing-content">
+      <p>{{listing.listingdescription[0]}}</p>
+    </div>
+  </div>
+  <div class="col col-25">
+    <div class="score-block">
+    </div>
+    <div class="listing-info">
+      <span>Bedrooms: {{listing.bedrooms[0]}}</span>
+      <span>Bathrooms: {{listing.bathrooms[0]}}</span>
+      <span>Sq Ft: {{listing.livingarea[0]}}</span>
+      <span>Lot Size: {{listing.lotsize[0]}}</span>
+      <span>Built: {{listing.yearbuilt[0]}}</span>
+      <span>Highlights: {{listing.detailedcharacteristics[0]}}</span>
+      <span>Estimated Taxes: {{listing.taxes[0].tax[0].amount[0]}}</span>
+    </div>
+    <div class="listing-agent">
+    </div>
+  </div>
+  <div class="col col-25">
+    <div class="premiere-agents">
+    </div>
+    <div class="ad-space">
+    </div>
+  </div>
+</section>
