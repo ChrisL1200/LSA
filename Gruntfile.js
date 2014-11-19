@@ -336,6 +336,7 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             'bower_components/**/*',
+            '{app,components}/**/*.css',
             'assets/images/{,*/}*.{webp}',
             'assets/fonts/**/*',
             'index.html'
@@ -353,12 +354,6 @@ module.exports = function (grunt) {
             'server/**/*'
           ]
         }]
-      },
-      styles: {
-        expand: true,
-        cwd: '<%= yeoman.client %>',
-        dest: '.tmp/',
-        src: ['{app,components}/**/*.css']
       }
     },
 
@@ -366,6 +361,8 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'compass',
+        'imagemin',
+        'svgmin'
       ],
       test: [
         'compass',
@@ -428,6 +425,7 @@ module.exports = function (grunt) {
     compass: {
       'dist': {
         options: {
+          environment: 'production',
           sassDir:'<%= yeoman.client %>/app/',
           specify: '<%= yeoman.client %>/app/app.scss',
           cssDir:'<%= yeoman.client %>/app/',
@@ -597,9 +595,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'concurrent:dist',
     'injector:sass',
-    'injector',
+    'concurrent:dist',
     'bowerInstall',
     'useminPrepare',
     'autoprefixer',
@@ -611,7 +608,8 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'injector'
   ]);
 
   grunt.registerTask('default', [
