@@ -1,22 +1,19 @@
 <div class="navbar navbar-default navbar-static-top" ng-controller="NavbarCtrl">
-  <div class="navbar-header col-xs-3">
+  <div class="col-xs-3">
     <a href="/"><div class="cruvitaLogo"></div></a>
   </div>
 
-  <form ng-submit="updateBounds()">
-    <div class="col-xs-6 headerSearch">
-      <input type="text" ng-model="locationSelected" placeholder="Search for your new home" ng-submit="updateBounds()" typeahead="address for address in getLocation($viewValue)" class="form-control">
-    </div>
+  <form class="col-xs-6 headerSearch" ng-submit="updateBounds()">
+    <input type="text" ng-model="locationSelected" placeholder="Search for your new home" ng-submit="updateBounds()" typeahead="address for address in getLocation($viewValue)" class="form-control">
   </form>
 
-  <div class="dropdown smallHeaderMenu pull-right">
+  <div class="col-xs-2 dropdown smallHeaderMenu pull-right">
     <a ng-href class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"><i class="fa fa-bars"></i></a>
     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
       <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
         <a ng-href="{{item.link}}">{{item.title}}</a>
       </li>
-      <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/signup')}"><a href="/signup">Sign up</a></li>
-      <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">Login</a></li>
+      <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/signup')}"><a href="/signup">Login</a></li>
       <li ng-show="isLoggedIn()"><p class="navbar-text">Hello {{ getCurrentUser().name }}</p> </li>
       <li ng-show="isLoggedIn()" ng-class="{active: isActive('/settings')}"><a href="/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
       <li ng-show="isLoggedIn()" ng-class="{active: isActive('/logout')}"><a href="" ng-click="logout()">Logout</a></li>
@@ -24,11 +21,10 @@
     </ul>
   </div>
 
-  <ul class="nav navbar-nav navbar-right headerMenu">
+  <ul class="col-xs-3 headerMenu">
     <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
       <a ng-href="{{item.link}}">{{item.title}}</a>
     </li>
-    <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/signup')}"><a href="/signup">Sign up</a></li>
     <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">Login</a></li>
     <li ng-show="isLoggedIn()"><p class="navbar-text">Hello {{ getCurrentUser().name }}</p> </li>
     <li ng-show="isLoggedIn()" ng-class="{active: isActive('/settings')}"><a href="/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
@@ -36,3 +32,6 @@
     <li ng-show="isAdmin()" ng-class="{active: isActive('/admin')}"><a href="/admin">Admin</a></li>
   </ul>
 </div>
+<!--div id="sub-navbar" class="sub-navbar">
+  If we are at a certain page, subnavbar should float down. Need to figure this out.
+</div-->

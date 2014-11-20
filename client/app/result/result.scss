@@ -1,0 +1,47 @@
+.scoreOverlay{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: stretch;
+  bottom: 0;
+  left: 0;
+  width: 150px;
+  height: 20px;
+  color: white;
+  background-color: rgba(50, 50, 50, .4);
+
+  .score{
+    padding: 0 5px;
+
+    &:hover{
+      background-color: rgba(200,200,200, .2);
+    }
+  }
+}
+
+h3{text-align: right;}
+
+.result-info{
+  display:block;
+  font-weight: 300;
+  font-size: .90rem;
+  text-align: right;
+
+  p {
+    float: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+    margin: 0;
+  }
+  p:after{clear:both;}
+}
+
+.resultThumb{
+  max-height: 120px;
+  max-width: 10px;
+}
+
+

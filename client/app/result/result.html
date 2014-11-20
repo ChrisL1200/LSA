@@ -1,13 +1,18 @@
 <article ng-click="goToListing(home._id)" class="media homeResult">
   <a class="media-left">
-    <img ng-src="/api/images?url={{home.listing.photos[0].photo[0].storedId}}" style="height:100px;width:100px">
+    <img class="resultThumb" ng-src="/api/images?url={{home.listing.photos[0].photo[0].storedId}}">
+    <span class="scoreOverlay">
+    <!--This will need more information but until scores are populated there nothign to do-->
+      {{home.listing.score}}
+      <span class="score">85</span><span class="score">83</span><span class="score">95</span>
+    </span>
   </a>
   <div class="media-body">
-    <h4 class="media-heading">{{home.listing.listprice[0] | currency: '$':0}}</h4>
-    <div class="result-info">{{home.listing.address[0].fullstreetaddress[0] | titleCase}}</div>
-    <div class="result-info"><span ng-show="home.listing.address[0].city[0]">{{home.listing.address[0].city[0] | titleCase}},</span> {{home.listing.address[0].stateorprovince[0] | titleCase}}</div>
-    <div class="result-info"><span ng-show="home.listing.bedrooms[0]">{{home.listing.bedrooms[0]}} beds</span><span ng-show="home.listing.bathrooms[0]">, {{home.listing.bathrooms[0]}} baths</span><span ng-show="home.listing.livingarea[0]">, {{home.listing.livingarea[0]}} sqft</span></div>
-    <div class="result-info">{{home.listing.propertysubtype[0]}}</div>
-
+    <h3 class="media-heading">{{home.listing.listprice[0] | currency: '$':0}}</h3>
+    <div class="result-info">
+      <p title="{{home.listing.address[0].fullstreetaddress[0] | titleCase}}, {{home.listing.address[0].city[0] | titleCase}}, {{home.listing.address[0].city[0] | titleCase}}, {{home.listing.address[0].stateorprovince[0] | titleCase}}">{{home.listing.address[0].fullstreetaddress[0] | titleCase}}, <span ng-show="home.listing.address[0].city[0]">{{home.listing.address[0].city[0] | titleCase}},</span> {{home.listing.address[0].stateorprovince[0] | titleCase}}</p>
+      <p><span ng-show="home.listing.bedrooms[0]">{{home.listing.bedrooms[0]}} beds</span><span ng-show="home.listing.bathrooms[0]">, {{home.listing.bathrooms[0]}} baths</span><span ng-show="home.listing.livingarea[0]">, {{home.listing.livingarea[0]}} sqft</span></p>
+      <p>{{home.listing.propertysubtype[0]}}</p>
+    </div>
   </div>
 </article>

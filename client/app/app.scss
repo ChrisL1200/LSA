@@ -4,7 +4,7 @@
 @import '_variables.scss';
 @import 'compass/css3';
 
-@import url(http://fonts.googleapis.com/css?family=Lato:400,700,400italic);
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700,400italic);
 
 /**************************************************/
 /************** App-wide Styles *******************/
@@ -55,6 +55,23 @@ html body{
 
   .smallHeaderMenu{display: none;}
 
+  .headerMenu{
+    float: right;
+    list-style: none;
+    top: 10px;
+    right: 10px;
+    position: relative;
+
+    li{
+      padding: 10px;
+      display: inline-block;
+
+      &:hover{background-color: tint($cru-blue, 20%);}
+
+      a{color: white; text-decoration:none;}
+    }
+  }
+
   .navbar{
     margin-bottom: 0;
     border-color: lighten($cru-blue, 10%);
@@ -88,7 +105,7 @@ html body{
   padding: 0;
 
   .col{
-    display: block;
+    display: inline-block;
   }
 
   .col-100 {
@@ -119,7 +136,7 @@ html body{
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container-flex {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: stretch;
   }
 }
@@ -139,6 +156,7 @@ html body{
 /* Responsive: Portrait Phones and up */
 @media screen and (min-width: 320px) and (max-width: 768px) {
   .header {
+    .headerMenu{display: none;}
     .smallHeaderMenu{
       display: block;
       padding: 20px;

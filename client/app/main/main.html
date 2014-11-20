@@ -44,7 +44,7 @@
   <section class="col col-25" cg-busy="homePromise">
     <div class="homeList">
       <span class="homesHeader">{{map.homes.length}} Homes</span>
-      <result ng-repeat="home in map.homes" ng-if="map.homes.length > 0" home="home"></result>
+      <result ng-repeat="home in map.homes | orderBy: home.listing.listingdate[0]" home="home"></result>
       <div ng-if="map.homes.length === 0">
         No Homes Found
       </div>
