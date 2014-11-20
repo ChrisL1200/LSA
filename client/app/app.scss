@@ -150,16 +150,24 @@ html body{
       width: 150px;
     }
   }
+  .header {
+    .headerMenu{
+      top: 20px;
+      li{
+        padding: 0 5px;
+        font-size: .7rem;
+      }
+    }
+  }
 }
 
 
 /* Responsive: Portrait Phones and up */
 @media screen and (min-width: 320px) and (max-width: 768px) {
   .header {
-    .headerMenu{display: none;}
     .smallHeaderMenu{
       display: block;
-      padding: 20px;
+      top: 20px;
       z-index: 10000;
 
       & > a{
