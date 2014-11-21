@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports = function (grunt) {
-
   // Load grunt tasks automatically, when needed
   require('jit-grunt')(grunt, {
     express: 'grunt-express-server',

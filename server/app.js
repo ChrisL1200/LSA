@@ -37,6 +37,7 @@ if(!config.noAuth) {
 // app.get('/', function(req,res) {
 //   res.send("Hello from express - " + req.user + "!" );
 // });
+app.use(auth.connect(basic));
 
 var server = require('http').createServer(app);
 require('./config/express')(app);
