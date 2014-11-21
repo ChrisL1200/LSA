@@ -609,6 +609,7 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
+    'express:prod',
     'injector'
   ]);
 

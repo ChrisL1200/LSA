@@ -32,9 +32,7 @@ if(config.seedDB) { require('./config/seed'); }
 var app = express();
 //Express auth piece
 app.use(auth.connect(basic));
-// app.get('/', function(req,res) {
-//   res.send("Hello from express - " + req.user + "!" );
-// });
+
 
 var server = require('http').createServer(app);
 require('./config/express')(app);
