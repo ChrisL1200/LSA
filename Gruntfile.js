@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports = function (grunt) {
-
   // Load grunt tasks automatically, when needed
   require('jit-grunt')(grunt, {
     express: 'grunt-express-server',
@@ -25,24 +24,23 @@ module.exports = function (grunt) {
       dist: 'dist'
     },
     express: {
-      options: {
-        port: process.env.PORT || 9000
-      },
       dev: {
         options: {
           script: 'server/app.js',
-          debug: true
+          debug: true,
+          port: process.env.PORT || 9000
         }
       },
       prod: {
         options: {
-          script: 'dist/server/app.js'
+          script: 'dist/server/app.js',
+          port: process.env.PORT || 80
         }
       }
     },
     open: {
       server: {
-        url: 'http://localhost:<%= express.options.port %>'
+        url: 'http://localhost:<%= express.dev.options.port %>'
       }
     },
     watch: {
