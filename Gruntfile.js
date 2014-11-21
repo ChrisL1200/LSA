@@ -36,8 +36,7 @@ module.exports = function (grunt) {
       },
       prod: {
         options: {
-          script: 'dist/server/app.js',
-          port: 80
+          script: 'dist/server/app.js'
         }
       }
     },
