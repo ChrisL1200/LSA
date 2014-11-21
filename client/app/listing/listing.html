@@ -1,5 +1,5 @@
 <section class="container-flex">
-  <div class="col col-50">
+  <section class="col col-50">
     <div ng-controller="CarouselCtrl">
       <div>
         <carousel interval="myInterval">
@@ -21,26 +21,42 @@
     <div class="listing-content">
       <p>{{listing.listingdescription[0]}}</p>
     </div>
-  </div>
-  <div class="col col-25">
-    <div class="score-block">
+  </section>
+  <section class="col col-50">
+    <div class="container-flex">
+      <div class="premiere-agents container-flex">
+        <div class="col col-25">
+          Agents
+        </div>
+        <div class="col col-75">
+          Contact Form
+        </div>
+      </div>
+      <div class="col col-50">
+        <div class="score-block">
+        </div>
+        <ul class="listing-info">
+          <li>Bedrooms: {{listing.bedrooms[0]}}</li>
+          <li>Bathrooms: {{listing.bathrooms[0]}}</li>
+          <li>Sq Ft: {{listing.livingarea[0]}}</li>
+          <li>Lot Size: {{listing.lotsize[0]}}</li>
+          <li>Built: {{listing.yearbuilt[0]}}</li>
+          <li>Highlights:
+            <ul>
+              <li ng-repeat="(k, v) in listing.detailedcharacteristics[0]" ng-if="v[0]">{{k}}: {{v[0]}}</li>
+            </ul>
+          </li>
+          <li>Estimated Taxes: {{listing.taxes[0].tax[0].amount[0]}}</li>
+        </ul>
+      </div>
+      <div class="col col-50">
+        <div class="listing-agent">
+          Listing Agent
+        </div>
+        <div class="ad-space">
+          Ad Space
+        </div>
+      </div>
     </div>
-    <div class="listing-info">
-      <span>Bedrooms: {{listing.bedrooms[0]}}</span>
-      <span>Bathrooms: {{listing.bathrooms[0]}}</span>
-      <span>Sq Ft: {{listing.livingarea[0]}}</span>
-      <span>Lot Size: {{listing.lotsize[0]}}</span>
-      <span>Built: {{listing.yearbuilt[0]}}</span>
-      <span>Highlights: {{listing.detailedcharacteristics[0]}}</span>
-      <span>Estimated Taxes: {{listing.taxes[0].tax[0].amount[0]}}</span>
-    </div>
-    <div class="listing-agent">
-    </div>
-  </div>
-  <div class="col col-25">
-    <div class="premiere-agents">
-    </div>
-    <div class="ad-space">
-    </div>
-  </div>
+  </section>
 </section>

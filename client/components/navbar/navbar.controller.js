@@ -2,10 +2,16 @@
 
 angular.module('cruvitaApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth, Location) {
-    // $scope.menu = [{
-    //   'title': 'Home',
-    //   'link': '/'
-    // }];
+     $scope.menu = [{
+       'title': 'Rankings',
+      'link': '/rankings'
+    },{
+       'title': 'News/Blog',
+      'link': '/news'
+    },{
+       'title': 'About',
+      'link': '/about'
+    }];
 
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;
@@ -16,8 +22,6 @@ angular.module('cruvitaApp')
       Auth.logout();
       $location.path('/login');
     };
-
-    console.log('location', $location.path());
 
     $scope.isActive = function(route) {
       return route === $location.path();

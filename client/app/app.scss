@@ -4,7 +4,7 @@
 @import '_variables.scss';
 @import 'compass/css3';
 
-@import url(http://fonts.googleapis.com/css?family=Lato:400,700,400italic);
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700,400italic);
 
 /**************************************************/
 /************** App-wide Styles *******************/
@@ -55,6 +55,23 @@ html body{
 
   .smallHeaderMenu{display: none;}
 
+  .headerMenu{
+    float: right;
+    list-style: none;
+    top: 10px;
+    right: 10px;
+    position: relative;
+
+    li{
+      padding: 10px;
+      display: inline-block;
+
+      &:hover{background-color: tint($cru-blue, 20%);}
+
+      a{color: white; text-decoration:none;}
+    }
+  }
+
   .navbar{
     margin-bottom: 0;
     border-color: lighten($cru-blue, 10%);
@@ -88,7 +105,7 @@ html body{
   padding: 0;
 
   .col{
-    display: block;
+    display: inline-block;
   }
 
   .col-100 {
@@ -119,7 +136,7 @@ html body{
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container-flex {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: stretch;
   }
 }
@@ -133,6 +150,15 @@ html body{
       width: 150px;
     }
   }
+  .header {
+    .headerMenu{
+      top: 20px;
+      li{
+        padding: 0 5px;
+        font-size: .7rem;
+      }
+    }
+  }
 }
 
 
@@ -141,7 +167,7 @@ html body{
   .header {
     .smallHeaderMenu{
       display: block;
-      padding: 20px;
+      top: 20px;
       z-index: 10000;
 
       & > a{
@@ -164,6 +190,15 @@ html body{
 /**************************************************/
 /****************** Skin Styles *******************/
 /**************************************************/
+
+.btn-xl{
+  padding: 10px 20px;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  border-radius: 6px;
+  display: block;
+  margin: 10px auto;
+}
 
 
 .primary-color {
