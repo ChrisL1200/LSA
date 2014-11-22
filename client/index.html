@@ -18,7 +18,7 @@
       <!-- endbower -->
     <!-- endbuild -->
   </head>
-  <body ng-app="cruvitaApp">
+  <body ng-app="cruvitaApp" ng-controller="IndexCtrl">
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -26,7 +26,6 @@
     <!-- Add your site or application content here -->
     <div class="wrapper" ng-view=""></div>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -92,6 +91,7 @@
           <script src="components/mongoose-error/mongoose-error.directive.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
           <script src="components/school/school.service.js"></script>
+          <script src="index.controller.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
 </body>
