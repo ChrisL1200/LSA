@@ -50,7 +50,8 @@ module.exports = function (grunt) {
           '<%= yeoman.client %>/{app,components}/**/*.js',
           '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
           '!<%= yeoman.client %>/{app,components}/**/*.mock.js',
-          '!<%= yeoman.client %>/app/app.js'],
+          '!<%= yeoman.client %>/app/app.js',
+          '<%= yeoman.client %>/index.controller.js'],
         tasks: ['injector:scripts']
       },
       injectSass: {
@@ -451,6 +452,7 @@ module.exports = function (grunt) {
           '<%= yeoman.client %>/index.html': [
               ['{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
                '!{.tmp,<%= yeoman.client %>}/app/app.js',
+               '<%= yeoman.client %>/index.controller.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.spec.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js']
             ]

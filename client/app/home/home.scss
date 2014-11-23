@@ -10,6 +10,15 @@
     text-align: center;
   }
 
+  .splashGraphic {
+    background: url('/assets/images/Splash-Page-Graphic.png');
+    background-size: contain;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 186px;
+  }
+
   &.container-flex {
     display: flex;
     flex-direction: row;
