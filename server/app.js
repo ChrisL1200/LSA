@@ -32,12 +32,13 @@ if(config.seedDB) { require('./config/seed'); }
 var app = express();
 //Express auth piece
 if(!config.noAuth) {
+	console.log("AUTH ON");
 	app.use(auth.connect(basic));
 }
 // app.get('/', function(req,res) {
 //   res.send("Hello from express - " + req.user + "!" );
 // });
-app.use(auth.connect(basic));
+// app.use(auth.connect(basic));
 
 var server = require('http').createServer(app);
 require('./config/express')(app);

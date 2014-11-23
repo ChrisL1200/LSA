@@ -28,6 +28,7 @@ exports.create = function(req, res) {
   .limit(25)
   .where('listing.location.latitude').gt(query.southwestLat).lt(query.northeastLat)
   .where('listing.location.longitude').gt(query.southwestLong).lt(query.northeastLong)
+  .select('listing.photos.photo.storedId listing.listprice listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude')
   .exec(function (err, homes) {
     if(err) { return handleError(res, err); }
     var filteredHomes = [];
