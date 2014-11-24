@@ -36,8 +36,9 @@ exports.create = function(req, res) {
     if(polygonsPresent) {
       _.each(req.body.polygons, function(poly) {
         _.each(homes, function(home) {
-          if(inside([home.coordinates.latitude, home.coordinates.longitude], poly)) {
-            filteredScores.push(home);
+          console.log(home);
+          if(inside([home.listing.location[0].latitude[0], home.listing.location[0].longitude[0]], poly)) {
+            filteredHomes.push(home);
           }
         });
       });

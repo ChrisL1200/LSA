@@ -57,20 +57,7 @@ var all = {
     clientSecret: process.env.GOOGLE_SECRET || 'secret',
     callbackURL:  'http://localhost:9000/auth/google/callback'
   },
-  trulia: {
-    key: 't8jq2cezcuhsaybmq6a33kdu'
-  },
-  education: {
-    key: '23cbcf09d914ed637cb83a306959287d'
-  },
-  zillow: {
-    key: 'X1-ZWz1b6epidczrf_8p8sy'
-  },
-  spark: {
-    client_id: "r4pjgm1lhd7e7d2cbbplzz16",
-    client_secret: "3xa3sv9zrfjd3yg6d6xkq5h74",
-    redirect_uri: "https://post-office-project.herokuapp.com"
-  }
+  imageLocation: '../lsa-ingest/images/'
 };
 
 // Export the config object based on the NODE_ENV

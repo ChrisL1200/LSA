@@ -8,43 +8,52 @@ angular.module('cruvitaApp')
     $scope.getLocation = Location.autocomplete;
     $scope.homeWindow = {};
 
-    //Update Score
     var updateScore = function() {
       if($scope.map.bounds.northeast) {
-        var parsedPolygons = [];
-        angular.forEach($scope.map.polys, function(poly) {
-          var path = [];
-          angular.forEach(poly.getPath().j, function(latLong) {
-            path.push([latLong.lat(), latLong.lng()]);
-          });
-          parsedPolygons.push(path);
-        });
+        var parsedPolygons = getPolygons();
         var requestBounds = {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
 
         $scope.homePromise = Homes.retrieve(requestBounds, {polygons: parsedPolygons}, function(homes) {
-          $scope.map.homes = homes;
-          angular.forEach($scope.map.homes, function(home) {
-            home.coordinates = {
-              latitude: home.listing.location[0].latitude[0],
-              longitude: home.listing.location[0].longitude[0]
-            };
-            // home.icon = 'assets/images/yeoman.png';
-            home.closeClick = function () {
-              $scope.homeWindow = {};
-            };
-            home.onClicked = function ()  {
-              $scope.homeWindow = home;
-              $scope.homeWindow.showWindow = true;
-            };
-          });
+          homesCallback(homes)
         }).$promise;
 
         requestBounds.gradeLevel = $scope.gradeLevel;
 
-        $scope.scorePromise = School.retrieve(requestBounds, {polygons: parsedPolygons}, function(response) {
+        $scope.schoolPromise = School.retrieve(requestBounds, {polygons: parsedPolygons}, function(response) {
           schoolCallback(response);
         }).$promise;
       }
+    }
+
+    var getPolygons = function() {
+      var parsedPolygons = [];
+      angular.forEach($scope.map.polys, function(poly) {
+        var path = [];
+        angular.forEach(poly.getPath().j, function(latLong) {
+          path.push([latLong.lat(), latLong.lng()]);
+        });
+        parsedPolygons.push(path);
+      });
+
+      return parsedPolygons;
+    }
+
+    var homesCallback = function(homes) {
+      $scope.map.homes = homes;
+      angular.forEach($scope.map.homes, function(home) {
+        home.coordinates = {
+          latitude: home.listing.location[0].latitude[0],
+          longitude: home.listing.location[0].longitude[0]
+        };
+        // home.icon = 'assets/images/yeoman.png';
+        home.closeClick = function () {
+          $scope.homeWindow = {};
+        };
+        home.onClicked = function ()  {
+          $scope.homeWindow = home;
+          $scope.homeWindow.showWindow = true;
+        };
+      });
     }
 
     var schoolCallback = function(schools) {
@@ -68,7 +77,6 @@ angular.module('cruvitaApp')
           $scope.schoolWindow.showWindow = true;
         };
 
-        //Initialize polylines
         var newPolyline = angular.copy(Config.defaultPolyline);
         newPolyline.path = school.wkt;
         newPolyline.id = school._id;
@@ -91,12 +99,6 @@ angular.module('cruvitaApp')
       }
     }, true);
 
-    $scope.$watch('gradeLevel', function(newVal, oldVal) {
-      if(newVal !== oldVal) {
-        updateScore();
-      }
-    });
-
     //Update bounds when input is entered
     $scope.updateBounds = function() {
       var geometry = _.where(Location.lastSelected, { 'formatted_address': $scope.locationSelected })[0].geometry;
@@ -112,18 +114,23 @@ angular.module('cruvitaApp')
       };
     };
 
-    //When user views homes
-    $scope.getHomes = function(school) {
+    $scope.setSchool = function(school) {
       $scope.selectedSchool = school;
-      $scope.schoolPromise = School.get({id: $scope.selectedSchool._id}, function(school) {
-        $scope.map.center = school.coordinates;
-        schoolCallback([school]);
+      $scope.map.center = school.coordinates;
+      var path = [];
+      angular.forEach($scope.map.polylines, function(polyline) {
+        if(polyline.id === school._id) {
+          polyline.selected = true;
+        }
+      });
+      angular.forEach(school.wkt, function(coordinate) {
+        path.push([coordinate.latitude, coordinate.longitude]);
+      });
+      $scope.map.schools = [school];
+      var requestBounds = {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
+      $scope.homePromise = Homes.retrieve(requestBounds, {polygons: [path]}, function(homes) {
+        homesCallback(homes);
       }).$promise;
-    };
-
-    $scope.setSchools = function() {
-      $scope.currentView = 'schools';
-      updateScore();
     };
 
     $scope.clearPolygons = function() {

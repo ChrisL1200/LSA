@@ -4,26 +4,13 @@ var _ = require('lodash');
 var Images = require('./images.model');
 var url = require('url');
 var fs = require('fs');
+var config = require('../../config/environment');
 
 // Get list of imagess
 exports.index = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
-
-  // Images.findOne({url: query.url})
-  // .lean()
-  // .exec(function (err, doc) {
-  //   if (err) return next(err);
-  //   console.log(Object.keys(doc));
-  //   if(doc && doc.img) {
-  //   console.log("2");
-  //   console.log(Object.keys(doc.img));
-  //   // console.log(doc.img.contentType);
-  //     res.contentType(doc.img.contentType);
-  //     res.send(doc.img.data);
-  //   }
-  // });
-  var img = fs.readFileSync('../lsa-ingest/images/' + query.url);
+  var img = fs.readFileSync(config.imageLocation + query.url);
      res.writeHead(200, {'Content-Type': 'image/gif' });
      res.end(img, 'binary');
 };

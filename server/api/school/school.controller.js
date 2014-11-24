@@ -22,7 +22,6 @@ exports.show = function(req, res) {
   });
 };
 
-// Creates a new school in the DB.
 exports.create = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
@@ -46,12 +45,12 @@ exports.create = function(req, res) {
       });
     }
 
-    if(schools.length > 10) {
-      _.each(schools, function(school) {
-        delete school.wkt;
-      });
-      // schools = _.map(schools, function(o) { return _.omit(o, 'wkt'); });
-    }
+    // if(schools.length > 10) {
+    //   _.each(schools, function(school) {
+    //     delete school.wkt;
+    //   });
+    //   // schools = _.map(schools, function(o) { return _.omit(o, 'wkt'); });
+    // }
     return res.json(200, polygonsPresent ? filteredSchools : schools);
   });  
 };
