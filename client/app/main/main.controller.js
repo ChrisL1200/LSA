@@ -4,24 +4,20 @@ angular.module('cruvitaApp')
   .controller('MainCtrl', function ($scope, $http, $timeout, School, Config, Homes, drawChannel, clearChannel, Location, $routeParams) {
     $scope.map = Config.mapDefaults;
     $scope.currentView = 'schools';
-    $scope.incomes = Config.incomes;
     $scope.getLocation = Location.autocomplete;
     $scope.homeWindow = {};
+    $scope.schoolFilters = {};
+    $scope.homeFilters = {};
+    $scope.config = Config;
+
+    var getBounds = function() {
+      return {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
+    }
 
     var updateScore = function() {
       if($scope.map.bounds.northeast) {
-        var parsedPolygons = getPolygons();
-        var requestBounds = {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
-
-        $scope.homePromise = Homes.retrieve(requestBounds, {polygons: parsedPolygons}, function(homes) {
-          homesCallback(homes)
-        }).$promise;
-
-        requestBounds.gradeLevel = $scope.gradeLevel;
-
-        $scope.schoolPromise = School.retrieve(requestBounds, {polygons: parsedPolygons}, function(response) {
-          schoolCallback(response);
-        }).$promise;
+        $scope.updateHomes();
+        $scope.updateSchools();
       }
     }
 
@@ -89,16 +85,53 @@ angular.module('cruvitaApp')
     }
     var keyPromise;
 
+    var pluckValues = function(input) {
+      var output = {};
+      angular.forEach(input, function(value, key) {
+        output[key] = value.value || 0;
+      });
+      return output;
+    }
+
     $scope.$watch('map.bounds', function(newVal, oldVal) {
       if(newVal !== oldVal && !$scope.selectedSchool) {
           if(keyPromise)
             $timeout.cancel(keyPromise);
           keyPromise = $timeout(function() {
+            $scope.selectedSchool = undefined;
             updateScore();
           }, 500);
       }
     }, true);
 
+    $scope.updateSchools = function() {
+      var request = getBounds();
+      request = _.merge(request, pluckValues($scope.schoolFilters));
+      $scope.schoolPromise = School.retrieve(request, {polygons: getPolygons()}, function(response) {
+        schoolCallback(response);
+      }).$promise;
+    }
+
+    $scope.updateHomes = function() {
+      var request = getBounds();
+      request = _.merge(request, pluckValues($scope.homeFilters));
+      var paths = [];
+      angular.forEach($scope.map.polylines, function(polyline) {
+        if($scope.selectedSchool && polyline.id === $scope.selectedSchool._id) {
+          polyline.selected = true;
+        }
+      });
+      if($scope.selectedSchool) {
+        var path = [];
+        angular.forEach($scope.selectedSchool.wkt, function(coordinate) {
+          path.push([coordinate.latitude, coordinate.longitude]);
+        });
+        paths.push(path);
+      }
+      $scope.homePromise = Homes.retrieve(request, {polygons: paths}, function(homes) {
+        homesCallback(homes);
+      }).$promise;
+    }
     //Update bounds when input is entered
     $scope.updateBounds = function() {
       var geometry = _.where(Location.lastSelected, { 'formatted_address': $scope.locationSelected })[0].geometry;
@@ -117,20 +150,8 @@ angular.module('cruvitaApp')
     $scope.setSchool = function(school) {
       $scope.selectedSchool = school;
       $scope.map.center = school.coordinates;
-      var path = [];
-      angular.forEach($scope.map.polylines, function(polyline) {
-        if(polyline.id === school._id) {
-          polyline.selected = true;
-        }
-      });
-      angular.forEach(school.wkt, function(coordinate) {
-        path.push([coordinate.latitude, coordinate.longitude]);
-      });
       $scope.map.schools = [school];
-      var requestBounds = {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
-      $scope.homePromise = Homes.retrieve(requestBounds, {polygons: [path]}, function(homes) {
-        homesCallback(homes);
-      }).$promise;
+      $scope.updateHomes();
     };
 
     $scope.clearPolygons = function() {

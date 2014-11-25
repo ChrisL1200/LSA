@@ -4,7 +4,7 @@
       <div>
         <carousel interval="myInterval">
           <slide ng-repeat="slide in listing.photos[0].photo" active="slide.active">
-            <img ng-src="{{slide.mediaurl[0]}}" style="margin:auto;">
+            <img ng-src="/api/images?url={{slide.storedId}}" style="margin:auto;">
           </slide>
         </carousel>
       </div>
@@ -13,7 +13,7 @@
       <div class="row">
           <div class="col-xs-2" ng-repeat="thumb in listing.photos[0].photo"  ng-click="select(slide)">
               <div class="thumbnail">
-                  <img src="{{thumb.mediaurl[0]}}">
+                  <img ng-src="/api/images?url={{thumb.storedId}}">
               </div>
           </div>
       </div>

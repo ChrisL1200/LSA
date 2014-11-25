@@ -55,6 +55,9 @@ var HomeSchema = new Schema({
     bathrooms : [
       Number
     ],
+    livingarea : [
+      Number
+    ],
     propertytype : [
       String
     ],

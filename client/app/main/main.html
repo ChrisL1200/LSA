@@ -1,5 +1,22 @@
 <section class="container-flex">
+  <!-- <div>
+    <select ng-change="updateSchools()" ng-model="schoolFilters.edLevel" ng-options="edLevel.label for edLevel in config.advancedSchoolFilters.edLevel">
+      <option value="">-- choose education level --</option>
+    </select>
+  </div> -->
   <div class="col col-75" cg-busy="scorePromise">
+    <div class="row">
+      <div ng-repeat="(key, filters) in config.advancedSchoolFilters" style="float: left;">
+        <select ng-change="updateSchools()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
+          <option value="">{{filters.defaultText}}</option>
+        </select>
+      </div>
+      <div ng-repeat="(key, filters) in config.advancedHomeFilters" style="float: left;">
+        <select ng-change="updateHomes()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
+          <option value="">{{filters.defaultText}}</option>
+        </select>
+      </div>
+    </div>
     <div class="map">
       <div ng-if="map.polys.length > 0">
         <button class="btn btn-danger" ng-click="clearPolygons()">Clear</button>

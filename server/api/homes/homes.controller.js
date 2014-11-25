@@ -24,10 +24,29 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
-  Homes.find()
+  var sqFtMin = query.sqFtMin || 0;
+  var sqFtMax = query.sqFtMax || 99999;
+  var lotMin = query.lotMin || 0;
+  var lotMax = query.lotMax || 99999;
+  var bedMin = query.bedMin || 0;
+  var bedMax = query.bedMax || 99999;
+  var bathMin = query.bathMin || 0;
+  var bathMax = query.bathMax || 99999;
+  var priceMin = query.priceMin || 0;
+  var priceMax = query.priceMax || 99999;
+  var queryObj = {};
+  if(query.propertysubtype) {
+    queryObj['listing.propertysubtype'] = query.propertysubtype;
+  }
+  Homes.find(queryObj)
   .limit(25)
   .where('listing.location.latitude').gt(query.southwestLat).lt(query.northeastLat)
   .where('listing.location.longitude').gt(query.southwestLong).lt(query.northeastLong)
+  .where('listing.livingarea').gt(sqFtMin).lt(sqFtMax)
+  .where('listing.lotsize').gt(lotMin).lt(lotMax)
+  .where('listing.bedrooms').gt(bedMin).lt(bedMax)
+  .where('listing.bathrooms').gt(bathMin).lt(bathMax)
+  .where('listing.listprice').gt(priceMin).lt(priceMax)
   .select('listing.photos.photo.storedId listing.listprice listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude')
   .exec(function (err, homes) {
     if(err) { return handleError(res, err); }
