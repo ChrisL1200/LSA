@@ -41,10 +41,10 @@ html body{
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10000;
+  z-index: 10;
 
   .cruvitaLogo{
-    background: url('/assets/images/cruvita_logo_white_sample_1.png');
+    background: url('/assets/images/cruvita_logo_white.png');
     height: 60px;
     width: 250px;
     background-size: 100%;
@@ -82,6 +82,18 @@ html body{
     background-color: transparent;
     .navbar-nav > li > a{color: white;}
   }
+
+  .sub-navbar {
+    height: 25px;
+    background-color: lighten($cru-blue, 10%);
+  }
+}
+
+.sub-navbar-injection{
+  position: fixed;
+  top: 64px;
+  z-index: 15;
+  // display: none;
 }
 
 /**************************************************/
@@ -90,7 +102,8 @@ html body{
 .wrapper{
   height: 100%;
   display: flex;
-  top: 64px;
+  // top: 64px;
+  top: 89px; //Need to force this change when sub-nabvar scrolls into view.
   position: relative;
 }
 
