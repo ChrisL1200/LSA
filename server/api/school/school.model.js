@@ -4,20 +4,30 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var SchoolSchema = new Schema({
-  coordinates: {
-  	latitude: Number,
-  	longitude: Number
-  },
+  mx_id: String,
+  nces_disid: String,
+  nces_schid: String,
+  sch_name: String,
+  ed_level: String,
   phone: String,
-  scores: {
-  	total: Number
+  color: String,
+  freeLunch: Number,
+  redLunch: Number,
+  member: Number,
+  titleOne: String,
+  stRatio: Number,
+  score: {
+    realEstate: Number,
+    school: Number
   },
-  school: {
-  	name: String,
-  	gradelevel: String,
-  	id: String
+  relver: String,
+  allReading: String,
+  allMath: String,
+  coordinates: {
+    latitude: Number,
+    longitude: Number
   },
-  path: [{
+  wkt: [{
     latitude: Number,
     longitude: Number
   }]
