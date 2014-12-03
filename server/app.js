@@ -51,3 +51,10 @@ server.listen(config.port, config.ip, function () {
 
 // Expose app
 exports = module.exports = app;
+
+/* Ingest TO-DO:
+1. Production scores not working
+2. Make education completely parallel
+3. Up amount of concurrent records in homes/scores
+4. Add ingest status (Display Records Ingested)
+*/

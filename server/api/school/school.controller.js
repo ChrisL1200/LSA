@@ -26,11 +26,12 @@ exports.create = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
   // {"ed_level": new RegExp(query.gradeLevel)}
-  School.find({"ed_level": new RegExp(query.edLevel)})
+  School.find()
   .lean()
+  .limit(20)
   // .sort({'score': -1})
-  .where('coordinates.latitude').gt(query.southwestLat).lt(query.northeastLat)
-  .where('coordinates.longitude').gt(query.southwestLong).lt(query.northeastLong)
+  .where('coordinates.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat))
+  .where('coordinates.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong))
   .exec(function (err, schools) {
     if(err) { return handleError(res, err); }
     var filteredSchools = [];
