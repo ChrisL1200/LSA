@@ -11,7 +11,7 @@ angular.module('cruvitaApp').constant('Config', {
   defaultPolyline: {
     stroke: {
       color: '#6060FB',
-      weight: 3
+      weight: 1
     },
     editable: true,
     draggable: false,
@@ -20,7 +20,7 @@ angular.module('cruvitaApp').constant('Config', {
     clickable: true
   },
   advancedSchoolFilters: {
-    edLevel: { 
+    edLevel: {
       defaultText: 'Education Level',
       options: [{
         label: 'High School',

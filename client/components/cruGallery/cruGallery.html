@@ -1,0 +1,25 @@
+<div class="cruGallery">
+  <div class="mainimageshell">
+      <div class="viewwindow">
+          <ul id="fullscroller" class="fullsizelist" ng-style="listposition" >
+              <li ng-repeat="image in listing.photos[0].photo" >
+                  <img class="large" ng-src="{{image.mediaurl[0]}}" />
+                  <!-- ONCE IN PROD, USE THIS INSTEAD FOR THUMBS TOO img class="large" ng-src="/api/images?url={{image.storedId}}" /-->
+              </li>
+          </ul>
+      </div>
+  </div>
+
+  <div class="thumbsshell">
+        <ul class="thumbswrapper">
+            <li ng-repeat="image in listing.photos[0].photo">
+                <div class="thumbwrapper">
+                    <a ng-href="" ng-click="scrollTo(image, $index)">
+                        <img class="thumbnail" ng-src="{{image.mediaurl[0]}}" />
+                        <!--img class="thumbnail" ng-src="/api/images?url={{image.storedId}}" /-->
+                    </a>
+                </div>
+            </li>
+        </ul>
+  </div>
+</div>

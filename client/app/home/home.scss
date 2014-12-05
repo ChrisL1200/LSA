@@ -35,4 +35,16 @@
   .overlay{
     background-color: rgba(100, 100, 100, .4);
   }
+
+  .search-bar{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px;
+    width: 85%
+  }
+
+  .search-button{
+    vertical-align: top;
+  }
+
 }

@@ -6,6 +6,18 @@
 .map {
     display: block;
 }
+.sub-navbar {
+    height: 25px;
+    background-color: lighten($cru-blue, 10%);
+    transition: all .5s;
+    position: fixed;
+    top: -25px;
+    width: 100%;
+
+    &.drop {
+      top: 64px;
+    }
+}
 
 .homeList {
     height: 350px;

@@ -15,12 +15,12 @@
     "font-awesome": ">=4.1.0",
     "lodash": "~2.4.1",
     "angular-google-maps": "2.0.6",
-    "angular-busy": "4.1.1"
+    "angular-busy": "4.1.1",
+    "angular-reverse-geocode": "*"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
-    "angular-scenario": ">=1.2.*",
-    "angular-reverse-geocode": "*"
+    "angular-scenario": ">=1.2.*"
   },
   "resolutions": {
     "jquery": "2.1.x",

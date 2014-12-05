@@ -41,7 +41,10 @@ h3{text-align: right;}
 
 .resultThumb{
   max-height: 120px;
-  max-width: 10px;
+  max-width: 150px;
+  //Figure out how to size the results properly.
+  margin: 0 auto;
+  display: block;
 }
 
 

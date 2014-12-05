@@ -55,17 +55,12 @@ module.exports = function (grunt) {
         tasks: ['injector:scripts']
       },
       injectSass: {
-        files: [
-          '<%= yeoman.client %>/{app,components}/**/*.{scss,sass}'],
+        files: ['<%= yeoman.client %>/{app,components}/**/*.{scss,sass}'],
         tasks: ['injector:sass', 'compass', 'autoprefixer']
       },
       css: {
-        files: [
-          '<%= yeoman.client %>/app/*.scss'
-        ],
-        tasks: [
-          ['injector:sass','compass', 'autoprefixer']
-        ],
+        files: ['<%= yeoman.client %>/app/*.css'],
+        tasks:['injector:css'],
         options: {
           livereload: true,
           force: true
@@ -88,7 +83,9 @@ module.exports = function (grunt) {
       livereload: {
         files: [
           '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.css',
+          '{.tmp,<%= yeoman.client %>}/*.html',
           '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.html',
+          '{.tmp,<%= yeoman.client %>}/*.js',
           '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
           '!{.tmp,<%= yeoman.client %>}{app,components}/**/*.spec.js',
           '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js',
@@ -202,10 +199,9 @@ module.exports = function (grunt) {
     },
 
     // Automatically inject Bower components into the app
-    bowerInstall: {
+    wiredep: {
       target: {
         src: '<%= yeoman.client %>/index.html',
-        ignorePath: '<%= yeoman.client %>/',
         exclude: [/bootstrap-sass-official/, /bootstrap.js/, /bootstrap.css/, /font-awesome.css/ ]
       }
     },
@@ -260,17 +256,6 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= yeoman.client %>/assets/images',
           src: '{,*/}*.{png,jpg,jpeg,gif}',
-          dest: '<%= yeoman.dist %>/public/assets/images'
-        }]
-      }
-    },
-
-    svgmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.client %>/assets/images',
-          src: '{,*/}*.svg',
           dest: '<%= yeoman.dist %>/public/assets/images'
         }]
       }
@@ -361,8 +346,7 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'compass',
-        'imagemin',
-        'svgmin'
+        'imagemin'
       ],
       test: [
         'compass',
@@ -378,8 +362,7 @@ module.exports = function (grunt) {
       },
       dist: [
         'compass',
-        'imagemin',
-        'svgmin'
+        'imagemin'
       ]
     },
 
@@ -464,7 +447,7 @@ module.exports = function (grunt) {
         options: {
           transform: function(filePath) {
             filePath = filePath.replace('/client/app/', '');
-            filePath = filePath.replace('/client/components/', '');
+            filePath = filePath.replace('/client/components/', '../components/');
             return '@import \'' + filePath + '\';';
           },
           starttag: '// injector',
@@ -516,7 +499,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'env:all', 'env:prod', 'express:prod', 'open', 'express-keepalive']);
+      return grunt.task.run(['build', 'env:all', 'env:prod', 'wiredep', 'express:prod', 'open', 'express-keepalive']);
     }
 
     if (target === 'debug') {
@@ -526,7 +509,7 @@ module.exports = function (grunt) {
         'injector:sass',
         'concurrent:server',
         'injector',
-        'bowerInstall',
+        'wiredep',
         'autoprefixer',
         'concurrent:debug'
       ]);
@@ -538,7 +521,7 @@ module.exports = function (grunt) {
       'injector:sass',
       'concurrent:server',
       'injector',
-      'bowerInstall',
+      'wiredep',
       'autoprefixer',
       'express:dev',
       'wait',
@@ -581,7 +564,7 @@ module.exports = function (grunt) {
         'injector:sass',
         'concurrent:test',
         'injector',
-        'bowerInstall',
+        'wiredep',
         'autoprefixer',
         'express:dev',
         'protractor'
@@ -598,7 +581,7 @@ module.exports = function (grunt) {
     'clean:dist',
     'injector:sass',
     'concurrent:dist',
-    'bowerInstall',
+    'wiredep',
     'useminPrepare',
     'autoprefixer',
     'ngtemplates',

@@ -1,17 +1,19 @@
+<div ng-class="{drop: navclass}" ng-animate="" id="sub-navbar" class="sub-navbar">
 <!-- ADVANCED SEARCH FILTERS -->
-<div class="sub-navbar-injection">
-  <div class="search-term">
-    {{Location.lastSelected}}
-  </div>
-  <div ng-repeat="(key, filters) in config.advancedSchoolFilters" style="float: left;">
-    <select ng-change="updateSchools()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
-      <option value="">{{filters.defaultText}}</option>
-    </select>
-  </div>
-  <div ng-repeat="(key, filters) in config.advancedHomeFilters" style="float: left;">
-    <select ng-change="updateHomes()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
-      <option value="">{{filters.defaultText}}</option>
-    </select>
+  <div class="sub-navbar-injection">
+    <div class="search-term">
+      {{location.lastSelected[0]}}
+    </div>
+    <div ng-repeat="(key, filters) in config.advancedSchoolFilters" style="float: left;">
+      <select ng-change="updateSchools()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
+        <option value="">{{filters.defaultText}}</option>
+      </select>
+    </div>
+    <div ng-repeat="(key, filters) in config.advancedHomeFilters" style="float: left;">
+      <select ng-change="updateHomes()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
+        <option value="">{{filters.defaultText}}</option>
+      </select>
+    </div>
   </div>
 </div>
 <section class="container-flex">
@@ -24,7 +26,7 @@
       <ui-gmap-google-map center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true">
         <ui-gmap-map-control template="draw.tpl.html" position="top-right" index="1" controller="mapWidgetCtrl"></ui-gmap-map-control>
         <ui-gmap-free-draw-polygons polygons='map.polys' draw='map.draw'></ui-gmap-free-draw-polygons>
-        <ui-gmap-polygon path="polyline.path" clickable='true' fill="{color: '#002e48', opacity: polyline.selected ? 0.4 : 0.0 }" ng-if="polyline.selected" ng-repeat="polyline in map.polylines"></ui-gmap-polygon>
+        <ui-gmap-polygon path="polyline.path" clickable='true' fill="{color: '#002e48', opacity: polyline.selected ? 1 : 0.0 }" ng-if="polyline.selected" ng-repeat="polyline in map.polylines"></ui-gmap-polygon>
         <ui-gmap-markers models="map.schools" coords="'coordinates'" idKey="'_id'" click="'onClicked'"></ui-gmap-markers>
         <ui-gmap-window coords="schoolWindow.coordinates" idKey="schoolWindow._id" show="schoolWindow.showWindow" closeClick="schoolWindow.closeClick" isIconVisibleOnClick="false">
             <p>This is an info window at {{ schoolWindow.coordinates.latitude | number:4 }}, {{ schoolWindow.coordinates.longitude | number:4 }}!</p>

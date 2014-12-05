@@ -36,7 +36,6 @@ html body{
 /*********** Header/Navbar Related Styles *********/
 /**************************************************/
 .header{
-  background-color: $cru-blue;
   position: fixed;
   top: 0;
   left: 0;
@@ -74,6 +73,7 @@ html body{
 
   .navbar{
     margin-bottom: 0;
+    background-color: $cru-blue;
     border-color: lighten($cru-blue, 10%);
     border-width: 0 0 4px;
   }
@@ -82,18 +82,6 @@ html body{
     background-color: transparent;
     .navbar-nav > li > a{color: white;}
   }
-
-  .sub-navbar {
-    height: 25px;
-    background-color: lighten($cru-blue, 10%);
-  }
-}
-
-.sub-navbar-injection{
-  position: fixed;
-  top: 64px;
-  z-index: 15;
-  // display: none;
 }
 
 /**************************************************/
@@ -102,9 +90,13 @@ html body{
 .wrapper{
   height: 100%;
   display: flex;
-  // top: 64px;
-  top: 89px; //Need to force this change when sub-nabvar scrolls into view.
+  top: 64px;
   position: relative;
+  transition: all .5s;
+
+  &.drop {
+    top: 89px;
+  }
 }
 
 .container-flex {
@@ -133,6 +125,7 @@ html body{
   .col-50 {
     width: 50%;
   }
+
   .col-33 {
     width: 33.3%;
   }
@@ -246,4 +239,5 @@ html body{
 @import 'listing/listing.scss';
 @import 'main/main.scss';
 @import 'result/result.scss';
+@import '../components/cruGallery/cruGallery.scss';
 // endinjector
