@@ -1,6 +1,6 @@
 <article ng-click="goToListing(home._id)" class="media homeResult">
   <a class="media-left">
-    <img class="resultThumb" ng-src="/api/images?url={{home.listing.photos[0].photo[0].storedId}}">
+    <img class="resultThumb" ng-src="/api/images?url={{home.listing.photos[0].photo[0].mediaurl[0]}}" />
     <span class="scoreOverlay">
     <!--This will need more information but until scores are populated there nothign to do-->
       {{home.listing.score}}

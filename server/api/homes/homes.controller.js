@@ -47,7 +47,7 @@ exports.create = function(req, res) {
   .where('listing.bedrooms').gt(bedMin).lt(bedMax)
   .where('listing.bathrooms').gt(bathMin).lt(bathMax)
   .where('listing.listprice').gt(priceMin).lt(priceMax)
-  .select('listing.photos.photo.storedId listing.listprice listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude')
+  .select('listing.photos.photo listing.listprice listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude')
   .exec(function (err, homes) {
     if(err) { return handleError(res, err); }
     var filteredHomes = [];

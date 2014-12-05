@@ -10,7 +10,9 @@ var config = require('../../config/environment');
 exports.index = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
-  var img = fs.readFileSync(config.imageLocation + query.url);
+  var code = query.url.hashCode();
+  console.log(query.url);
+  var img = fs.readFileSync(config.imageLocation + (code % 10000).toString() + '/' + code.toString() + '.jpeg');
      res.writeHead(200, {'Content-Type': 'image/gif' });
      res.end(img, 'binary');
 };
@@ -60,4 +62,18 @@ exports.destroy = function(req, res) {
 
 function handleError(res, err) {
   return res.send(500, err);
+}
+
+String.prototype.hashCode = function(){
+  var hash = 0;
+  if (this.length == 0) return hash;
+  for (var i = 0; i < this.length; i++) {
+    var char = this.charCodeAt(i);
+    hash = ((hash<<5)-hash)+char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  if(hash < 0) {
+    hash = hash * -1;
+  }
+  return hash;
 }

@@ -28,7 +28,7 @@ exports.create = function(req, res) {
   // {"ed_level": new RegExp(query.gradeLevel)}
   School.find()
   .lean()
-  .limit(20)
+  .limit(5)
   // .sort({'score': -1})
   .where('coordinates.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat))
   .where('coordinates.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong))
