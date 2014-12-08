@@ -1,4 +1,9 @@
 .cruGallery {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: #dfdfdf;
+
     ul{
         padding:0;
         margin:0;
@@ -8,12 +13,6 @@
             list-style: none;
             display: inline-block;
         }
-    }
-
-    .thumbnail {
-        height: 100px;
-        padding: 0 2px;
-        margin: 0px;
     }
 
     .large {
@@ -36,20 +35,42 @@
 
     .fullsizelist {
         position:absolute;
+        width: 100%;
+        height: 100%;
         top:0;
         left:0;
-        transition:  all .5s ease;
-        -ms-transition:  all .5s ease;
-        -o-transition:  all .5s ease;
-        -webkit-transition:  all .5s ease;
-        -moz-transition:  all .5s ease;
+        @include noselect;
 
-        ul {
-            li {
+        li {
+            @include noselect;
+            transition:  all .3s ease;
+
+            height: 100%;
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            left: 10px;
+            right: 10px;
+
+            .arrow{
+                @include noselect;
+                background: $cru-blue;
+                border-radius: 3px;
                 position: absolute;
-                visibility: hidden;
+                display: block;
+                top: 40%;
+                opacity: .8;
+                color: white;
+                cursor: pointer;
+
+                &.aleft{left: -5px;}
+                &.aright{right: -5px;}
+                i {@include noselect; font-size: 3rem; margin: 5px; display: block;}
             }
+
+            img {@include noselect; display: block; margin: 0 auto; height: 100%;}
         }
+        li.active {visibility: visible; opacity: 1;}
     }
 
     .bg {
@@ -57,22 +78,28 @@
         float:left;
     }
 
+    .thumb {
+        height: 100px;
+        padding: 0;
+        margin: 3px;
+        cursor: pointer;
 
-    .thumbsshell {
-        width: 100%;
-        padding: 5px 10px;
-        float:left;
+        &.active {
+            border: 2px solid tint($cru-blue, 50%);
+        }
     }
 
     .thumbswrapper {
         overflow-x: scroll;
         width: 100%;
-        height: 100px;
+        height: 125px;
         margin: 0px auto;
+        @include noselect;
     }
 
     .thumbwrapper {
         float: left;
         height: 100%;
+        @include noselect;
     }
 }

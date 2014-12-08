@@ -1,3 +1,12 @@
 $cru-blue: rgba(0, 46, 92 ,1);
 $bkgd: rgba(245, 245, 245 ,1);
 $primary-color: #547;
+
+@mixin noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

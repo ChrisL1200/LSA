@@ -7,12 +7,29 @@ angular.module('cruvitaApp')
       restrict: 'EA',
       replace: true,
       controller: ['$scope', function ($scope) {
+        $scope.selected = 0;
 
-        // Scroll to appropriate position based on image index and width
-        $scope.scrollTo = function(image, ind) {
-            $scope.listposition = {visibility: visible};
-            $scope.selected = image;
+        $scope.advanceLeft = function(index, first) {
+          if (!first){
+            $scope.selected = (index - 1);
+          }
+        }
+
+        $scope.advanceRight = function(index, last) {
+          if (!last) {
+            $scope.selected = (index + 1);
+          }
+        }
+
+        $scope.selectImage = function(ind) {
+          $scope.selected = ind;
         };
+
+        $scope.isSelected = function(index){
+          if (index === $scope.selected) {
+            return true;
+          }
+        }
       }]
     };
   });

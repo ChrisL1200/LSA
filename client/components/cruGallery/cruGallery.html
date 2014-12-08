@@ -1,25 +1,25 @@
 <div class="cruGallery">
   <div class="mainimageshell">
       <div class="viewwindow">
-          <ul id="fullscroller" class="fullsizelist" ng-style="listposition" >
-              <li ng-repeat="image in listing.photos[0].photo" >
+          <ul class="fullsizelist">
+              <li ng-repeat="image in listing.photos[0].photo track by $index" ng-class="{active: isSelected($index)}">
+                <span class="arrow aleft" ng-click="advanceLeft($index, $first)"><i class="fa fa-angle-left"></i></span>
                   <img class="large" ng-src="/api/images?url={{image.mediaurl[0]}}" />
-                  <!-- ONCE IN PROD, USE THIS INSTEAD FOR THUMBS TOO img class="large" ng-src="/api/images?url={{image.storedId}}" /-->
+                <span class="arrow aright" ng-click="advanceRight($index, $last)"><i class="fa fa-angle-right"></i></span>
+                  <!-- DEV ONLY img class="large" ng-src="{{image.storedId}}" /-->
               </li>
           </ul>
       </div>
   </div>
 
-  <div class="thumbsshell">
-        <ul class="thumbswrapper">
-            <li ng-repeat="image in listing.photos[0].photo">
-                <div class="thumbwrapper">
-                    <a ng-href="" ng-click="scrollTo(image, $index)">
-                        <img class="thumbnail" ng-src="/api/images?url={{image.mediaurl[0]}}"/>
-                        <!--img class="thumbnail" ng-src="/api/images?url={{image.storedId}}" /-->
-                    </a>
-                </div>
-            </li>
-        </ul>
-  </div>
+  <ul class="thumbswrapper">
+      <li ng-repeat="thumb in listing.photos[0].photo track by $index" >
+          <div class="thumbwrapper" >
+              <a ng-href="" ng-click="selectImage($index)">
+                  <img class="thumb" ng-src="/api/images?url={{thumb.mediaurl[0]}}" ng-class="{active: isSelected($index)}"/>
+                  <!--DEV ONLY img class="thumbnail" ng-src="{{image.storedId}}" /-->
+              </a>
+          </div>
+      </li>
+  </ul>
 </div>
