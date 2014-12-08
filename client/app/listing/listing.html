@@ -1,8 +1,14 @@
+<div ng-class="{drop: navclass}" id="sub-navbar" class="sub-navbar top-info">
+<!-- Home information -->
+  <span class="back">&lt; &nbsp; Back</span><span>|</span>
+  <span>{{listing.listprice[0] | currency: '$':0}}</span><span>{{listing.bedrooms[0]}} BR</span><span>{{listing.bathrooms[0]}} BA</span><span>{{listing.livingarea[0]}} SQ FT</span> | <span>{{listing.address[0].fullstreetaddress[0] | titleCase}}, </span><span>{{listing.address[0].city[0] | titleCase}}, </span><span>{{listing.address[0].stateorprovince[0] | titleCase}} </span><span>{{listing.address[0].postalcode[0]}}</span>
+</div>
 <section class="container-flex">
   <section class="col col-50 resist">
     <cru-gallery> </cru-gallery>
     <div class="listing-content">
       <p>{{listing.listingdescription[0]}}</p>
+      <p>{{listing.disclaimer[0]}}</p>
     </div>
   </section>
   <section class="col col-50">
@@ -15,27 +21,67 @@
           Contact Form
         </div>
       </div>
-      <div class="col col-50">
-        <div class="score-block">
-        </div>
+      <div class="col col-50 details">
+        <ul class="score-block">
+          <h4>Schools</h4>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
         <ul class="listing-info">
-          <li>Bedrooms: {{listing.bedrooms[0]}}</li>
-          <li>Bathrooms: {{listing.bathrooms[0]}}</li>
-          <li>Sq Ft: {{listing.livingarea[0]}}</li>
-          <li>Lot Size: {{listing.lotsize[0]}}</li>
-          <li>Built: {{listing.yearbuilt[0]}}</li>
-          <li>Highlights:
+          <h4>Features</h4> <h5 ng-if="listing.detailedcharacteristics[0].isnewconstruction[0]" class="pull-right">New Construction!</h5>
+          <li>Bedrooms: <span class="pull-right">{{listing.bedrooms[0]}}</span></li>
+          <li>Bathrooms: <span class="pull-right">{{listing.bathrooms[0]}}</span></li>
+          <li ng-if="listing.detailedcharacteristics[0].numfloors[0]">Floors: <span class="pull-right">{{listing.detailedcharacteristics[0].numfloors[0]}}</span></li>
+          <li>Sq Ft: <span class="pull-right">{{listing.livingarea[0]}}</span></li>
+          <li>Lot Size: <span class="pull-right">{{listing.lotsize[0]}}</span></li>
+          <li>Built: <span class="pull-right">{{listing.yearbuilt[0]}}</span></li>
+          <li ng-if="listing.detailedcharacteristics[0].architecturestyle[0]">Architecture Style:
             <ul>
-              <li ng-repeat="(k, v) in listing.detailedcharacteristics[0]" ng-if="v[0]">{{k}}: {{v[0]}}</li>
+              <li ng-repeat="arc in listing.detailedcharacteristics[0].architecturestyle[0]">{{arc}}</li>
             </ul>
           </li>
-          <li>Estimated Taxes: {{listing.taxes[0].tax[0].amount[0]}}</li>
+          <li ng-if="listing.taxes[0].tax[0].amount[0]">Estimated Taxes: <span class="pull-right">{{listing.taxes[0].tax[0].amount[0]}}</span></li>
+          <li class="hoverReveal">Direct Link: <span class="pull-right"><span class="hiddenText">Hover for Link</span><a ng-href="{{listing.listingurl[0]}}" target="_blank" class="hiddenLink">Click Here</a></span></li>
+        </ul>
+        <ul class="listing-info">
+          <h4>Other Features</h4>
+          <li ng-repeat="(k, v) in listing.detailedcharacteristics[0]" ng-if="v[0] === true">
+            {{k | titleCase}
+          </li>
+          <li ng-if="listing.detailedcharacteristics[0].appliances.appliance[0]">Appliances:
+            <ul>
+              <li ng-repeat="app in listing.detailedcharacteristics[0].appliances.appliance">{{app}}</li>
+            </ul>
+          </li>
+          <li ng-if="listing.detailedcharacteristics[0].coolingsystems[0].coolingsystem[0]">{{listing.detailedcharacteristics[0].coolingsystems[0].coolingsystem[0]}} Cooling</li>
+          <li ng-if="listing.detailedcharacteristics[0].heatingfuels[0].heatingfuel[0]">{{listing.detailedcharacteristics[0].heatingsystems[0].heatingsystems[0]}} Heating</li>
+          <li ng-if="listing.detailedcharacteristics[0].heatingsystems[0].heatingsystems[0]">{{listing.detailedcharacteristics[0].heatingsystems[0].heatingsystems[0]}} Heating</li>
+          <li ng-if="listing.detailedcharacteristics[0].exteriortypes[0].exteriortype[0]">Exterior Types:
+            <ul>
+              <li ng-repeat="type in listing.detailedcharacteristics[0].exteriortypes[0].exteriortype">{{type}}</li>
+            </ul>
+          </li>
+          <li ng-if="listing.detailedcharacteristics[0].floorcoverings[0].floorcovering">Floor Coverings:<ul> <li ng-repeat="floor in listing.detailedcharacteristics[0].floorcoverings[0].floorcovering">{{floor}}</li></ul></li>
+          <li ng-if="listing.detailedcharacteristics[0].numparkingspaces[0]">Parking Spaces: {{listing.detailedcharacteristics[0].numparkingspaces[0]}}</li>
+          <li ng-if="listing.detailedcharacteristics[0].rooftypes[0].rooftype[0]">{{listing.detailedcharacteristics[0].rooftypes[0].rooftype[0]}} roof</li>
+          <li ng-if="listing.detailedcharacteristics[0].rooms[0].room">Rooms:<ul> <li ng-repeat="room in listing.detailedcharacteristics[0].rooms[0].room">{{room}}</li></ul></li>
+          <li ng-if="listing.detailedcharacteristics[0].viewtypes[0].viewtype[0]">{{listing.detailedcharacteristics[0].viewtypes[0].viewtype[0]}} View</li>
+          <li ng-if="listing.detailedcharacteristics[0].yearupdated[0]">Updated in {{listing.detailedcharacteristics[0].yearupdated[0]}}</li>
         </ul>
       </div>
-      <div class="col col-50">
-        <div class="listing-agent">
-          Listing Agent
-        </div>
+      <div class="col col-50 adverts">
+        <ul class="listing-agent">
+          <h4>Listing Agent</h4>
+          <div>Picture???</div>
+          <li>{{listing.listingparticipants[0].participant[0].firstname[0]}} {{listing.listingparticipants[0].participant[0].lastname[0]}}</li>
+          <li>{{listing.listingparticipants[0].participant[0].primarycontactphone[0]}}</li>
+          <li ng-hide="listing.listingparticipants[0].participant[0].primarycontactphone[0] == listing.listingparticipants[0].participant[0].officephone[0]">{{listing.listingparticipants[0].participant[0].officephone[0]}}</li>
+          <li>{{listing.listingparticipants[0].participant[0].fax[0]}}</li>
+          <li>{{listing.listingparticipants[0].participant[0].email[0]}}</li>
+          <li><a href="listing.listingparticipants[0].participant[0].websiteurl[0]">{{listing.listingparticipants[0].participant[0].websiteurl[0]}}</a></li>
+          <div class="clearfix"></div>
+        </ul>
         <div class="ad-space">
           Ad Space
         </div>

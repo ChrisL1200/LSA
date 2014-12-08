@@ -71,4 +71,8 @@ angular.module('cruvitaApp', [
         return input.replace(/\w*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
       }
     }
-  });
+  }).filter('boolean', function() {
+    return function(input) {
+        return input ? 'Yes' : 'No';
+    }
+});
