@@ -46,7 +46,11 @@ angular.module('cruvitaApp', [
     };
   })
 
-  .run(function ($rootScope, $location, Auth, $templateCache) {
+  .run(function ($rootScope, $location, Auth, $templateCache, $anchorScroll, $routeParams) {
+    $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute){
+      $location.search('scrollTo', null);
+      $anchorScroll();
+    })
     $rootScope.updateRoute = function(route) {
       $location.path(route);
     };

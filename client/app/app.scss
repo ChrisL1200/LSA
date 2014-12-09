@@ -84,6 +84,35 @@ html body{
 }
 
 /**************************************************/
+/*********** Footer Related Styles *********/
+/**************************************************/
+.footer{
+  display: block;
+  height: 55px;
+  position: relative;
+  margin-top: 20px;
+  background-color: tint($cru-blue, 20%);
+  padding: 0 30px ;
+  box-shadow: inset 0 5px 5px rgba(0, 46, 92 ,.6);
+
+  .footer-inner{
+    .links{
+        position: relative;
+        top: 17px;
+      .link {
+        a {color: #eee; text-decoration: none;}
+        padding: 0 15px;
+        display: inline;
+        cursor: pointer;
+        opacity: .7;
+        transition: all .2s ease;
+        &:hover{opacity: 1;}
+      }
+    }
+  }
+}
+
+/**************************************************/
 /************* Layout Related Styles **************/
 /**************************************************/
 .wrapper{
@@ -198,11 +227,11 @@ html body{
 
 .btn-xl{
   padding: 10px 20px;
-  font-size: 1.3rem;
+  font-size: 1.8rem;
   line-height: 1.4;
   border-radius: 6px;
   display: block;
-  margin: 10px auto;
+  margin: 50px auto;
 }
 
 
@@ -230,6 +259,7 @@ html body{
 // Component styles are injected through grunt
 // injector
 @import '_variables.scss';
+@import 'about/about.scss';
 @import 'account/login/login.scss';
 @import 'admin/admin.scss';
 @import 'ads/ads.scss';
@@ -237,6 +267,7 @@ html body{
 @import 'home/home.scss';
 @import 'listing/listing.scss';
 @import 'main/main.scss';
+@import 'rankings/rankings.scss';
 @import 'result/result.scss';
 @import '../components/cruGallery/cruGallery.scss';
 // endinjector
