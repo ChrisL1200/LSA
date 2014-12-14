@@ -8,6 +8,7 @@ angular.module('cruvitaApp', [
   'ngRoute',
   'google-maps'.ns(),
   'angularReverseGeocode',
+  'vr.directives.slider',
   'cgBusy'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {

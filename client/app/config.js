@@ -34,71 +34,23 @@ angular.module('cruvitaApp').constant('Config', {
       }]
     }
   },
+  advancedHomeRangeFilters: {
+    sqFt: {
+      name: "SqFT",
+      min: '',
+      max: '',
+      minRange: 0,
+      maxRange: 10000
+    },
+    price: {
+      name: "Price",
+      min: '',
+      max: '',
+      minRange: 0,
+      maxRange: 5000000
+    }
+  },
   advancedHomeFilters: {
-    sqFtMin: {
-      defaultText: "Min SqFT",
-      options: [{
-        label: '500',
-        value: 500
-      },{
-        label: '1000',
-        value: 1000
-      },{
-        label: '1500',
-        value: 1500
-      },{
-        label: '2000',
-        value: 2000
-      }]
-    },
-    sqFtMax: {
-      defaultText: "Max SqFT",
-      options: [{
-        label: '1000',
-        value: 1000
-      },{
-        label: '1500',
-        value: 1500
-      },{
-        label: '2000',
-        value: 2000
-      },{
-        label: '2500',
-        value: 2500
-      }]
-    },
-    priceMin: {
-      defaultText: "Min Price",
-      options: [{
-        label: '100000',
-        value: 100000
-      },{
-        label: '200000',
-        value: 200000
-      },{
-        label: '300000',
-        value: 300000
-      },{
-        label: '400000',
-        value: 400000
-      }]
-    },
-    priceMax: {
-      defaultText: "Max Price",
-      options: [{
-        label: '200000',
-        value: 200000
-      },{
-        label: '300000',
-        value: 300000
-      },{
-        label: '400000',
-        value: 400000
-      },{
-        label: '500000',
-        value: 500000
-      }]
-    },
     propertysubtype: {
       defaultText: "Property Type",
       options: [{

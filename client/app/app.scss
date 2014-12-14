@@ -40,12 +40,14 @@ html body{
   left: 0;
   right: 0;
   z-index: 10;
+  height: 80px;
 
   .cruvitaLogo{
     background: url('/assets/images/cruvita_logo_white.png');
-    height: 60px;
+    height: 80px;
     width: 250px;
     background-size: 100%;
+    background-position: 50% 50%;
     background-repeat: no-repeat;
   }
 
@@ -56,7 +58,7 @@ html body{
   .headerMenu{
     float: right;
     list-style: none;
-    top: 10px;
+    top: 20px;
     right: 10px;
     position: relative;
 
@@ -68,6 +70,16 @@ html body{
 
       a{color: white; text-decoration:none;}
     }
+  }
+
+  .navbarHello {
+    color: #dcdcdc;
+    position: absolute;
+    top: 2px;
+    right: 20px;
+
+    a {color: #dcdcdc; transition: all .2s ease;}
+    a:hover {color: #fff;}
   }
 
   .navbar{
@@ -118,12 +130,12 @@ html body{
 .wrapper{
   height: 100%;
   display: flex;
-  top: 64px;
+  top: 84px;
   position: relative;
   transition: all .5s;
 
   &.drop {
-    top: 89px;
+    top: 109px;
   }
 }
 
@@ -267,8 +279,11 @@ html body{
 @import 'home/home.scss';
 @import 'listing/listing.scss';
 @import 'main/main.scss';
+@import 'pp/pp.scss';
 @import 'rankings/rankings.scss';
 @import 'result/result.scss';
+@import 'tos/tos.scss';
 @import '../components/cruGallery/cruGallery.scss';
+@import '../components/generalContact/generalContact.scss';
 @import '../components/schools/schools.scss';
 // endinjector

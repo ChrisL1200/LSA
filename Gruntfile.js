@@ -8,6 +8,7 @@ module.exports = function (grunt) {
     ngtemplates: 'grunt-angular-templates',
     cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
+    wiredep: 'grunt-wiredep',
     injector: 'grunt-injector'
   });
 
@@ -200,8 +201,9 @@ module.exports = function (grunt) {
 
     // Automatically inject Bower components into the app
     wiredep: {
-      target: {
+      build: {
         src: '<%= yeoman.client %>/index.html',
+        devDependencies: true,
         exclude: [/bootstrap-sass-official/, /bootstrap.js/, /bootstrap.css/ ]
       }
     },

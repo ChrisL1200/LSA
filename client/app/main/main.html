@@ -4,10 +4,19 @@
     <div class="search-term">
       {{location.lastSelected[0]}}
     </div>
+
     <div ng-repeat="(key, filters) in config.advancedSchoolFilters" style="float: left;">
       <select ng-change="updateSchools()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
         <option value="">{{filters.defaultText}}</option>
       </select>
+    </div>
+    <div>
+      <ul>
+        <li ng-repeat="filter in config.advancedHomeRangeFilters">
+            <p>Name: {{filter.name}}</p>
+            <slider floor="filter.minRange" ceiling="filter.maxRange" ng-model="filter.min" ng-model-range="filter.max"></slider>
+        </li>
+      </ul>
     </div>
     <div ng-repeat="(key, filters) in config.advancedHomeFilters" style="float: left;">
       <select ng-change="updateHomes()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
