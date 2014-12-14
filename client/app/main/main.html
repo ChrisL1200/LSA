@@ -38,25 +38,7 @@
         </ui-gmap-window>
       </ui-gmap-google-map>
     </div>
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>School</th>
-          <th>Location</th>
-          <th>Score</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="school in map.schools | orderBy:'score.school' | limitTo: 5" ng-if="map.schools.length">
-          <td>{{$index + 1}}</td>
-          <td><a ng-click="setSchool(school)">{{school.sch_name | titleCase}}</a</td>
-          <td>{{school.address.street}} {{school.address.city}}, {{school.address.state}} {{school.address.zip}}</td>
-          <td class="tableScore">{{school.score.overall}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <div ng-if="!map.schools.length">No Schools Found</div>
+    <div schools="map.schools"></div>
   </div>
 
   <section class="col col-25" cg-busy="homePromise">

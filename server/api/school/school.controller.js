@@ -45,13 +45,6 @@ exports.create = function(req, res) {
         });
       });
     }
-
-    // if(schools.length > 10) {
-    //   _.each(schools, function(school) {
-    //     delete school.wkt;
-    //   });
-    //   // schools = _.map(schools, function(o) { return _.omit(o, 'wkt'); });
-    // }
     return res.json(200, polygonsPresent ? filteredSchools : schools);
   });  
 };
