@@ -50,7 +50,7 @@ angular.module('cruvitaApp').constant('Config', {
       min: '',
       max: '',
       minRange: 0,
-      maxRange: 5000000
+      maxRange: 2000000
     }
   },
   advancedHomeFilters: {

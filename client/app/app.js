@@ -7,7 +7,7 @@ angular.module('cruvitaApp', [
   'ui.bootstrap',
   'ngRoute',
   'google-maps'.ns(),
-  'vr.directives.slider',
+  'ui-rangeSlider',
   'cgBusy'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {

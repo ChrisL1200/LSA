@@ -12,8 +12,8 @@
         </select>
       </li>
       <li class="option-section" ng-repeat="filter in config.advancedHomeRangeFilters">
-          <label>{{filter.name}}</label>
-          <slider floor="filter.minRange" ceiling="filter.maxRange" ng-model="filter.min" ng-model-range="filter.max"></slider>
+          <label>{{filter.name}}</label> <span class="pull-right">{{filter.min | number}} to {{filter.max | number}}</span>
+          <div range-slider min="filter.minRange" max="filter.maxRange" model-min="filter.min" model-max="filter.max" show-values="false" step="100" prevent-equal-min-max="true"></div>
       </li>
       <li class="option-section" ng-repeat="(key, filters) in config.advancedHomeFilters">
         <select class="form-control" ng-change="updateHomes()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
