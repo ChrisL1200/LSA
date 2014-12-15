@@ -12,6 +12,12 @@ angular.module('cruvitaApp')
     $scope.config = Config;
 
     var keyPromise;
+    $scope.$watch(
+      function($scope) { return Config.advancedHomeRangeFilters.sqFt},
+      function(newValue, oldValue) {
+        $scope.updateHomes()
+      });
+
     var getBounds = function() {
       return {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
     }
