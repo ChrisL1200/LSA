@@ -9,13 +9,14 @@ angular.module('cruvitaApp')
     $scope.schoolFilters = {};
     $scope.homeFilters = {};
     $scope.showOptions = false;
+    $scope.lastSelected = Location.lastSelected;
     $scope.config = Config;
 
     var keyPromise;
-    $scope.$watch(
-      function($scope) { return Config.advancedHomeRangeFilters.sqFt},
-      function(newValue, oldValue) {
-        $scope.updateHomes()
+
+    $scope.$watch( '$scope.homeFilters',
+      function() {
+        console.log($scope.homeFilters);
       });
 
     var getBounds = function() {
