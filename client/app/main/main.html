@@ -13,7 +13,7 @@
       </li>
       <li class="option-section" ng-repeat="filter in config.advancedHomeRangeFilters">
           <label>{{filter.name}}</label>
-          <slider floor="filter.minRange" ceiling="filter.maxRange" ng-model="filter.min" ng-model-range="filter.max"></slider>
+          <slider floor="{{filter.minRange}}" ceiling="{{filter.maxRange}}" ng-model="filter.min" ng-model-range="filter.max"></slider>
       </li>
       <li class="option-section" ng-repeat="(key, filters) in config.advancedHomeFilters">
         <select class="form-control" ng-change="updateHomes()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">

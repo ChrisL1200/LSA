@@ -11,14 +11,25 @@ angular.module('cruvitaApp')
     $scope.showOptions = false;
     $scope.config = Config;
 
+    var keyPromise;
     var getBounds = function() {
       return {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
     }
 
-    var updateScore = function() {
+    var getParams = function() {
+      var params = {};
+      _.each($routeParams, function(value, key) {
+        if(key !== 'SWLAT' && key !== 'SWLONG' && key !== 'NELAT' && key !== 'NELONG') {
+          params[key] = value;
+        }
+      });
+      return params;
+    }
+
+    var updateScore = function(noBounds) {
       if($scope.map.bounds.northeast) {
         $scope.updateHomes();
-        $scope.updateSchools();
+        $scope.updateSchools(noBounds);
       }
     }
 
@@ -84,7 +95,6 @@ angular.module('cruvitaApp')
         $scope.map.polylines.push(newPolyline);
       });
     }
-    var keyPromise;
 
     var pluckValues = function(input) {
       var output = {};
@@ -94,19 +104,33 @@ angular.module('cruvitaApp')
       return output;
     }
 
+    var boundUpdate = function(noBounds) {
+      if(keyPromise)
+        $timeout.cancel(keyPromise);
+      keyPromise = $timeout(function() {
+        $scope.selectedSchool = undefined;
+        updateScore(noBounds);
+      }, 500);
+    }
+
     $scope.$watch('map.bounds', function(newVal, oldVal) {
-      if(newVal !== oldVal && !$scope.selectedSchool) {
-          if(keyPromise)
-            $timeout.cancel(keyPromise);
-          keyPromise = $timeout(function() {
-            $scope.selectedSchool = undefined;
-            updateScore();
-          }, 500);
+      if(!oldVal.northeast && newVal !== oldVal) {
+        boundUpdate(true);
+      }
+      else if(newVal !== oldVal && !$scope.selectedSchool) {
+        boundUpdate(false);
       }
     }, true);
 
-    $scope.updateSchools = function() {
-      var request = getBounds();
+
+    $scope.updateSchools = function(noBounds) {
+      var request = {};
+      if(noBounds) {
+        request = getParams();
+      }
+      else {
+        request = getBounds();
+      }
       request = _.merge(request, pluckValues($scope.schoolFilters));
       $scope.schoolPromise = School.retrieve(request, {polygons: getPolygons()}, function(response) {
         schoolCallback(response);
@@ -133,7 +157,7 @@ angular.module('cruvitaApp')
         homesCallback(homes);
       }).$promise;
     }
-    //Update bounds when input is entered
+
     $scope.updateBounds = function() {
       var geometry = _.where(Location.lastSelected, { 'formatted_address': $scope.locationSelected })[0].geometry;
       $scope.map.bounds = {
@@ -168,10 +192,11 @@ angular.module('cruvitaApp')
       $scope.selectedSchool = undefined;
       updateScore();
     };
+
     var draw = function() {
       $scope.map.draw(); //should be defined by now
     };
-    //add beginDraw as a subscriber to be invoked by the channel, allows controller to controller coms
+
     drawChannel.add(draw);
 
     if($routeParams.NELONG) {
@@ -182,5 +207,5 @@ angular.module('cruvitaApp')
     }
 
     //Initial Load
-    updateScore();
+    updateScore(true);
   });

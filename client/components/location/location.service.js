@@ -1,7 +1,15 @@
 'use strict';
 
 angular.module('cruvitaApp')
-  .service('Location', function ($http, Config) {
+  .service('Location', function ($http, Config, $location) {
+  	var componentMap = {
+  		locality: 'address.city',
+  		administrative_area_level_1: 'address.state',
+  		administrative_area_level_2: 'address.county',
+  		postal_code: 'address.zip',
+  		country: 'address.country'
+  	};
+
     var service = {
     	autocomplete: function(val) {
 	      return $http.get(Config.autocompleteService, {
@@ -18,7 +26,33 @@ angular.module('cruvitaApp')
 	        return addresses;
 	      });
 	    },
-	    lastSelected: {}
+	    lastSelected: {},
+	    getRequest: function(input, bounds) {
+	    	var selected =  _.where(service.lastSelected, { 'formatted_address': input })[0];
+	    	var requestObject = {};
+	    	_.each(selected.address_components, function(component) {
+	    		if(component.types[0] !== 'country' && component.types[0] !== 'administrative_area_level_2') {
+		    		requestObject[componentMap[component.types[0]]] = component.short_name;
+		    	}
+	    	});
+	    	if(bounds) {
+		    	requestObject.geometry = selected.geometry;
+		    }
+	    	return requestObject;
+	    },
+	    getResults: function(input) {
+	    	var requestObject = service.getRequest(input, true);
+	  	  $location.search('NELAT', requestObject.geometry.bounds.northeast.lat);
+	  	  $location.search('NELONG', requestObject.geometry.bounds.northeast.lng);
+	  	  $location.search('SWLAT', requestObject.geometry.bounds.southwest.lat);
+	  	  $location.search('SWLONG', requestObject.geometry.bounds.southwest.lng);
+	      _.each(requestObject, function(value, key) {
+	        if(key !== 'geometry') {
+	          $location.search(key, value);
+	        }
+	      })
+		  	$location.path('/results');
+		  }
     }
 
     return service;

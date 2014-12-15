@@ -26,13 +26,20 @@ exports.create = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
   // {"ed_level": new RegExp(query.gradeLevel)}
-  School.find()
-  .lean()
-  .limit(5)
+  var schoolQuery = School.find().lean().limit(5)
   // .sort({'score': -1})
-  .where('coordinates.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat))
-  .where('coordinates.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong))
-  .exec(function (err, schools) {
+  if(query.southwestLat && query.northeastLat && query.southwestLong && query.northeastLong) {  
+    schoolQuery.where('coordinates.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat))
+    schoolQuery.where('coordinates.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong))
+  }
+  delete query.southwestLat;
+  delete query.northeastLat;
+  delete query.southwestLong;
+  delete query.northeastLong;
+  _.each(query, function(value, key) {
+    schoolQuery.where(key).equals(value.toUpperCase());
+  });
+  schoolQuery.exec(function (err, schools) {
     if(err) { return handleError(res, err); }
     var filteredSchools = [];
     var polygonsPresent = req.body.polygons && req.body.polygons.length > 0;
