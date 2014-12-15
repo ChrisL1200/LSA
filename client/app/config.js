@@ -31,7 +31,10 @@ angular.module('cruvitaApp').constant('Config', {
       },{
         label: 'Elem School',
         value: 'E'
-      }]
+      },{
+        label: 'All Schools',
+        value: 'A'
+      },]
     }
   },
   advancedHomeRangeFilters: {
@@ -75,6 +78,12 @@ angular.module('cruvitaApp').constant('Config', {
       },{
         label: '4+',
         value: 4
+      },{
+        label: '5+',
+        value: 5
+      },{
+        label: '6+',
+        value: 6
       }]
     },
     bedMin: {
@@ -91,22 +100,31 @@ angular.module('cruvitaApp').constant('Config', {
       },{
         label: '4+',
         value: 4
+      },{
+        label: '5+',
+        value: 5
+      },{
+        label: '6+',
+        value: 6
       }]
     },
     lotMin: {
       defaultText: "Lot Size",
       options: [{
-        label: '0.1+',
-        value: 0.1
+        label: '1/6 acre',
+        value: 0.15
       },{
-        label: '0.5+',
+        label: '1/4 acre',
+        value: 0.25
+      },{
+        label: '1/2 acre',
         value: 0.5
       },{
-        label: '1+',
+        label: '1 acre',
         value: 1
       },{
-        label: '5+',
-        value: 5
+        label: '2 or more acres',
+        value: 2
       }]
     }
   }

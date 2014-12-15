@@ -8,6 +8,7 @@ angular.module('cruvitaApp')
     $scope.homeWindow = {};
     $scope.schoolFilters = {};
     $scope.homeFilters = {};
+    $scope.showOptions = false;
     $scope.config = Config;
 
     var getBounds = function() {
@@ -78,7 +79,7 @@ angular.module('cruvitaApp')
         newPolyline.id = school._id;
 
         if($scope.selectedSchool && school._id === $scope.selectedSchool._id) {
-          newPolyline.selected = true; 
+          newPolyline.selected = true;
         }
         $scope.map.polylines.push(newPolyline);
       });

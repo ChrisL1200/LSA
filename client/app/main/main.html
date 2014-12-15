@@ -1,28 +1,26 @@
 <div ng-class="{drop: navclass}" ng-animate="" id="sub-navbar" class="sub-navbar">
 <!-- ADVANCED SEARCH FILTERS -->
-  <div class="sub-navbar-injection">
-    <div class="search-term">
-      {{location.lastSelected[0]}}
-    </div>
-
-    <div ng-repeat="(key, filters) in config.advancedSchoolFilters" style="float: left;">
-      <select ng-change="updateSchools()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
-        <option value="">{{filters.defaultText}}</option>
-      </select>
-    </div>
-    <div>
-      <ul>
-        <li ng-repeat="filter in config.advancedHomeRangeFilters">
-            <p>Name: {{filter.name}}</p>
-            <slider floor="filter.minRange" ceiling="filter.maxRange" ng-model="filter.min" ng-model-range="filter.max"></slider>
-        </li>
-      </ul>
-    </div>
-    <div ng-repeat="(key, filters) in config.advancedHomeFilters" style="float: left;">
-      <select ng-change="updateHomes()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
-        <option value="">{{filters.defaultText}}</option>
-      </select>
-    </div>
+  <div class="search-term">
+    {{getLocation}}
+  </div>
+  <a href class="searchOptionsLink" ng-click="showOptions = !showOptions" ng-class="{active: showOptions}">Search Options</a>
+  <div ng-if="showOptions" class="searchOptionsPanel">
+    <ul>
+      <li class="option-section" ng-repeat="(key, filters) in config.advancedSchoolFilters">
+        <select class="form-control" ng-change="updateSchools()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
+          <option value="">{{filters.defaultText}}</option>
+        </select>
+      </li>
+      <li class="option-section" ng-repeat="filter in config.advancedHomeRangeFilters">
+          <label>{{filter.name}}</label>
+          <slider floor="filter.minRange" ceiling="filter.maxRange" ng-model="filter.min" ng-model-range="filter.max"></slider>
+      </li>
+      <li class="option-section" ng-repeat="(key, filters) in config.advancedHomeFilters">
+        <select class="form-control" ng-change="updateHomes()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
+          <option value="">{{filters.defaultText}}</option>
+        </select>
+      </li>
+    </ul>
   </div>
 </div>
 <section class="container-flex">

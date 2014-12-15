@@ -16,10 +16,12 @@ var UserSchema = new Schema({
   hashedPassword: String,
   provider: String,
   salt: String,
-  facebook: {},
-  twitter: {},
-  github: {},
-  google: {}
+  paidInterests:{
+    schools: [{}],
+    districts: [{}],
+    zips: [{}]
+  },
+  image: {}
 });
 
 /**
