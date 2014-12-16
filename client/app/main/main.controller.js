@@ -14,20 +14,16 @@ angular.module('cruvitaApp')
 
     var keyPromise;
 
-    $scope.$watch( '$scope.homeFilters',
-      function() {
-        console.log($scope.homeFilters);
-      });
-
     var getBounds = function() {
       return {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
     }
 
-    var getParams = function() {
+    var getParams = function(homes) {
       var params = {};
+      var map = homes ? Location.homesComponentMap : Location.schoolsComponentMap;
       _.each($routeParams, function(value, key) {
         if(key !== 'SWLAT' && key !== 'SWLONG' && key !== 'NELAT' && key !== 'NELONG') {
-          params[key] = value;
+          params[map[key]] = value;
         }
       });
       return params;
@@ -35,7 +31,7 @@ angular.module('cruvitaApp')
 
     var updateScore = function(noBounds) {
       if($scope.map.bounds.northeast) {
-        $scope.updateHomes();
+        $scope.updateHomes(noBounds);
         $scope.updateSchools(noBounds);
       }
     }
@@ -133,7 +129,7 @@ angular.module('cruvitaApp')
     $scope.updateSchools = function(noBounds) {
       var request = {};
       if(noBounds) {
-        request = getParams();
+        request = getParams(false);
       }
       else {
         request = getBounds();
@@ -144,8 +140,14 @@ angular.module('cruvitaApp')
       }).$promise;
     }
 
-    $scope.updateHomes = function() {
-      var request = getBounds();
+    $scope.updateHomes = function(noBounds) {
+      var request = {};
+      if(noBounds) {
+        request = getParams(true);
+      }
+      else {
+        request = getBounds();
+      }
       request = _.merge(request, pluckValues($scope.homeFilters));
       var paths = [];
       angular.forEach($scope.map.polylines, function(polyline) {

@@ -38,17 +38,31 @@ exports.create = function(req, res) {
   if(query.propertysubtype) {
     queryObj['listing.propertysubtype'] = query.propertysubtype;
   }
-  Homes.find(queryObj)
+
+  var homeQuery = Homes.find(queryObj)
   .limit(25)
-  .where('listing.location.latitude').gt(query.southwestLat).lt(query.northeastLat)
-  .where('listing.location.longitude').gt(query.southwestLong).lt(query.northeastLong)
   .where('listing.livingarea').gt(sqFtMin).lt(sqFtMax)
   .where('listing.lotsize').gt(lotMin).lt(lotMax)
   .where('listing.bedrooms').gt(bedMin).lt(bedMax)
   .where('listing.bathrooms').gt(bathMin).lt(bathMax)
   .where('listing.listprice').gt(priceMin).lt(priceMax)
   .select('listing.photos.photo listing.listprice listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude')
-  .exec(function (err, homes) {
+  
+  if(query.southwestLat && query.northeastLat && query.southwestLong && query.northeastLong) {  
+    homeQuery.where('coordinates.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat))
+    homeQuery.where('coordinates.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong))
+  }
+  if(query.locality) {
+    homeQuery.where('listing.address.city').equals(query.locality.toUpperCase());
+  }
+  if(query.administrative_area_level_1) {
+    homeQuery.where('listing.address.city').equals(query.administrative_area_level_1.toUpperCase());
+  }
+  if(query.postal_code) {
+    homeQuery.where('listing.address.postalcode').equals(query.postal_code.toUpperCase());
+  }
+
+  homeQuery.exec(function (err, homes) {
     if(err) { return handleError(res, err); }
     var filteredHomes = [];
     var polygonsPresent = req.body.polygons && req.body.polygons.length > 0;
