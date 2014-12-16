@@ -49,8 +49,8 @@ exports.create = function(req, res) {
   .select('listing.photos.photo listing.listprice listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude')
   
   if(query.southwestLat && query.northeastLat && query.southwestLong && query.northeastLong) {  
-    homeQuery.where('coordinates.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat))
-    homeQuery.where('coordinates.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong))
+    homeQuery.where('listing.location.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat))
+    homeQuery.where('listing.location.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong))
   }
   if(query.locality) {
     homeQuery.where('listing.address.city').equals(query.locality.toUpperCase());
