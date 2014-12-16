@@ -27,7 +27,7 @@ exports.create = function(req, res) {
   var query = url_parts.query;
   // {"ed_level": new RegExp(query.gradeLevel)}
   var schoolQuery = School.find().lean().limit(5)
-  // .sort({'score': -1})
+  .sort({'score.overall': -1})
   if(query.southwestLat && query.northeastLat && query.southwestLong && query.northeastLong) {  
     schoolQuery.where('coordinates.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat))
     schoolQuery.where('coordinates.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong))
