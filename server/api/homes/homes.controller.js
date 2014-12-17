@@ -56,7 +56,7 @@ exports.create = function(req, res) {
     homeQuery.where('listing.address.city').equals(query.locality.toUpperCase());
   }
   if(query.administrative_area_level_1) {
-    homeQuery.where('listing.address.city').equals(query.administrative_area_level_1.toUpperCase());
+    homeQuery.where('listing.address.stateorprovince').equals(query.administrative_area_level_1.toUpperCase());
   }
   if(query.postal_code) {
     homeQuery.where('listing.address.postalcode').equals(query.postal_code.toUpperCase());

@@ -12,7 +12,7 @@ angular.module('cruvitaApp')
     $scope.lastSelected = Location.lastSelected;
     $scope.config = Config;
 
-    var keyPromise;
+    var keyPromise, firstRequest;
 
     var getBounds = function() {
       return {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
@@ -20,10 +20,9 @@ angular.module('cruvitaApp')
 
     var getParams = function(homes) {
       var params = {};
-      var map = homes ? Location.homesComponentMap : Location.schoolsComponentMap;
       _.each($routeParams, function(value, key) {
         if(key !== 'SWLAT' && key !== 'SWLONG' && key !== 'NELAT' && key !== 'NELONG') {
-          params[map[key]] = value;
+          params[key] = value;
         }
       });
       return params;
@@ -118,10 +117,14 @@ angular.module('cruvitaApp')
 
     $scope.$watch('map.bounds', function(newVal, oldVal) {
       if(!oldVal.northeast && newVal !== oldVal) {
+        firstRequest = true;
         boundUpdate(true);
       }
-      else if(newVal !== oldVal && !$scope.selectedSchool) {
+      else if(newVal !== oldVal && !$scope.selectedSchool && !firstRequest) {
         boundUpdate(false);
+      }
+      else if(firstRequest) {
+        firstRequest = false;
       }
     }, true);
 

@@ -32,13 +32,15 @@ exports.create = function(req, res) {
     schoolQuery.where('coordinates.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat))
     schoolQuery.where('coordinates.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong))
   }
-  delete query.southwestLat;
-  delete query.northeastLat;
-  delete query.southwestLong;
-  delete query.northeastLong;
-  _.each(query, function(value, key) {
-    schoolQuery.where(key).equals(value.toUpperCase());
-  });
+  if(query.locality) {
+    schoolQuery.where('address.city').equals(query.locality.toUpperCase());
+  }
+  if(query.administrative_area_level_1) {
+    schoolQuery.where('address.state').equals(query.administrative_area_level_1.toUpperCase());
+  }
+  if(query.postal_code) {
+    schoolQuery.where('address.zip').equals(query.postal_code.toUpperCase());
+  }
   schoolQuery.exec(function (err, schools) {
     if(err) { return handleError(res, err); }
     var filteredSchools = [];
