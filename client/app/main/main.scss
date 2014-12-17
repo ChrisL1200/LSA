@@ -176,5 +176,7 @@
 
 
 @media screen and (max-width: 992px) {
-  .map{display: none;}
+  .sub-navbar.drop {
+      top: 64px;
+    }
 }

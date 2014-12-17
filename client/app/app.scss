@@ -9,7 +9,7 @@
 /************** App-wide Styles *******************/
 /**************************************************/
 /* apply a natural box layout model to all elements, but allowing components to change */
-html, body{ height: 100%; background-color: $bkgd;}
+html, body{background-color: $bkgd;}
 html {
   box-sizing: border-box;
   font-size: 17px;
@@ -20,8 +20,15 @@ html body{
   font-weight: 400;
 }
 
+.body{
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
 *, *:before, *:after {
   box-sizing: border-box;
+  margin: 0;
 }
 
 a, a:hover{text-decoration: none;}
@@ -130,8 +137,9 @@ a, a:hover{text-decoration: none;}
 /************* Layout Related Styles **************/
 /**************************************************/
 .wrapper{
-  height: 100%;
+  flex: 1;
   display: flex;
+  flex-direction: column;
   top: 84px;
   position: relative;
   transition: all .5s;
@@ -197,8 +205,7 @@ a, a:hover{text-decoration: none;}
       height: 60px;
       width: 150px;
     }
-  }
-  .header {
+
     .headerMenu{
       top: 20px;
       li{
@@ -206,6 +213,9 @@ a, a:hover{text-decoration: none;}
         font-size: .7rem;
       }
     }
+  }
+  .wrapper{
+    top: 64px;
   }
 }
 

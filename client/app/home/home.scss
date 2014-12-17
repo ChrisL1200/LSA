@@ -4,11 +4,16 @@
 .home{
   width: 100%;
   height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 
   h1 {
     color: white;
     text-align: center;
   }
+
+  .center{width: 75%}
 
   .splashGraphic {
     background: url('/assets/images/Splash-Page-Graphic.png');
@@ -19,22 +24,15 @@
     height: 186px;
   }
 
-  &.container-flex {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: stretch;
-  }
-
   &.splash-bkgd-graphic{
     background: url('/assets/images/splash-bkgd-graphic.png');
     background-position: 50% 50%;
     background-attachment: fixed;
-    background-size: 100%;
   }
 
   .overlay{
     background-color: rgba(100, 100, 100, .4);
+    flex: 1;
   }
 
   .search-bar{
