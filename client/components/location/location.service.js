@@ -55,6 +55,7 @@ angular.module('cruvitaApp')
 	  	  $location.search('NELONG', requestObject.geometry.bounds.northeast.lng);
 	  	  $location.search('SWLAT', requestObject.geometry.bounds.southwest.lat);
 	  	  $location.search('SWLONG', requestObject.geometry.bounds.southwest.lng);
+	  	  $location.search('q', input);
 	      _.each(requestObject, function(value, key) {
 	        if(key !== 'geometry') {
 	          $location.search(key, value);

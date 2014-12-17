@@ -1,7 +1,7 @@
 <div ng-class="{drop: navclass}" ng-animate="" id="sub-navbar" class="sub-navbar">
 <!-- ADVANCED SEARCH FILTERS -->
   <div class="search-term">
-    You searched for {{lastSelected[0].formatted_address}}.
+    You searched for {{searchQuery}}.
   </div>
   <a href class="searchOptionsLink" ng-click="showOptions = !showOptions" ng-class="{active: showOptions}">Search Options</a>
   <div ng-if="showOptions" class="searchOptionsPanel">

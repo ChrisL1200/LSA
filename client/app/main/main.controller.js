@@ -11,7 +11,7 @@ angular.module('cruvitaApp')
     $scope.showOptions = false;
     $scope.lastSelected = Location.lastSelected;
     $scope.config = Config;
-
+    $scope.searchQuery = $routeParams.q;
     var keyPromise, firstRequest;
 
     var getBounds = function() {
@@ -21,7 +21,7 @@ angular.module('cruvitaApp')
     var getParams = function(homes) {
       var params = {};
       _.each($routeParams, function(value, key) {
-        if(key !== 'SWLAT' && key !== 'SWLONG' && key !== 'NELAT' && key !== 'NELONG') {
+        if(key !== 'SWLAT' && key !== 'SWLONG' && key !== 'NELAT' && key !== 'NELONG' && key !== 'q') {
           params[key] = value;
         }
       });
