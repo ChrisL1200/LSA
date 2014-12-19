@@ -12,6 +12,8 @@ angular.module('cruvitaApp')
     $scope.lastSelected = Location.lastSelected;
     $scope.config = Config;
     $scope.searchQuery = $routeParams.q;
+    $scope.selectedSchool = {boobs: true};
+
     var keyPromise, firstRequest;
 
     var getBounds = function() {

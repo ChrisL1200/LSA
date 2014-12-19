@@ -103,9 +103,9 @@ exports.create = function(req, res) {
           _.each(_.deepPluck(homes, 'listing.address.0.postalcode.0'), function(postalcode) {
             userParams.push({'paidInterests.zips':postalcode});
           });
-          _.each(_.deepPluck(homes, 'listing.address.0.city.0'), function(city) {
-            userParams.push({'paidInterests.cities':city});
-          });
+          // _.each(_.deepPluck(homes, 'listing.address.0.city.0'), function(city) {
+          //   userParams.push({'paidInterests.cities':city});
+          // });
           homesCallback(err, homes, callback);
         });    
       },

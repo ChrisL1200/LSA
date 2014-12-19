@@ -45,7 +45,8 @@
         </ui-gmap-window>
       </ui-gmap-google-map>
     </div>
-    <div schools="map.schools"></div>
+    {{selectedSchool.sch_name}}
+    <div schools="map.schools" map="true" select-school="setSchool(school)" unselect-school="unselectSchool(school)"></div>
   </div>
 
   <section class="col col-25" cg-busy="homePromise">

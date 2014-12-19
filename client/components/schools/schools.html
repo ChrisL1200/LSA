@@ -5,6 +5,7 @@
       <th>School</th>
       <th>Location</th>
       <th>Score</th>
+      <th ng-if="map"></th>
     </tr>
   </thead>
   <tbody>
@@ -13,6 +14,10 @@
       <td><a ng-click="setSchool(school)">{{school.sch_name | titleCase}}</a</td>
       <td>{{school.address.street}} {{school.address.city}}, {{school.address.state}} {{school.address.zip}}</td>
       <td class="tableScore">{{school.score.overall}}</td>
+      <td ng-if="map">
+        <button class="btn btn-sm btn-primary" ng-click="activateSchool(school)" ng-if="!selected">Select</button>
+        <button class="btn btn-sm btn-danger" ng-click="deactivateSchool(school)" ng-if="selected">Unselect</button>
+      </td>
     </tr>
   </tbody>
 </table>

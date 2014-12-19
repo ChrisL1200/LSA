@@ -6,9 +6,21 @@ angular.module('cruvitaApp')
       templateUrl: 'components/schools/schools.html',
       restrict: 'EA',
       scope: {
-      	schools: '='
+      	schools: '=',
+        map: '@',
+        selectSchool: '&',
+        unselectSchool: '&'
       },
       link: function (scope, element, attrs) {
+        scope.activateSchool = function(school) {
+          scope.selectSchool({school: school});
+          scope.selected = true;
+        }
+
+        scope.deactivateSchool = function(school) {
+          scope.unselectSchool({school: school});
+          scope.selected = false;
+        }
       }
     };
   });
