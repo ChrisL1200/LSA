@@ -67,7 +67,8 @@ exports.create = function(req, res) {
     homeQuery.where('listing.address.postalcode').equals(query.postal_code);
   }
   var userQuery = User.find({})
-  .where('role').equals('agent');
+  .where('role').equals('agent')
+  .select('email name');
 
   function homesCallback(err, homes, callback) {
     if(err) { return handleError(res, err); }
@@ -105,7 +106,6 @@ exports.create = function(req, res) {
           _.each(_.deepPluck(homes, 'listing.address.0.city.0'), function(city) {
             userParams.push({'paidInterests.cities':city});
           });
-          console.log(userParams);
           homesCallback(err, homes, callback);
         });    
       },
