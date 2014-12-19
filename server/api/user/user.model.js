@@ -17,9 +17,8 @@ var UserSchema = new Schema({
   provider: String,
   salt: String,
   paidInterests:{
-    schools: [{}],
-    districts: [{}],
-    zips: [{}]
+    zips: [ String ],
+    cities: [ String ]
   },
   image: {}
 });

@@ -4,7 +4,7 @@ angular.module('cruvitaApp')
   .service('Homes', function Homes($resource) {
 
     var homes = $resource('/api/homes/:homeId', {}, {
-    	retrieve: {method: 'POST', isArray:true}
+    	retrieve: {method: 'POST', isArray:false}
     });
 
     return homes;

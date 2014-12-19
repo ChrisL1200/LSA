@@ -20,6 +20,26 @@ User.find({}).remove(function() {
     name: 'Admin',
     email: 'admin@admin.com',
     password: 'admin'
+  }, {
+    provider: 'local',
+    role: 'agent',
+    name: 'Manassas Agent',
+    paidInterests: {
+      zips: ['20112','20110'],
+      cities: ['MANASSAS']
+    },
+    email: 'admin@admin.com',
+    password: 'admin'
+  }, {
+    provider: 'local',
+    role: 'agent',
+    name: 'Fairfax Agent',
+    paidInterests: {
+      zips: ['22030','22032'],
+      cities: ['FAIRFAX']
+    },
+    email: 'admin@admin.com',
+    password: 'admin'
   }, function() {
       console.log('finished populating users');
     }

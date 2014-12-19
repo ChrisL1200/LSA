@@ -70,15 +70,15 @@ angular.module('cruvitaApp')
       $scope.map.schools = schools;
       $scope.map.polylines = [];
       _.each($scope.map.schools, function (school) {
-        var red = Math.round((255*(10-school.score))/10);
-        var green = Math.round((255*school.score)/10);
-        if(red < 16) {
-          red += 16;
-        }
-        if(green < 16) {
-          green += 16;
-        }
-        school.lsaColor = "#" + red.toString(16) + green.toString(16) + "00";
+        // var red = Math.round((255*(10-school.score))/10);
+        // var green = Math.round((255*school.score)/10);
+        // if(red < 16) {
+        //   red += 16;
+        // }
+        // if(green < 16) {
+        //   green += 16;
+        // }
+        // school.lsaColor = "#" + red.toString(16) + green.toString(16) + "00";
         school.closeClick = function () {
           $scope.schoolWindow = {};
         };
@@ -165,8 +165,9 @@ angular.module('cruvitaApp')
         });
         paths.push(path);
       }
-      $scope.homePromise = Homes.retrieve(request, {polygons: paths}, function(homes) {
-        homesCallback(homes);
+      $scope.homePromise = Homes.retrieve(request, {polygons: paths}, function(response) {
+        homesCallback(response.homes);
+        $scope.agents = response.agents;
       }).$promise;
     }
 

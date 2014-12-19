@@ -1,8 +1,11 @@
 'use strict';
 
 var _ = require('lodash');
+_.mixin(require("lodash-deep"));
 var Homes = require('./homes.model');
+var User = require('../user/user.model');
 var url = require('url');
+var async = require('async');
 var inside = require('point-in-polygon');
 
 // Get list of homess
@@ -38,7 +41,7 @@ exports.create = function(req, res) {
   if(query.propertysubtype) {
     queryObj['listing.propertysubtype'] = query.propertysubtype;
   }
-
+  var userParams = [];
   var homeQuery = Homes.find(queryObj)
   .limit(25)
   .where('listing.livingarea').gt(sqFtMin).lt(sqFtMax)
@@ -53,16 +56,20 @@ exports.create = function(req, res) {
     homeQuery.where('listing.location.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong))
   }
   if(query.locality) {
+    userParams.push({'paidInterests.cities':query.locality.toUpperCase()});
     homeQuery.where('listing.address.city').equals(query.locality.toUpperCase());
   }
   if(query.administrative_area_level_1) {
     homeQuery.where('listing.address.stateorprovince').equals(query.administrative_area_level_1.toUpperCase());
   }
   if(query.postal_code) {
-    homeQuery.where('listing.address.postalcode').equals(query.postal_code.toUpperCase());
+    userParams.push({'paidInterests.zips':query.postal_code});
+    homeQuery.where('listing.address.postalcode').equals(query.postal_code);
   }
+  var userQuery = User.find({})
+  .where('role').equals('agent');
 
-  homeQuery.exec(function (err, homes) {
+  function homesCallback(err, homes, callback) {
     if(err) { return handleError(res, err); }
     var filteredHomes = [];
     var polygonsPresent = req.body.polygons && req.body.polygons.length > 0;
@@ -76,8 +83,55 @@ exports.create = function(req, res) {
         });
       });
     }
-    return res.json(200, polygonsPresent ? filteredHomes : homes);
-  }); 
+    callback(null, polygonsPresent ? filteredHomes : homes);
+  }
+
+  function agentsCallback(callback) {
+    userQuery.or(userParams).exec(function (err, users) {
+      console.log(users);
+      callback(null, users);
+    }); 
+  }
+
+  if(query.southwestLat && query.northeastLat && query.southwestLong && query.northeastLong) {  
+    homeQuery.where('listing.location.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat));
+    homeQuery.where('listing.location.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong));
+    async.series({
+      homes: function(callback){
+        homeQuery.exec(function (err, homes) {
+          _.each(_.deepPluck(homes, 'listing.address.0.postalcode.0'), function(postalcode) {
+            userParams.push({'paidInterests.zips':postalcode});
+          });
+          _.each(_.deepPluck(homes, 'listing.address.0.city.0'), function(city) {
+            userParams.push({'paidInterests.cities':city});
+          });
+          console.log(userParams);
+          homesCallback(err, homes, callback);
+        });    
+      },
+      agents: function(callback){
+        agentsCallback(callback);
+      }
+    },
+    function(err, results) {
+      return res.send(200, results);
+    });
+  }
+  else {
+    async.parallel({
+      agents: function(callback){
+        agentsCallback(callback);
+      },
+      homes: function(callback){
+        homeQuery.exec(function (err, homes) {
+          homesCallback(err, homes, callback);
+        });
+      }
+    },
+    function(err, results) {
+      return res.send(200, results);
+    });
+  }
 };
 
 // Updates an existing homes in the DB.
