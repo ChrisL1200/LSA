@@ -7,5 +7,6 @@ angular.module('cruvitaApp')
 
 		$scope.listingPromise = Homes.get({homeId: $scope.homeId}, function(listing) {
 			$scope.listing = listing.listing;
+      console.log($scope.listing);
 		})
   });

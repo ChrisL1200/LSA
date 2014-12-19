@@ -12,10 +12,10 @@ angular.module('cruvitaApp')
       },
       controller: ['$scope', 'User', function($scope, User){
 
-        $http.get('/api/users').success(function(users) {
-          console.log('user', users[0]);
-          $scope.users = users;
-        });
+        // $http.get('/api/users').success(function(users) {
+        //   console.log('user', users[0]);
+        //   $scope.users = users;
+        // });
         console.log('listing', $scope.listing);
         $scope.activeAgent = _.find($scope.users, function(u){
           return u.paidInterests.schools === listing
