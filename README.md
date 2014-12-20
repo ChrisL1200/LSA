@@ -2,4 +2,4 @@ Cruvita
 ===
 
 #Deploy app
-grunt build && cd dist && heroku git:clone -a lsascore && cd lsascore/ && rm -rf public/ && rm -rf server/ && mv ../public . && mv ../server . && git add --all && git commit -m "Pushing new build" && git push
+cd /opt/LSA && git pull && grunt build && cd dist && export NODE_ENV=production && forever start server/app.js

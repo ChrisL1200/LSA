@@ -10,7 +10,6 @@ var inside = require('point-in-polygon');
 
 // Get list of homess
 exports.index = function(req, res) {
-    console.log("zoob");
   return res.json(200, []); 
 };
 
@@ -31,12 +30,12 @@ exports.create = function(req, res) {
   var sqFtMax = query.sqFtMax || 99999;
   var lotMin = query.lotMin || 0;
   var lotMax = query.lotMax || 99999;
-  var bedMin = query.bedMin || 0;
+  var bedMin = query.bedMin || 0;  
   var bedMax = query.bedMax || 99999;
   var bathMin = query.bathMin || 0;
   var bathMax = query.bathMax || 99999;
   var priceMin = query.priceMin || 0;
-  var priceMax = query.priceMax || 99999;
+  var priceMax = query.priceMax || 99999999999;
   var queryObj = {};
   if(query.propertysubtype) {
     queryObj['listing.propertysubtype'] = query.propertysubtype;
@@ -66,6 +65,12 @@ exports.create = function(req, res) {
     userParams.push({'paidInterests.zips':query.postal_code});
     homeQuery.where('listing.address.postalcode').equals(query.postal_code);
   }
+  // if(query.rental) {
+  //   homeQuery.where('listing.propertytype').equals('Rental');
+  // }
+  // else {
+  //   homeQuery.where('listing.propertytype').ne('Rental');
+  // }
   var userQuery = User.find({})
   .where('role').equals('agent')
   .select('email name');
@@ -77,7 +82,6 @@ exports.create = function(req, res) {
     if(polygonsPresent) {
       _.each(req.body.polygons, function(poly) {
         _.each(homes, function(home) {
-          console.log(home);
           if(inside([home.listing.location[0].latitude[0], home.listing.location[0].longitude[0]], poly)) {
             filteredHomes.push(home);
           }
@@ -89,7 +93,6 @@ exports.create = function(req, res) {
 
   function agentsCallback(callback) {
     userQuery.or(userParams).exec(function (err, users) {
-      console.log(users);
       callback(null, users);
     }); 
   }

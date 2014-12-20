@@ -35,6 +35,9 @@ if(!config.noAuth) {
 	console.log("AUTH ON");
 	app.use(auth.connect(basic));
 }
+if(app.get('env') === 'development') {
+	mongoose.set('debug', true);
+}
 // app.get('/', function(req,res) {
 //   res.send("Hello from express - " + req.user + "!" );
 // });
@@ -51,10 +54,3 @@ server.listen(config.port, config.ip, function () {
 
 // Expose app
 exports = module.exports = app;
-
-/* Ingest TO-DO:
-1. Production scores not working
-2. Make education completely parallel
-3. Up amount of concurrent records in homes/scores
-4. Add ingest status (Display Records Ingested)
-*/

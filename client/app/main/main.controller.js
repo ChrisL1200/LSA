@@ -56,7 +56,7 @@ angular.module('cruvitaApp')
           latitude: home.listing.location[0].latitude[0],
           longitude: home.listing.location[0].longitude[0]
         };
-        // home.icon = 'assets/images/yeoman.png';
+        // home.icon = 'favicon.png';
         home.closeClick = function () {
           $scope.homeWindow = {};
         };
@@ -80,6 +80,8 @@ angular.module('cruvitaApp')
         //   green += 16;
         // }
         // school.lsaColor = "#" + red.toString(16) + green.toString(16) + "00";
+
+        school.icon = 'favicon.png';
         school.closeClick = function () {
           $scope.schoolWindow = {};
         };
