@@ -7,7 +7,7 @@
   <div ng-if="showOptions" class="searchOptionsPanel">
     <ul>
       <li class="option-section" ng-repeat="(key, filters) in config.advancedSchoolFilters">
-        <select class="form-control" ng-change="updateSchools()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
+        <select class="form-control" ng-change="updateSchools(true)" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
           <option value="">{{filters.defaultText}}</option>
         </select>
       </li>
@@ -16,7 +16,7 @@
           <div range-slider min="filter.minRange" max="filter.maxRange" model-min="filter.min" model-max="filter.max" show-values="false" step="100" prevent-equal-min-max="true" ng-model="homeFilters[key]"></div>
       </li>
       <li class="option-section" ng-repeat="(key, filters) in config.advancedHomeFilters">
-        <select class="form-control" ng-change="updateHomes()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
+        <select class="form-control" ng-change="updateHomes(true)" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
           <option value="">{{filters.defaultText}}</option>
         </select>
       </li>

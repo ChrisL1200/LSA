@@ -15,7 +15,7 @@ angular.module('cruvitaApp')
     $scope.infiniteHomes = [];
 
     var keyPromise, firstRequest, promise;
-
+    var noBounds = true;
     var getBounds = function() {
       return {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
     }
@@ -30,10 +30,10 @@ angular.module('cruvitaApp')
       return params;
     }
 
-    var updateScore = function(noBounds) {
+    var updateScore = function() {
       if($scope.map.bounds.northeast) {
-        $scope.updateHomes(noBounds);
-        $scope.updateSchools(noBounds);
+        $scope.updateHomes();
+        $scope.updateSchools();
       }
     }
 
@@ -74,16 +74,6 @@ angular.module('cruvitaApp')
       $scope.map.schools = schools;
       $scope.map.polylines = [];
       _.each($scope.map.schools, function (school) {
-        // var red = Math.round((255*(10-school.score))/10);
-        // var green = Math.round((255*school.score)/10);
-        // if(red < 16) {
-        //   red += 16;
-        // }
-        // if(green < 16) {
-        //   green += 16;
-        // }
-        // school.lsaColor = "#" + red.toString(16) + green.toString(16) + "00";
-
         school.icon = 'favicon.png';
         school.closeClick = function () {
           $scope.schoolWindow = {};
@@ -107,12 +97,14 @@ angular.module('cruvitaApp')
     var pluckValues = function(input) {
       var output = {};
       angular.forEach(input, function(value, key) {
-        output[key] = value.value || 0;
+        if(value) {
+          output[key] = value.value || 0;
+        }
       });
       return output;
     }
 
-    var boundUpdate = function(noBounds) {
+    var boundUpdate = function() {
       if(keyPromise)
         $timeout.cancel(keyPromise);
       keyPromise = $timeout(function() {
@@ -132,10 +124,11 @@ angular.module('cruvitaApp')
     $scope.$watch('map.bounds', function(newVal, oldVal) {
       if(!oldVal.northeast && newVal !== oldVal) {
         firstRequest = true;
-        boundUpdate(true);
+        boundUpdate();
       }
       else if(newVal !== oldVal && !$scope.selectedSchool && !firstRequest) {
-        boundUpdate(false);
+        noBounds = false;
+        boundUpdate();
       }
       else if(firstRequest) {
         firstRequest = false;
@@ -156,7 +149,7 @@ angular.module('cruvitaApp')
       }
     });
 
-    $scope.updateSchools = function(noBounds) {
+    $scope.updateSchools = function() {
       var request = {};
       if(noBounds) {
         request = getParams(false);
@@ -170,7 +163,7 @@ angular.module('cruvitaApp')
       }).$promise;
     }
 
-    $scope.updateHomes = function(noBounds) {
+    $scope.updateHomes = function() {
       var request = {};
       if(noBounds) {
         request = getParams(true);
