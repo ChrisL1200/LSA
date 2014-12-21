@@ -35,7 +35,7 @@
           <li>Bathrooms: <span class="pull-right">{{listing.bathrooms[0]}}</span></li>
           <li ng-if="listing.detailedcharacteristics[0].numfloors[0]">Floors: <span class="pull-right">{{listing.detailedcharacteristics[0].numfloors[0]}}</span></li>
           <li>Sq Ft: <span class="pull-right">{{listing.livingarea[0]}}</span></li>
-          <li>Lot Size: <span class="pull-right">{{listing.lotsize[0]}}</span></li>
+          <li>Lot Size: <span class="pull-right">{{listing.lotsize[0] | number : 2}}</span></li>
           <li>Built: <span class="pull-right">{{listing.yearbuilt[0]}}</span></li>
           <li>Listed On: <span class="pull-right">{{listing.listingdate[0]}}</span></li>
           <li>Property Type: <span class="pull-right">{{listing.propertysubtype[0]}}</span></li>
