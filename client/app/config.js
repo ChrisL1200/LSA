@@ -40,15 +40,15 @@ angular.module('cruvitaApp').constant('Config', {
   advancedHomeRangeFilters: {
     sqFt: {
       name: "SqFT",
-      min: '',
-      max: '',
+      min: 0,
+      max: 10000,
       minRange: 0,
       maxRange: 10000
     },
     price: {
       name: "Price",
-      min: '',
-      max: '',
+      min: 0,
+      max: 2000000,
       minRange: 0,
       maxRange: 2000000
     }

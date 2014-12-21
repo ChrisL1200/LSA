@@ -14,7 +14,7 @@ angular.module('cruvitaApp')
     $scope.searchQuery = $routeParams.q;
     $scope.infiniteHomes = [];
 
-    var keyPromise, firstRequest;
+    var keyPromise, firstRequest, promise;
 
     var getBounds = function() {
       return {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
@@ -52,6 +52,7 @@ angular.module('cruvitaApp')
 
     var homesCallback = function(homes) {
       $scope.map.homes = homes;
+      $scope.infiniteHomes = [];
       $scope.loadMoreHomes(20);
       angular.forEach($scope.map.homes.results, function(home) {
         home.coordinates = {
@@ -120,6 +121,14 @@ angular.module('cruvitaApp')
       }, 500);
     }
 
+    var debounceRequest = function(duration, callback) {
+      if(promise)
+        $timeout.cancel(promise);
+      promise = $timeout(function() {
+        callback();
+      }, 500);
+    }
+
     $scope.$watch('map.bounds', function(newVal, oldVal) {
       if(!oldVal.northeast && newVal !== oldVal) {
         firstRequest = true;
@@ -133,6 +142,19 @@ angular.module('cruvitaApp')
       }
     }, true);
 
+    $scope.$watchGroup(['config.advancedHomeRangeFilters.price.min','config.advancedHomeRangeFilters.price.max','config.advancedHomeRangeFilters.sqFt.min','config.advancedHomeRangeFilters.sqFt.max'], function(newValues, oldValues) {
+      if(oldValues != newValues) {
+        angular.extend($scope.homeFilters, {
+          priceMin: {value: newValues[0]},
+          priceMax: {value: newValues[1]},
+          sqFtMin: {value: newValues[2]},
+          sqFtMax: {value: newValues[3]}
+        });
+        debounceRequest(500, function(){
+          $scope.updateHomes(true);
+        });
+      }
+    });
 
     $scope.updateSchools = function(noBounds) {
       var request = {};
@@ -199,6 +221,9 @@ angular.module('cruvitaApp')
 
     $scope.loadMoreHomes = function(number) {
       if($scope.map.homes && $scope.infiniteHomes.length <= $scope.map.homes.results.length) {
+        if($scope.infiniteHomes.length >= $scope.map.homes.results.length - number) {
+          number = $scope.map.homes.results.length - $scope.infiniteHomes.length;
+        }
         for(var i = 1; i <= number; i++) {
           $scope.infiniteHomes.push($scope.map.homes.results[$scope.infiniteHomes.length]);
         }
@@ -234,15 +259,6 @@ angular.module('cruvitaApp')
           longitude: (parseFloat($routeParams.NELONG) + parseFloat($routeParams.SWLONG))/2
       }
     }
-
-    $scope.images = [1, 2, 3, 4, 5, 6, 7, 8];
-
-  $scope.loadMore = function() {
-    var last = $scope.images[$scope.images.length - 1];
-    for(var i = 1; i <= 8; i++) {
-      $scope.images.push(last + i);
-    }
-  };
 
     //Initial Load
     updateScore(true);
