@@ -7,6 +7,13 @@ var User = require('../user/user.model');
 var url = require('url');
 var async = require('async');
 var inside = require('point-in-polygon');
+require('mongoose-query-paginate');
+
+var pageOptions = {
+  perPage: 100,
+  delta  : 3,
+  page   : 1
+};
 
 // Get list of homess
 exports.index = function(req, res) {
@@ -42,7 +49,6 @@ exports.create = function(req, res) {
   }
   var userParams = [];
   var homeQuery = Homes.find(queryObj)
-  .limit(25)
   .where('listing.livingarea').gt(sqFtMin).lt(sqFtMax)
   .where('listing.lotsize').gt(lotMin).lt(lotMax)
   .where('listing.bedrooms').gt(bedMin).lt(bedMax)
@@ -102,13 +108,10 @@ exports.create = function(req, res) {
     homeQuery.where('listing.location.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong));
     async.series({
       homes: function(callback){
-        homeQuery.exec(function (err, homes) {
+        homeQuery.paginate(pageOptions, function (err, homes) {
           _.each(_.deepPluck(homes, 'listing.address.0.postalcode.0'), function(postalcode) {
             userParams.push({'paidInterests.zips':postalcode});
           });
-          // _.each(_.deepPluck(homes, 'listing.address.0.city.0'), function(city) {
-          //   userParams.push({'paidInterests.cities':city});
-          // });
           homesCallback(err, homes, callback);
         });    
       },
@@ -126,7 +129,7 @@ exports.create = function(req, res) {
         agentsCallback(callback);
       },
       homes: function(callback){
-        homeQuery.exec(function (err, homes) {
+        homeQuery.paginate(pageOptions, function (err, homes) {
           homesCallback(err, homes, callback);
         });
       }
@@ -140,7 +143,6 @@ exports.create = function(req, res) {
 // Updates an existing homes in the DB.
 exports.update = function(req, res) {
   console.log("update");  
-  
 };
 
 // Deletes a homes from the DB.

@@ -38,7 +38,7 @@
         <ui-gmap-window coords="schoolWindow.coordinates" idKey="schoolWindow._id" show="schoolWindow.showWindow" closeClick="schoolWindow.closeClick" isIconVisibleOnClick="false">
             <p>This is an info window at {{ schoolWindow.coordinates.latitude | number:4 }}, {{ schoolWindow.coordinates.longitude | number:4 }}!</p>
         </ui-gmap-window>
-        <ui-gmap-markers models="map.homes" coords="'coordinates'" idKey="'_id'" click="'onClicked'" icon="'icon'">
+        <ui-gmap-markers models="map.homes.results" coords="'coordinates'" idKey="'_id'" click="'onClicked'" icon="'icon'">
         </ui-gmap-markers>
         <ui-gmap-window coords="homeWindow.coordinates" idKey="homeWindow._id" show="homeWindow.showWindow" closeClick="homeWindow.closeClick" isIconVisibleOnClick="false">
             <p>This is an info window at {{ homeWindow.coordinates.latitude | number:4 }}, {{ homeWindow.coordinates.longitude | number:4 }}!</p>
@@ -50,10 +50,10 @@
   </div>
 
   <section class="col col-25" cg-busy="homePromise">
-    <div class="homeList">
-      <span class="homesHeader">{{map.homes.length}} Homes</span>
-      <result ng-repeat="home in map.homes | orderBy: home.listing.listingdate[0]" home="home"></result>
-      <div ng-if="map.homes.length === 0">
+    <div class="homeList" home-scroll ng-if="map.homes.results">
+      <span class="homesHeader">{{map.homes.count}} Homes {{map.homes.count > 100 ? '(Narrow your search results)':''}}</span>
+      <result ng-repeat="home in infiniteHomes"></result>
+      <div ng-if="map.homes.count === 0">
         No Homes Found
       </div>
     </div>
@@ -72,5 +72,8 @@
     <div class="adSpace1">
       Sponsored Ad Space
     </div>
+    <!-- <div infinite-scroll='loadMore()' infinite-scroll-distance='2'>
+    <img ng-repeat='image in images' ng-src='http://placehold.it/225x250&text={{image}}'>
+  </div> -->
   </section>
 </section>

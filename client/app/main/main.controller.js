@@ -12,6 +12,7 @@ angular.module('cruvitaApp')
     $scope.lastSelected = Location.lastSelected;
     $scope.config = Config;
     $scope.searchQuery = $routeParams.q;
+    $scope.infiniteHomes = [];
 
     var keyPromise, firstRequest;
 
@@ -51,7 +52,8 @@ angular.module('cruvitaApp')
 
     var homesCallback = function(homes) {
       $scope.map.homes = homes;
-      angular.forEach($scope.map.homes, function(home) {
+      $scope.loadMoreHomes(20);
+      angular.forEach($scope.map.homes.results, function(home) {
         home.coordinates = {
           latitude: home.listing.location[0].latitude[0],
           longitude: home.listing.location[0].longitude[0]
@@ -195,6 +197,17 @@ angular.module('cruvitaApp')
       $scope.updateHomes();
     };
 
+    $scope.loadMoreHomes = function(number) {
+      if($scope.map.homes && $scope.infiniteHomes.length <= $scope.map.homes.results.length) {
+        for(var i = 1; i <= number; i++) {
+          $scope.infiniteHomes.push($scope.map.homes.results[$scope.infiniteHomes.length]);
+        }
+        if(!$scope.$$phase) {
+          $scope.$apply();
+        }
+      }
+    };
+
     $scope.clearPolygons = function() {
       $scope.map.polys = [];
       updateScore();
@@ -221,6 +234,15 @@ angular.module('cruvitaApp')
           longitude: (parseFloat($routeParams.NELONG) + parseFloat($routeParams.SWLONG))/2
       }
     }
+
+    $scope.images = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  $scope.loadMore = function() {
+    var last = $scope.images[$scope.images.length - 1];
+    for(var i = 1; i <= 8; i++) {
+      $scope.images.push(last + i);
+    }
+  };
 
     //Initial Load
     updateScore(true);

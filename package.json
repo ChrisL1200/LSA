@@ -30,7 +30,8 @@
     "socket.io": "~0.9.16",
     "socketio-jwt": "^2.0.2",
     "xml2js": "0.4.4",
-    "async": "*"
+    "async": "*",
+    "mongoose-query-paginate": "*"
   },
   "devDependencies": {
     "connect-livereload": "~0.4.0",
