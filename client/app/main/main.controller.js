@@ -17,7 +17,8 @@ angular.module('cruvitaApp')
     $scope.searchQuery = $routeParams.q;
     $scope.infiniteHomes = [];
 
-    var keyPromise, firstRequest, promise;
+    var keyPromise, promise;
+    var firstRequest = true;
     var noBounds = true;
     var getBounds = function() {
       return {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
@@ -125,16 +126,13 @@ angular.module('cruvitaApp')
     }
 
     $scope.$watch('map.bounds', function(newVal, oldVal) {
-      if(!oldVal.northeast && newVal !== oldVal) {
-        firstRequest = true;
+      if((!oldVal.northeast || Location.searching) && newVal !== oldVal) {
+        Location.searching = false;
         boundUpdate();
       }
-      else if(newVal !== oldVal && !$scope.selectedSchool && !firstRequest) {
+      else if(newVal !== oldVal && !$scope.selectedSchool) {
         noBounds = false;
         boundUpdate();
-      }
-      else if(firstRequest) {
-        firstRequest = false;
       }
     }, true);
 

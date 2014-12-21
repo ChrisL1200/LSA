@@ -1,24 +1,8 @@
 'use strict';
 
 angular.module('cruvitaApp')
-  .service('Location', function ($http, Config, $location) {
-  	var schoolsComponentMap = {
-  		locality: 'address.city',
-  		administrative_area_level_1: 'address.state',
-  		administrative_area_level_2: 'address.county',
-  		postal_code: 'address.zip',
-  		country: 'address.country'
-  	};
-
-  	var homesComponentMap = {
-  		locality: 'listing.address.city',
-  		administrative_area_level_1: 'listing.address.stateorprovince',
-  		administrative_area_level_2: 'listing.address.county',
-  		postal_code: 'listing.address.postalcode',
-  		country: 'listing.address.country'
-  	};
-
-    var service = {
+  .service('Location', function ($http, Config, $location, $route) {
+  	var service = {
     	autocomplete: function(val) {
 	      return $http.get(Config.autocompleteService, {
 	        params: {
@@ -37,7 +21,6 @@ angular.module('cruvitaApp')
 	    lastSelected: {},
 	    getRequest: function(input, bounds, homes) {
 	    	var selected =  _.where(service.lastSelected, { 'formatted_address': input })[0];
-	    	// var map = homes ? homesComponentMap : schoolsComponentMap;
 	    	var requestObject = {};
 	    	_.each(selected.address_components, function(component) {
 	    		if(component.types[0] !== 'country' && component.types[0] !== 'administrative_area_level_2') {
@@ -60,8 +43,14 @@ angular.module('cruvitaApp')
 	        if(key !== 'geometry') {
 	          $location.search(key, value);
 	        }
-	      })
-		  	$location.path('/results');
+	      });
+	      service.searching = true;
+	      // if($location.path() !== '/results') {
+	  		$location.path('/results');	
+		  	// }
+		  	// else {
+		  	// 	$route.reload();
+		  	// }
 		  }
     }
 
