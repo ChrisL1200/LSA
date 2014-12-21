@@ -16,9 +16,21 @@
           <div range-slider min="filter.minRange" max="filter.maxRange" model-min="filter.min" model-max="filter.max" show-values="false" step="100" prevent-equal-min-max="true" ng-model="homeFilters[key]"></div>
       </li>
       <li class="option-section" ng-repeat="(key, filters) in config.advancedHomeFilters">
-        <select class="form-control" ng-change="updateHomes(true)" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
+        <select class="form-control" ng-change="updateHomes()" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
           <option value="">{{filters.defaultText}}</option>
         </select>
+      </li>
+      <li>
+        <div class="col-md-6">
+          <label>
+            <input type="checkbox" ng-change="updateHomes()" ng-model="homeFilters.forSale.value"> For Sale
+          </label>
+        </div>
+        <div class="col-md-6">
+          <label>
+            <input type="checkbox" ng-change="updateHomes()" ng-model="homeFilters.rental.value"> For Rent
+          </label>
+        </div>
       </li>
     </ul>
   </div>

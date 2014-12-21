@@ -7,7 +7,10 @@ angular.module('cruvitaApp')
     $scope.getLocation = Location.autocomplete;
     $scope.homeWindow = {};
     $scope.schoolFilters = {};
-    $scope.homeFilters = {};
+    $scope.homeFilters = {
+      forSale: {value:true},
+      rental: {value:false}
+    };
     $scope.showOptions = false;
     $scope.lastSelected = Location.lastSelected;
     $scope.config = Config;
@@ -98,7 +101,7 @@ angular.module('cruvitaApp')
       var output = {};
       angular.forEach(input, function(value, key) {
         if(value) {
-          output[key] = value.value || 0;
+          output[key] = value.value;
         }
       });
       return output;

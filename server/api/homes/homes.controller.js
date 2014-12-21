@@ -10,7 +10,7 @@ var inside = require('point-in-polygon');
 require('mongoose-query-paginate');
 
 var pageOptions = {
-  perPage: 100,
+  perPage: 50,
   delta  : 3,
   page   : 1
 };
@@ -71,12 +71,17 @@ exports.create = function(req, res) {
     userParams.push({'paidInterests.zips':query.postal_code});
     homeQuery.where('listing.address.postalcode').equals(query.postal_code);
   }
-  // if(query.rental) {
-  //   homeQuery.where('listing.propertytype').equals('Rental');
-  // }
-  // else {
-  //   homeQuery.where('listing.propertytype').ne('Rental');
-  // }
+  var rental = query.rental && query.rental=='true';
+  var forSale = query.forSale && query.forSale=='true';
+  if(rental && !forSale) {
+    homeQuery.where('listing.propertytype').equals('Rental');
+  }
+  if(forSale && !rental) {
+    homeQuery.where('listing.propertytype').ne('Rental');
+  }
+  if(!forSale && !rental) {
+    homeQuery.exists('listing.propertytype', false);
+  }
   var userQuery = User.find({})
   .where('role').equals('agent')
   .select('email name');
