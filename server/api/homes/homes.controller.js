@@ -87,14 +87,18 @@ exports.create = function(req, res) {
     var polygonsPresent = req.body.polygons && req.body.polygons.length > 0;
     if(polygonsPresent) {
       _.each(req.body.polygons, function(poly) {
-        _.each(homes, function(home) {
+        _.each(homes.results, function(home) {
           if(inside([home.listing.location[0].latitude[0], home.listing.location[0].longitude[0]], poly)) {
             filteredHomes.push(home);
           }
+          else {
+            console.log(home);
+          }
         });
       });
+      homes.results = filteredHomes;
     }
-    callback(null, polygonsPresent ? filteredHomes : homes);
+    callback(null, homes);
   }
 
   function agentsCallback(callback) {

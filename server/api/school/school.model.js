@@ -37,8 +37,7 @@ var SchoolSchema = new Schema({
     street: String,
     state: String,
     city: String,
-    zip: Number,
-    county: String
+    zip: Number
   }
 });
 
