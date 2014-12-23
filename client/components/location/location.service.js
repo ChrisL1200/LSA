@@ -53,14 +53,18 @@ angular.module('cruvitaApp')
 	  		administrative_area_level_1: 'address.state',
 	  		administrative_area_level_2: 'address.county',
 	  		postal_code: 'address.zip',
-	  		country: 'address.country'
+	  		country: 'address.country',
+	  		latitude: 'coordinates.latitude',
+	  		longitude: 'coordinates.longitude'
 	  	},
 	  	homesComponentMap: {
 	  		locality: 'listing.address.city',
 	  		administrative_area_level_1: 'listing.address.stateorprovince',
 	  		administrative_area_level_2: 'listing.address.county',
 	  		postal_code: 'listing.address.postalcode',
-	  		country: 'listing.address.country'
+	  		country: 'listing.address.country',
+	  		latitude: 'listing.location.latitude',
+	  		longitude: 'listing.location.longitude'
 	  	}
     }
     return service;

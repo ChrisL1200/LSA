@@ -63,7 +63,7 @@
 
   <section class="col col-25" cg-busy="homePromise">
     <div class="homeList" home-scroll ng-if="map.homes.results">
-      <span class="homesHeader">{{map.homes.count}} Homes {{map.homes.count > 100 ? '(Narrow your search results)':''}}</span>
+      <span class="homesHeader">{{map.homes.count}} Homes {{map.homes.count > 100 ? '(Narrow your search criteria)':''}}</span>
       <result ng-repeat="home in infiniteHomes"></result>
       <div ng-if="map.homes.count === 0">
         No Homes Found

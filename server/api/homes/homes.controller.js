@@ -33,20 +33,6 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
-  var sqFtMin = query.sqFtMin || 0;
-  var sqFtMax = query.sqFtMax || 99999;
-  var lotMin = query.lotMin || 0;
-  var lotMax = query.lotMax || 99999;
-  var bedMin = query.bedMin || 0;  
-  var bedMax = query.bedMax || 99999;
-  var bathMin = query.bathMin || 0;
-  var bathMax = query.bathMax || 99999;
-  var priceMin = query.priceMin || 0;
-  var priceMax = query.priceMax || 99999999999;
-  var queryObj = {};
-  // if(query.propertysubtype) {
-  //   queryObj['listing.propertysubtype'] = query.propertysubtype;
-  // }
   var userParams = [];
   var homeQuery = Homes.find()
   .select('listing.photos.photo listing.listprice listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude');

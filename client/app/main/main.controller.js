@@ -19,15 +19,18 @@ angular.module('cruvitaApp')
     var keyPromise, promise;
     var firstRequest = true;
     var noBounds = true;
-    var getBounds = function() {
-      return {northeastLat: $scope.map.bounds.northeast.latitude, northeastLong: $scope.map.bounds.northeast.longitude, southwestLat: $scope.map.bounds.southwest.latitude, southwestLong: $scope.map.bounds.southwest.longitude};
+    var getBounds = function(map) {
+      return [
+        {type:'range', key: map.latitude, min: $scope.map.bounds.southwest.latitude, max: $scope.map.bounds.northeast.latitude},
+        {type:'range', key: map.longitude, min: $scope.map.bounds.southwest.longitude, max: $scope.map.bounds.northeast.longitude}
+      ];
     }
 
-    var getParams = function(homes) {
+    var getParams = function(map) {
       var params = [];
       _.each($routeParams, function(value, key) {
         if(key !== 'SWLAT' && key !== 'SWLONG' && key !== 'NELAT' && key !== 'NELONG' && key !== 'q') {
-          params.push({type: 'equals', key: Location.homesComponentMap[key], value: value});
+          params.push({type: 'equals', key: map[key], value: value});
         }
       });
       return params;
@@ -158,15 +161,19 @@ angular.module('cruvitaApp')
     });
 
     $scope.updateSchools = function() {
-      var request = {};
+      var queries = [];
       if(noBounds) {
-        request = getParams(false);
+        queries = getParams(Location.schoolsComponentMap);
       }
       else {
-        request = getBounds();
+        queries = getBounds(Location.schoolsComponentMap);
       }
-      request = _.merge(request, pluckValues($scope.schoolFilters));
-      $scope.schoolPromise = School.retrieve(request, {polygons: getPolygons()}, function(response) {
+      angular.forEach($scope.schoolFilters, function(val, key) {
+        if(val.value || val.type === 'type' || (val.min && val.max)) {
+          queries.push(val);
+        }
+      });
+      $scope.schoolPromise = School.retrieve({}, {polygons: getPolygons(), queries: queries}, function(response) {
         schoolCallback(response);
       }).$promise;
     }
@@ -174,10 +181,10 @@ angular.module('cruvitaApp')
     $scope.updateHomes = function() {
       var queries = [];
       if(noBounds) {
-        queries = getParams(true);
+        queries = getParams(Location.homesComponentMap);
       }
       else {
-        queries = getBounds();
+        queries = getBounds(Location.homesComponentMap);
       }
       angular.forEach($scope.homeFilters, function(val, key) {
         if(val.value || val.type === 'type' || (val.min && val.max)) {
