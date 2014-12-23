@@ -8,8 +8,7 @@ angular.module('cruvitaApp')
     $scope.homeWindow = {};
     $scope.schoolFilters = {};
     $scope.homeFilters = {
-      forSale: {value:true},
-      rental: {value:false}
+      type: {rental:false, forSale: true, type: 'type', key: 'listing.propertytype'}
     };
     $scope.showOptions = false;
     $scope.lastSelected = Location.lastSelected;
@@ -25,10 +24,10 @@ angular.module('cruvitaApp')
     }
 
     var getParams = function(homes) {
-      var params = {};
+      var params = [];
       _.each($routeParams, function(value, key) {
         if(key !== 'SWLAT' && key !== 'SWLONG' && key !== 'NELAT' && key !== 'NELONG' && key !== 'q') {
-          params[key] = value;
+          params.push({type: 'equals', key: Location.homesComponentMap[key], value: value});
         }
       });
       return params;
@@ -60,8 +59,8 @@ angular.module('cruvitaApp')
       $scope.loadMoreHomes(20);
       angular.forEach($scope.map.homes.results, function(home) {
         home.coordinates = {
-          latitude: home.listing.location[0].latitude[0],
-          longitude: home.listing.location[0].longitude[0]
+          latitude: home.listing.location.latitude,
+          longitude: home.listing.location.longitude
         };
         // home.icon = 'favicon.png';
         home.closeClick = function () {
@@ -136,16 +135,24 @@ angular.module('cruvitaApp')
       }
     }, true);
 
-    $scope.$watchGroup(['config.advancedHomeRangeFilters.price.min','config.advancedHomeRangeFilters.price.max','config.advancedHomeRangeFilters.sqFt.min','config.advancedHomeRangeFilters.sqFt.max'], function(newValues, oldValues) {
+    $scope.$watchGroup(['config.advancedHomeRangeFilters.price.min','config.advancedHomeRangeFilters.price.max'], function(newValues, oldValues) {
       if(oldValues != newValues) {
         angular.extend($scope.homeFilters, {
-          priceMin: {value: newValues[0]},
-          priceMax: {value: newValues[1]},
-          sqFtMin: {value: newValues[2]},
-          sqFtMax: {value: newValues[3]}
+          listprice: {min: newValues[0], max: newValues[1], type: 'range', key: 'listing.listprice'}
         });
         debounceRequest(500, function(){
-          $scope.updateHomes(true);
+          $scope.updateHomes();
+        });
+      }
+    });
+
+    $scope.$watchGroup(['config.advancedHomeRangeFilters.sqFt.min','config.advancedHomeRangeFilters.sqFt.max'], function(newValues, oldValues) {
+      if(oldValues != newValues) {
+        angular.extend($scope.homeFilters, {
+          sqFt: {min: newValues[0], max: newValues[1], type: 'range', key: 'listing.livingarea'}
+        });
+        debounceRequest(500, function(){
+          $scope.updateHomes();
         });
       }
     });
@@ -165,14 +172,18 @@ angular.module('cruvitaApp')
     }
 
     $scope.updateHomes = function() {
-      var request = {};
+      var queries = [];
       if(noBounds) {
-        request = getParams(true);
+        queries = getParams(true);
       }
       else {
-        request = getBounds();
+        queries = getBounds();
       }
-      request = _.merge(request, pluckValues($scope.homeFilters));
+      angular.forEach($scope.homeFilters, function(val, key) {
+        if(val.value || val.type === 'type' || (val.min && val.max)) {
+          queries.push(val);
+        }
+      });
       var paths = [];
       angular.forEach($scope.map.polylines, function(polyline) {
         if($scope.selectedSchool && polyline.id === $scope.selectedSchool._id) {
@@ -186,7 +197,7 @@ angular.module('cruvitaApp')
         });
         paths.push(path);
       }
-      $scope.homePromise = Homes.retrieve(request, {polygons: paths}, function(response) {
+      $scope.homePromise = Homes.retrieve({}, {polygons: paths, queries: queries}, function(response) {
         homesCallback(response.homes);
         $scope.agents = response.agents;
       }).$promise;
@@ -249,8 +260,8 @@ angular.module('cruvitaApp')
 
     if($routeParams.NELONG) {
       $scope.map.center = {
-          latitude: (parseFloat($routeParams.NELAT) + parseFloat($routeParams.SWLAT))/2,
-          longitude: (parseFloat($routeParams.NELONG) + parseFloat($routeParams.SWLONG))/2
+        latitude: (parseFloat($routeParams.NELAT) + parseFloat($routeParams.SWLAT))/2,
+        longitude: (parseFloat($routeParams.NELONG) + parseFloat($routeParams.SWLONG))/2
       }
     }
 

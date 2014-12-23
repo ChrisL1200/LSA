@@ -11,7 +11,7 @@
   <div class="media-body">
     <h3 class="media-heading">{{home.listing.listprice[0] | currency: '$':0}}</h3>
     <div class="result-info">
-      <p title="{{home.listing.address[0].fullstreetaddress[0] | titleCase}}, {{home.listing.address[0].city[0] | titleCase}}, {{home.listing.address[0].city[0] | titleCase}}, {{home.listing.address[0].stateorprovince[0] | titleCase}}">{{home.listing.address[0].fullstreetaddress[0] | titleCase}}, <span ng-show="home.listing.address[0].city[0]">{{home.listing.address[0].city[0] | titleCase}},</span> {{home.listing.address[0].stateorprovince[0] | titleCase}}</p>
+      <p title="{{home.listing.address[0].fullstreetaddress[0] | titleCase}}, {{home.listing.address[0].city[0] | titleCase}}, {{home.listing.address[0].city[0] | titleCase}}, {{home.listing.address[0].stateorprovince[0] | titleCase}}">{{home.listing.address.fullstreetaddress[0] | titleCase}}, <span ng-show="home.listing.address[0].city[0]">{{home.listing.address.city | titleCase}},</span> {{home.listing.address.stateorprovince | titleCase}}</p>
       <p><span ng-show="home.listing.bedrooms[0]">{{home.listing.bedrooms[0]}} beds</span><span ng-show="home.listing.bathrooms[0]">, {{home.listing.bathrooms[0]}} baths</span><span ng-show="home.listing.livingarea[0]">, {{home.listing.livingarea[0]}} sqft</span></p>
       <p>{{home.listing.propertysubtype[0]}}</p>
     </div>

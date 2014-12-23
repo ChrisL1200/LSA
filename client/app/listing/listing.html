@@ -1,7 +1,7 @@
 <div ng-class="{drop: navclass}" id="sub-navbar" class="sub-navbar top-info">
 <!-- Home information -->
   <span class="back">&lt; &nbsp; Back</span><span>|</span>
-  <span>{{listing.listprice[0] | currency: '$':0}}</span><span>{{listing.bedrooms[0]}} BR</span><span>{{listing.bathrooms[0]}} BA</span><span>{{listing.livingarea[0]}} SQ FT</span> | <span>{{listing.address[0].fullstreetaddress[0] | titleCase}}, </span><span>{{listing.address[0].city[0] | titleCase}}, </span><span>{{listing.address[0].stateorprovince[0] | titleCase}} </span><span>{{listing.address[0].postalcode[0]}}</span>
+  <span>{{listing.listprice[0] | currency: '$':0}}</span><span>{{listing.bedrooms[0]}} BR</span><span>{{listing.bathrooms[0]}} BA</span><span>{{listing.livingarea[0]}} SQ FT</span> | <span>{{listing.address.fullstreetaddress[0] | titleCase}}, </span><span>{{listing.address.city | titleCase}}, </span><span>{{listing.address.stateorprovince | titleCase}} </span><span>{{listing.address.postalcode}}</span>
 </div>
 <section class="container-flex">
   <section class="col col-50 resist">

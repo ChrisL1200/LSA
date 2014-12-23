@@ -9,16 +9,16 @@ var HomeSchema = new Schema({
           realEstate: Number,
           school: Number
         },
-        address: [{
+        address: {
             preferenceorder: [ Number ],
             addresspreferenceorder: [ Number ],
             fullstreetaddress: [ String ],
             unitNumber: [ Number ],
-            city: [ String ],
-            stateorprovince: [ String ],
-            postalcode: [ Number ],
+            city: String,
+            stateorprovince: String,
+            postalcode: Number,
             country: [ String ]
-        }],
+        },
         listprice: [ Number ],
         listpricelow: [ Number ],
         alternateprices: [{
@@ -120,7 +120,7 @@ var HomeSchema = new Schema({
                     unitNumber: [ Number ],
                     city: [ String ],
                     stateorprovince: [ String ],
-                    postalcode: [ Number ],
+                    postalcode: [String],
                     country: [ String ]
                 },
                 website: [ String ]
@@ -161,9 +161,9 @@ var HomeSchema = new Schema({
                 postalcode: [ Number ]
             }
         },
-        location: [{
-            latitude: [ Number ],
-            longitude: [ Number ],
+        location: {
+            latitude: Number,
+            longitude: Number,
             elevation: [ String ],
             directions: [ String ],
             geocodeoptions: [ String ],
@@ -190,7 +190,7 @@ var HomeSchema = new Schema({
                     }
                 ]
             }
-        }],
+        },
         openhouses: {
             openhouse: {
                 Date: [ Date ],
@@ -308,5 +308,6 @@ var HomeSchema = new Schema({
     status: String
 });
 
-
+HomeSchema.index({ 'listing.location.latitude': 1, 'listing.location.longitude': 1 });
+HomeSchema.index({ 'listing.address.stateorprovince': 1, 'listing.address.city': 1 });
 module.exports = mongoose.model('Home', HomeSchema);

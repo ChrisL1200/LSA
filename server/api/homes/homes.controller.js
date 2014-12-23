@@ -10,7 +10,7 @@ var inside = require('point-in-polygon');
 require('mongoose-query-paginate');
 
 var pageOptions = {
-  perPage: 50,
+  perPage: 100,
   delta  : 3,
   page   : 1
 };
@@ -44,44 +44,46 @@ exports.create = function(req, res) {
   var priceMin = query.priceMin || 0;
   var priceMax = query.priceMax || 99999999999;
   var queryObj = {};
-  if(query.propertysubtype) {
-    queryObj['listing.propertysubtype'] = query.propertysubtype;
-  }
+  // if(query.propertysubtype) {
+  //   queryObj['listing.propertysubtype'] = query.propertysubtype;
+  // }
   var userParams = [];
-  var homeQuery = Homes.find(queryObj)
-  .where('listing.livingarea').gt(sqFtMin).lt(sqFtMax)
-  .where('listing.lotsize').gt(lotMin).lt(lotMax)
-  .where('listing.bedrooms').gt(bedMin).lt(bedMax)
-  .where('listing.bathrooms').gt(bathMin).lt(bathMax)
-  .where('listing.listprice').gt(priceMin).lt(priceMax)
-  .select('listing.photos.photo listing.listprice listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude')
-  
-  if(query.southwestLat && query.northeastLat && query.southwestLong && query.northeastLong) {  
-    homeQuery.where('listing.location.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat))
-    homeQuery.where('listing.location.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong))
-  }
-  if(query.locality) {
-    userParams.push({'paidInterests.cities':query.locality.toUpperCase()});
-    homeQuery.where('listing.address.city').equals(query.locality.toUpperCase());
-  }
-  if(query.administrative_area_level_1) {
-    homeQuery.where('listing.address.stateorprovince').equals(query.administrative_area_level_1.toUpperCase());
-  }
-  if(query.postal_code) {
-    userParams.push({'paidInterests.zips':query.postal_code});
-    homeQuery.where('listing.address.postalcode').equals(query.postal_code);
-  }
-  var rental = query.rental && query.rental=='true';
-  var forSale = query.forSale && query.forSale=='true';
-  if(rental && !forSale) {
-    homeQuery.where('listing.propertytype').equals('Rental');
-  }
-  if(forSale && !rental) {
-    homeQuery.where('listing.propertytype').ne('Rental');
-  }
-  if(!forSale && !rental) {
-    homeQuery.exists('listing.propertytype', false);
-  }
+  var homeQuery = Homes.find()
+  .select('listing.photos.photo listing.listprice listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude');
+
+  _.each(req.body.queries, function(query) {
+    switch(query.type) {
+      case 'equals':
+        if(!query.caseSensitive) {
+          query.value = query.value.toUpperCase();
+        }
+        homeQuery.where(query.key).equals(query.value);
+        break;
+      case 'range':
+        homeQuery.where(query.key).gt(parseFloat(query.min)).lt(parseFloat(query.max));
+        break;
+      case 'min':
+        homeQuery.where(query.key).gt(parseFloat(query.value))
+        break;
+      case 'max':
+        homeQuery.where(query.key).lt(parseFloat(query.value))
+        break;
+      case 'type':
+        if(query.rental && !query.forSale) {
+          homeQuery.where('listing.propertytype').equals('Rental');
+        }
+        if(query.forSale && !query.rental) {
+          homeQuery.where('listing.propertytype').ne('Rental');
+        }
+        if(!query.forSale && !query.rental) {
+          homeQuery.exists('listing.propertytype', false);
+        }
+        break;
+      default:
+        break;
+    }
+  });
+
   var userQuery = User.find({})
   .where('role').equals('agent')
   .select('email name');
@@ -93,7 +95,7 @@ exports.create = function(req, res) {
     if(polygonsPresent) {
       _.each(req.body.polygons, function(poly) {
         _.each(homes.results, function(home) {
-          if(inside([home.listing.location[0].latitude[0], home.listing.location[0].longitude[0]], poly)) {
+          if(inside([home.listing.location.latitude, home.listing.location.longitude], poly)) {
             filteredHomes.push(home);
           }
           else {
