@@ -36,11 +36,14 @@ var SchoolSchema = new Schema({
   }],
   address: {
     street: String,
-    state: { type: String, index: true },
-    city: { type: String, index: true },
-    zip: { type: String, index: true }
+    state: String,
+    city: String,
+    zip: String
   }
 });
 
-SchoolSchema.set('autoIndex', false)
+SchoolSchema.index({ 'coordinates.latitude': 1, 'coordinates.longitude': 1 });
+SchoolSchema.index({ 'address.state': 1, 'address.city': 1 });
 module.exports = mongoose.model('School', SchoolSchema);
+
+// mongoexport --db lsa-dev --collection schools --csv --out schools.csv -f nces_schid,medianListing,income,nces_disid,sch_name,ed_level,phone,freeLunch,redLunch,member,mx_id,titleOne,stRatio,score.realEstate,score.school,school.overall,relver,allReading,allMath,address.street,address.state,address.city,address.zip
