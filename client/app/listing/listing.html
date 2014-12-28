@@ -1,13 +1,16 @@
 <div ng-class="{drop: navclass}" id="sub-navbar" class="sub-navbar top-info">
 <!-- Home information -->
   <span class="back">&lt; &nbsp; Back</span><span>|</span>
-  <span>{{listing.listprice[0] | currency: '$':0}}</span><span>{{listing.bedrooms[0]}} BR</span><span>{{listing.bathrooms[0]}} BA</span><span>{{listing.livingarea[0]}} SQ FT</span> | <span>{{listing.address.fullstreetaddress[0] | titleCase}}, </span><span>{{listing.address.city | titleCase}}, </span><span>{{listing.address.stateorprovince | titleCase}} </span><span>{{listing.address.postalcode}}</span>
+  <span>{{listing.listprice[0] | currency: '$':0}}</span>&middot;
+  <span>{{listing.bedrooms[0]}} BR</span>&middot;
+  <span>{{listing.bathrooms[0]}} BA</span>&middot;
+  <span>{{listing.livingarea[0]}} SQ FT</span> | <span>{{listing.address[0].fullstreetaddress[0] | titleCase}}, </span><span>{{listing.address[0].city[0] | titleCase}}, </span><span>{{listing.address[0].stateorprovince[0] | titleCase}} </span><span>{{listing.address[0].postalcode[0]}}</span>
 </div>
-<section class="container-flex">
+<section class="container-flex listing">
   <section class="col col-50 resist">
     <cru-gallery> </cru-gallery>
     <div class="listing-content">
-      <h4>{{listing.listingtitle[0]}}</h4>
+      <h4>{{listing.listingtitle[0]}} <span class="pull-right">{{listing.listprice[0] | currency: '$':0}}</span></h4>
       <p>{{listing.listingdescription[0]}}</p>
       <p>{{listing.disclaimer[0]}}</p>
     </div>
@@ -35,12 +38,13 @@
           <li>Bathrooms: <span class="pull-right">{{listing.bathrooms[0]}}</span></li>
           <li ng-if="listing.detailedcharacteristics[0].numfloors[0]">Floors: <span class="pull-right">{{listing.detailedcharacteristics[0].numfloors[0]}}</span></li>
           <li>Sq Ft: <span class="pull-right">{{listing.livingarea[0]}}</span></li>
-          <li>Lot Size: <span class="pull-right">{{listing.lotsize[0] | number : 2}}</span></li>
+          <li>Lot Size: <span class="pull-right">{{listing.lotsize[0] | number : 2}} Acres</span></li>
           <li>Built: <span class="pull-right">{{listing.yearbuilt[0]}}</span></li>
-          <li>Listed On: <span class="pull-right">{{listing.listingdate[0]}}</span></li>
+          <li ng-if="listing.listingdate[0]">Listed On: <span class="pull-right">{{listing.listingdate[0]}}</span></li>
           <li>Property Type: <span class="pull-right">{{listing.propertysubtype[0]}}</span></li>
           <li>Category: <span class="pull-right">{{listing.listingcategory[0]}}</span></li>
           <li>Status: <span class="pull-right">{{listing.listingstatus[0]}}</span></li>
+          <li ng-if="listing.foreclosurestatus[0]">Forclosure Status: <span class="pull-right">{{listing.foreclosurestatus[0]}}</span></li>
           <li ng-if="listing.detailedcharacteristics[0].architecturestyle[0]">Architecture Style:
             <ul>
               <li ng-repeat="arc in listing.detailedcharacteristics[0].architecturestyle[0]">{{arc}}</li>
@@ -49,31 +53,37 @@
           <li ng-if="listing.taxes[0].tax[0].amount[0]">Estimated Taxes: <span class="pull-right">{{listing.taxes[0].tax[0].amount[0]}}</span></li>
           <li class="hoverReveal">Direct Link: <span class="pull-right"><span class="hiddenText">Hover for Link</span><a ng-href="{{listing.listingurl[0]}}" target="_blank" class="hiddenLink">Click Here</a></span></li>
         </ul>
-        <ul class="listing-info">
-          <h4>Other Features</h4>
-          <li ng-repeat="(k, v) in listing.detailedcharacteristics[0]" ng-if="v[0] === true">
-            {{k | titleCase}
-          </li>
-          <li ng-if="listing.detailedcharacteristics[0].appliances.appliance[0]">Appliances:
+        <accordion>
+          <accordion-group is-open="status.open">
+            <accordion-heading>
+              <h4>Other Features <i class="pull-right fa" ng-class="{'fa-angle-down': status.open, 'fa-angle-right': !status.open}"></i></h4>
+            </accordion-heading>
             <ul>
-              <li ng-repeat="app in listing.detailedcharacteristics[0].appliances.appliance">{{app}}</li>
+              <li ng-repeat="(k, v) in listing.detailedcharacteristics[0]" ng-if="v[0] === true">
+                {{k | titleCase}
+              </li>
+              <li ng-if="listing.detailedcharacteristics[0].appliances.appliance[0]">Appliances:
+                <ul>
+                  <li ng-repeat="app in listing.detailedcharacteristics[0].appliances.appliance">{{app}}</li>
+                </ul>
+              </li>
+              <li ng-if="listing.detailedcharacteristics[0].coolingsystems[0].coolingsystem[0]">{{listing.detailedcharacteristics[0].coolingsystems[0].coolingsystem[0]}} Cooling</li>
+              <li ng-if="listing.detailedcharacteristics[0].heatingfuels[0].heatingfuel[0]">{{listing.detailedcharacteristics[0].heatingsystems[0].heatingsystems[0]}} Heating</li>
+              <li ng-if="listing.detailedcharacteristics[0].heatingsystems[0].heatingsystems[0]">{{listing.detailedcharacteristics[0].heatingsystems[0].heatingsystems[0]}} Heating</li>
+              <li ng-if="listing.detailedcharacteristics[0].exteriortypes[0].exteriortype[0]">Exterior Types:
+                <ul>
+                  <li ng-repeat="type in listing.detailedcharacteristics[0].exteriortypes[0].exteriortype">{{type}}</li>
+                </ul>
+              </li>
+              <li ng-if="listing.detailedcharacteristics[0].floorcoverings[0].floorcovering">Floor Coverings:<ul> <li ng-repeat="floor in listing.detailedcharacteristics[0].floorcoverings[0].floorcovering">{{floor}}</li></ul></li>
+              <li ng-if="listing.detailedcharacteristics[0].numparkingspaces[0]">Parking Spaces: {{listing.detailedcharacteristics[0].numparkingspaces[0]}}</li>
+              <li ng-if="listing.detailedcharacteristics[0].rooftypes[0].rooftype[0]">{{listing.detailedcharacteristics[0].rooftypes[0].rooftype[0]}} roof</li>
+              <li ng-if="listing.detailedcharacteristics[0].rooms[0].room">Rooms:<ul> <li ng-repeat="room in listing.detailedcharacteristics[0].rooms[0].room">{{room}}</li></ul></li>
+              <li ng-if="listing.detailedcharacteristics[0].viewtypes[0].viewtype[0]">{{listing.detailedcharacteristics[0].viewtypes[0].viewtype[0]}} View</li>
+              <li ng-if="listing.detailedcharacteristics[0].yearupdated[0]">Updated in {{listing.detailedcharacteristics[0].yearupdated[0]}}</li>
             </ul>
-          </li>
-          <li ng-if="listing.detailedcharacteristics[0].coolingsystems[0].coolingsystem[0]">{{listing.detailedcharacteristics[0].coolingsystems[0].coolingsystem[0]}} Cooling</li>
-          <li ng-if="listing.detailedcharacteristics[0].heatingfuels[0].heatingfuel[0]">{{listing.detailedcharacteristics[0].heatingsystems[0].heatingsystems[0]}} Heating</li>
-          <li ng-if="listing.detailedcharacteristics[0].heatingsystems[0].heatingsystems[0]">{{listing.detailedcharacteristics[0].heatingsystems[0].heatingsystems[0]}} Heating</li>
-          <li ng-if="listing.detailedcharacteristics[0].exteriortypes[0].exteriortype[0]">Exterior Types:
-            <ul>
-              <li ng-repeat="type in listing.detailedcharacteristics[0].exteriortypes[0].exteriortype">{{type}}</li>
-            </ul>
-          </li>
-          <li ng-if="listing.detailedcharacteristics[0].floorcoverings[0].floorcovering">Floor Coverings:<ul> <li ng-repeat="floor in listing.detailedcharacteristics[0].floorcoverings[0].floorcovering">{{floor}}</li></ul></li>
-          <li ng-if="listing.detailedcharacteristics[0].numparkingspaces[0]">Parking Spaces: {{listing.detailedcharacteristics[0].numparkingspaces[0]}}</li>
-          <li ng-if="listing.detailedcharacteristics[0].rooftypes[0].rooftype[0]">{{listing.detailedcharacteristics[0].rooftypes[0].rooftype[0]}} roof</li>
-          <li ng-if="listing.detailedcharacteristics[0].rooms[0].room">Rooms:<ul> <li ng-repeat="room in listing.detailedcharacteristics[0].rooms[0].room">{{room}}</li></ul></li>
-          <li ng-if="listing.detailedcharacteristics[0].viewtypes[0].viewtype[0]">{{listing.detailedcharacteristics[0].viewtypes[0].viewtype[0]}} View</li>
-          <li ng-if="listing.detailedcharacteristics[0].yearupdated[0]">Updated in {{listing.detailedcharacteristics[0].yearupdated[0]}}</li>
-        </ul>
+          </accordion-group>
+        </accordion>
       </div>
       <div class="col col-50 adverts">
         <ul class="listing-agent">

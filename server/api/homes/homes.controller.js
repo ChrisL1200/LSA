@@ -17,7 +17,7 @@ var pageOptions = {
 
 // Get list of homess
 exports.index = function(req, res) {
-  return res.json(200, []); 
+  return res.json(200, []);
 };
 
 // Get a single homes
@@ -35,7 +35,7 @@ exports.create = function(req, res) {
   var query = url_parts.query;
   var userParams = [];
   var homeQuery = Homes.find()
-  .select('listing.photos.photo listing.listprice listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude');
+  .select('listing.photos.photo listing.listprice listing.listingkey listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude');
 
   _.each(req.body.queries, function(query) {
     switch(query.type) {
@@ -97,10 +97,10 @@ exports.create = function(req, res) {
   function agentsCallback(callback) {
     userQuery.or(userParams).exec(function (err, users) {
       callback(null, users);
-    }); 
+    });
   }
 
-  if(query.southwestLat && query.northeastLat && query.southwestLong && query.northeastLong) {  
+  if(query.southwestLat && query.northeastLat && query.southwestLong && query.northeastLong) {
     homeQuery.where('listing.location.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat));
     homeQuery.where('listing.location.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong));
     async.series({
@@ -110,7 +110,7 @@ exports.create = function(req, res) {
             userParams.push({'paidInterests.zips':postalcode});
           });
           homesCallback(err, homes, callback);
-        });    
+        });
       },
       agents: function(callback){
         agentsCallback(callback);
@@ -139,12 +139,12 @@ exports.create = function(req, res) {
 
 // Updates an existing homes in the DB.
 exports.update = function(req, res) {
-  console.log("update");  
+  console.log("update");
 };
 
 // Deletes a homes from the DB.
 exports.destroy = function(req, res) {
-  
+
 };
 
 function handleError(res, err) {

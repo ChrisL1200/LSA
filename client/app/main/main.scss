@@ -5,7 +5,28 @@
 
 .map {
     display: block;
+    position: relative;
+
+    .map-overlay{
+        width: 100%;
+        height: 100%;
+        display: block;
+        position: absolute;
+        background-color: rgba(50, 50, 50,.8);
+        z-index: 1000;
+
+        h2, h3{
+            margin-top: 50px;
+            text-align: center;
+            color: white;
+            width: 70%;
+            letter-spacing: 2px;
+            font-weight: 100;
+            text-shadow: -1px 0 #000000;
+        }
+    }
 }
+
 .sub-navbar {
     height: 25px;
     color: #eee;
@@ -15,6 +36,7 @@
     top: -25px;
     width: 100%;
     z-index: 1;
+    padding: 0 10px;
 
     ul, li{padding: 0; list-style-type: none; position:relative;}
 

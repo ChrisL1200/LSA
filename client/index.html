@@ -24,10 +24,10 @@
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <header class="header" ng-include="'components/navbar/navbar.html'"></header>
+    <header ng-class="{drop: navclass}" class="header" ng-include="'components/navbar/navbar.html'"></header>
     <!-- Add your site or application content here -->
     <div ng-class="{drop: navclass}" class="wrapper" ng-view=""></div>
-    <footer class="footer" ng-include="'components/footer/footer.html'"></footer>
+    <footer ng-class="{drop: navclass}" class="footer" ng-include="'components/footer/footer.html'"></footer>
 
     <script>
      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -61,7 +61,6 @@
       <script src="bower_components/angular-animate/angular-animate.js"></script>
       <script src="bower_components/angular-busy/dist/angular-busy.js"></script>
       <script src="bower_components/angular-rangeslider/angular.rangeSlider.js"></script>
-      <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
       <script src="bower_components/angular-mocks/angular-mocks.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
