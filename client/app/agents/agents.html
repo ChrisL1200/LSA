@@ -1,5 +1,6 @@
-<section>
-  <div ng-if="agentsCheck(agents)" class="media" ng-repeat="agent in agents">
+<section class="agentList">
+  <h4>Featured Agent</h4>
+  <div class="media" ng-repeat="agent in agents" ng-if="agent.name">
     <a class="media-left" href="#">
       <img src="assets/images/yeoman.png">
     </a>
@@ -8,13 +9,4 @@
       {{agent.email}}
     </div>
   </div>
-
-  <ul ng-if="agent.firstname[0]">
-    <li>{{agent.firstname[0]}} {{agent.lastname[0]}}</li>
-    <li>{{lagent.primarycontactphone[0]}}</li>
-    <li ng-hide="agent.primarycontactphone[0] == agent.officephone[0]">{{agent.officephone[0]}}</li>
-    <li>{{agent.fax[0]}}</li>
-    <li>{{agent.email[0]}}</li>
-    <li><a href="agent.websiteurl[0]">{{agent.websiteurl[0]}}</a></li>
-  </ul>
 </section>

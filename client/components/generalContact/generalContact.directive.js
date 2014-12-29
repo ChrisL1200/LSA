@@ -19,7 +19,6 @@ angular.module('cruvitaApp')
           user: '',
           message: ''
         }
-        console.log($scope.emailMessage);
       }]
     };
   });
