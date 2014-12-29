@@ -18,11 +18,12 @@
   <section class="col col-50">
     <div class="container-flex">
       <div class="premiere-agents container-flex">
-        <div class="col col-25">
-          <div agents="agents"></div>
+        <div class="col col-50 agentList">
+          <h4>Featured Agent</h4>
+          <show-agent agents="agents"></show-agent>
         </div>
-        <div class="col col-75">
-          Contact Form
+        <div class="col col-50">
+          <general-contact lead="agents[0]" listing="listing.address.fullstreetaddress[0]"></general-contact>
         </div>
       </div>
       <div class="col col-50 details">
@@ -86,16 +87,10 @@
         </accordion>
       </div>
       <div class="col col-50 adverts">
-        <ul class="listing-agent">
+        <div class="listing-agent">
           <h4>Listing Agent</h4>
-          <li>{{listing.listingparticipants[0].participant[0].firstname[0]}} {{listing.listingparticipants[0].participant[0].lastname[0]}}</li>
-          <li>{{listing.listingparticipants[0].participant[0].primarycontactphone[0]}}</li>
-          <li ng-hide="listing.listingparticipants[0].participant[0].primarycontactphone[0] == listing.listingparticipants[0].participant[0].officephone[0]">{{listing.listingparticipants[0].participant[0].officephone[0]}}</li>
-          <li>{{listing.listingparticipants[0].participant[0].fax[0]}}</li>
-          <li>{{listing.listingparticipants[0].participant[0].email[0]}}</li>
-          <li><a href="listing.listingparticipants[0].participant[0].websiteurl[0]">{{listing.listingparticipants[0].participant[0].websiteurl[0]}}</a></li>
-          <div class="clearfix"></div>
-        </ul>
+          <show-agent agents="listing.listingparticipants.participant"></show-agent>
+        </div>
         <div class="ad-space">
           Ad Space
         </div>

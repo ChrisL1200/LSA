@@ -61,7 +61,7 @@ angular.module('cruvitaApp')
       $scope.infiniteHomes = [];
       $scope.loadMoreHomes(20);
       var lkeys = [];
-      console.log($scope.map.homes);
+
       angular.forEach($scope.map.homes.results, function(home) {
         home.coordinates = {
           latitude: home.listing.location.latitude,

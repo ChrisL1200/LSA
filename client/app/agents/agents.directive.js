@@ -1,14 +1,19 @@
 'use strict';
 
 angular.module('cruvitaApp')
-  .directive('agents', function () {
+  .directive('showAgent', function () {
     return {
       templateUrl: 'app/agents/agents.html',
       restrict: 'EA',
+      replace: true,
       scope: {
         agents: '='
       },
       link: function (scope, element, attrs) {
+        scope.agentsCheck = function(agents){
+          return _.isArray(agents);
+        }
+        console.log(scope.agentsCheck);
       }
     };
   });

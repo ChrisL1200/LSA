@@ -1,20 +1,19 @@
-<section>
+<section class="generalContact">
   <form>
+  <h4>Contact This Agent</h4>
     <div class="form-group">
-      <label for="nameInput">Name</label>
-      <input type="text" class="form-control" id="nameInput" ng-model="emailMessage.name" placeholder="Enter Name">
+      <input type="text" class="form-control input-sm" id="nameInput" ng-model="emailMessage.name" placeholder="Your Name">
     </div>
     <div class="form-group">
-      <label for="numberInput">Phone Number</label>
-      <input type="phone" class="form-control" id="numberInput" ng-model="emailMessage.num" placeholder="Enter Phone Number">
+      <div class="form-inline">
+        <input type="phone" class="form-control input-sm" id="numberInput" ng-model="emailMessage.num" placeholder="Your Phone Number"><input type="email" class="form-control input-sm" id="emailInput" ng-model="emailMessage.email" placeholder="Your Email">
+      </div>
     </div>
     <div class="form-group">
-      <label for="emailInput">Email address</label>
-      <input type="email" class="form-control" id="emailInput" ng-model="emailMessage.email" placeholder="Enter email">
+      <input type="text" class="form-control input-sm" id="emailMessage.subject" ng-model="emailMessage.subject">
     </div>
     <div class="form-group">
-      <label for="messageInput">Message</label>
-      <textarea class="form-control" id="messageInput" ng-model="emailMessage.message" placeholder="Enter Message"></textarea>
+      <textarea class="form-control input-sm" id="messageInput" ng-model="emailMessage.message" placeholder="Enter Message"></textarea>
     </div>
   </form>
 </section>
