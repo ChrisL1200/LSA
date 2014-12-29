@@ -36,7 +36,7 @@ if(!config.noAuth) {
 	app.use(auth.connect(basic));
 }
 if(app.get('env') === 'development') {
-	// mongoose.set('debug', true);
+	mongoose.set('debug', true);
 }
 // app.get('/', function(req,res) {
 //   res.send("Hello from express - " + req.user + "!" );

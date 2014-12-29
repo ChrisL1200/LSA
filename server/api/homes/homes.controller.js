@@ -22,18 +22,35 @@ exports.index = function(req, res) {
 
 // Get a single homes
 exports.show = function(req, res) {
-  Homes.findById(req.params.id, function (err, home) {
-    if(err) { return handleError(res, err); }
-    if(!home) { return res.send(404); }
-    return res.json(home);
+  var userQuery = User.find({})
+  .where('role').equals('agent')
+  .select('email name');
+  var userParams = [];
+  async.series({
+    home: function(callback){
+      Homes.findById(req.params.id, function (err, home) {
+        userParams.push({'paidInterests.zips':home.listing.address.postalcode});
+        callback(null, home);
+      });   
+    },
+    agent: function(callback){
+      userQuery.or(userParams).exec(function (err, users) {
+        callback(null, users);
+      }); 
+    }
+  },
+  function(err, results) {
+    return res.send(200, results);
   });
 };
 
 // Creates a new homes in the DB.
 exports.create = function(req, res) {
+  var userQuery = User.find({})
+  .where('role').equals('agent')
+  .select('email name');
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
-  var userParams = [];
   var homeQuery = Homes.find()
   .select('listing.photos.photo listing.listprice listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude');
 
@@ -70,10 +87,6 @@ exports.create = function(req, res) {
     }
   });
 
-  var userQuery = User.find({})
-  .where('role').equals('agent')
-  .select('email name');
-
   function homesCallback(err, homes, callback) {
     if(err) { return handleError(res, err); }
     var filteredHomes = [];
@@ -94,26 +107,28 @@ exports.create = function(req, res) {
     callback(null, homes);
   }
 
-  function agentsCallback(callback) {
+  function agentsCallback(callback, userParams) {
     userQuery.or(userParams).exec(function (err, users) {
       callback(null, users);
     }); 
   }
-
-  if(query.southwestLat && query.northeastLat && query.southwestLong && query.northeastLong) {  
-    homeQuery.where('listing.location.latitude').gt(parseFloat(query.southwestLat)).lt(parseFloat(query.northeastLat));
-    homeQuery.where('listing.location.longitude').gt(parseFloat(query.southwestLong)).lt(parseFloat(query.northeastLong));
+  var postalcodes = _.where(req.body.queries, { 'key': 'listing.address.postalcode' });
+  var userParams = [];
+  if(postalcodes.length === 0) {
     async.series({
       homes: function(callback){
         homeQuery.paginate(pageOptions, function (err, homes) {
-          _.each(_.deepPluck(homes, 'listing.address.0.postalcode.0'), function(postalcode) {
-            userParams.push({'paidInterests.zips':postalcode});
+          _.each(_.deepPluck(homes.results, 'listing.address.postalcode'), function(postalcode) {
+            if(_.where(userParams, { 'paidInterests.zips':postalcode }).length === 0) {
+              userParams.push({'paidInterests.zips':postalcode});
+              console.log(postalcode);
+            }
           });
           homesCallback(err, homes, callback);
         });    
       },
       agents: function(callback){
-        agentsCallback(callback);
+        agentsCallback(callback, userParams);
       }
     },
     function(err, results) {
@@ -121,6 +136,7 @@ exports.create = function(req, res) {
     });
   }
   else {
+    userParams.push({'paidInterests.zips':postalcodes[0].value});
     async.parallel({
       agents: function(callback){
         agentsCallback(callback);

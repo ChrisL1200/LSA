@@ -1,8 +1,13 @@
 <section class="container-flex">
-<h4>Featured Realtor</h4>
-  <div class="agent col col-50">
-
+<div class="agentList">
+  <div class="media" ng-repeat="agent in agents" ng-if="agent.name">
+    <a class="media-left" href="#">
+      <img src="assets/images/yeoman.png">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading">{{agent.name}}</h4>
+      {{agent.email}}
+    </div>
   </div>
-  <div class="contact col col-50">
-  </div>
+</div>
 </section>
