@@ -18,8 +18,8 @@
   <section class="col col-50">
     <div class="container-flex">
       <div class="premiere-agents container-flex">
-        <div class="col col-50 agentList">
-          <h4>Featured Agent</h4>
+        <div class="col col-50">
+          <h4>Listing Agent</h4>
           <show-agent agents="agents"></show-agent>
         </div>
         <div class="col col-50">
@@ -87,9 +87,16 @@
         </accordion>
       </div>
       <div class="col col-50 adverts">
-        <div class="listing-agent">
+        <div ng-if="lagent.participantid[0]" class="listing-agent">
           <h4>Listing Agent</h4>
-          <show-agent agents="listing.listingparticipants.participant"></show-agent>
+          <ul>
+            <li>{{lagent.firstname[0]}} {{lagent.lastname[0]}}</li>
+            <li>{{alagentgent.primarycontactphone[0]}}</li>
+            <li ng-hide="lagent.primarycontactphone[0] == lagent.officephone[0]">{{lagent.officephone[0]}}</li>
+            <li>{{lagent.fax[0]}}</li>
+            <li>{{aglagentent.email[0]}}</li>
+            <li><a href="lagent.websiteurl[0]">{{lagent.websiteurl[0]}}</a></li>
+          </ul>
         </div>
         <div class="ad-space">
           Ad Space

@@ -6,6 +6,8 @@ angular.module('cruvitaApp')
 
 		$scope.listingPromise = Homes.get({homeId: $scope.homeId}, function(listing) {
 			$scope.listing = listing.home.listing;
+      //make it easier to call the listing agent
+      $scope.lagent = $scope.listing.listingparticipants.participant;
 			$scope.agents = listing.agent;
 
       //Send Metrics to LH

@@ -10,10 +10,6 @@ angular.module('cruvitaApp')
         agents: '='
       },
       link: function (scope, element, attrs) {
-        scope.agentsCheck = function(agents){
-          return _.isArray(agents);
-        }
-        console.log(scope.agentsCheck);
       }
     };
   });
