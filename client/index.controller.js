@@ -3,8 +3,12 @@
 angular.module('cruvitaApp')
   .controller('IndexCtrl', function ($scope, $location) {
     $scope.$on('$viewContentLoaded', function (){
+      $scope.navclass = false;
       $scope.location = $location.path();
-      if ($scope.location === ('/results' || '/listing')) {
+      $scope.location = $scope.location.split("/");
+
+
+      if ($scope.location[1] === 'results' || $scope.location[1] ==='listing') {
         $scope.navclass = true;
       } else {
         $scope.navclass = false;

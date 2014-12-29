@@ -1,48 +1,59 @@
-.back{
-  cursor: pointer;
-  opacity: .5;
-  transition: all .2s ease;
-  &:hover{opacity: 1;}
-}
-
-.top-info{
-  padding: 0 10px;
-  font-weight: 400;
-  color: #dcdcdc;
-  span{display: inline-block; vertical-align: top; padding: 0 5px;}
-}
-
-.details, .adverts{
-  padding: 5px;
-}
-.score-block, .listing-info, .listing-agent, .ad-space, .premiere-agents{
-  padding-bottom: 10px;
-  border-bottom: 1px solid #dfdfdf;
-}
-
-.listing-content {
-  padding: 10px;
-
-  p{
-    text-align: justify;
-    text-indent: 25px;
+.listing{
+  .back{
+    cursor: pointer;
+    opacity: .5;
+    transition: all .2s ease;
+    &:hover{opacity: 1;}
   }
-}
 
-.hoverReveal{
-  .hiddenText{display: block;}
-  .hiddenLink{display: none;}
-
-  &:hover{
-    .hiddenText{display: none;}
-    .hiddenLink{display: block;}
+  .top-info{
+    padding: 0 10px;
+    font-weight: 400;
+    color: #dcdcdc;
+    span{display: inline-block; vertical-align: top; padding: 0 5px;}
   }
-}
 
-.listing-info, .score-block, .listing-agent{
-  list-style-type: none;
-  padding: 0 10px;
-}
-.listing-agent li{
-  float: right;
+  .details, .adverts{
+    padding: 5px;
+  }
+  .score-block, .listing-info, .listing-agent, .ad-space, .premiere-agents{
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dfdfdf;
+  }
+
+  .panel-group{
+    .panel{
+      border: none;
+      .panel-heading{
+        padding: 0 10px 1px;
+      }
+    }
+  }
+
+  .listing-content {
+    padding: 10px;
+
+    p{
+      text-align: justify;
+      text-indent: 25px;
+    }
+  }
+
+  .hoverReveal{
+    .hiddenText{display: block;}
+    .hiddenLink{display: none;}
+
+    &:hover{
+      .hiddenText{display: none;}
+      .hiddenLink{display: block;}
+    }
+  }
+
+  .listing-info, .score-block, .listing-agent{
+    list-style-type: none;
+    padding: 0 10px;
+  }
+  .listing-agent li{
+    float: right;
+  }
 }

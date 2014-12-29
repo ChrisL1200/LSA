@@ -17,7 +17,7 @@ var pageOptions = {
 
 // Get list of homess
 exports.index = function(req, res) {
-  return res.json(200, []); 
+  return res.json(200, []);
 };
 
 // Get a single homes
@@ -52,7 +52,7 @@ exports.create = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
   var homeQuery = Homes.find()
-  .select('listing.photos.photo listing.listprice listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude');
+  .select('listing.photos.photo listing.listprice listing.listingkey listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude');
 
   _.each(req.body.queries, function(query) {
     switch(query.type) {
@@ -110,7 +110,7 @@ exports.create = function(req, res) {
   function agentsCallback(callback, userParams) {
     userQuery.or(userParams).exec(function (err, users) {
       callback(null, users);
-    }); 
+    });
   }
   var postalcodes = _.where(req.body.queries, { 'key': 'listing.address.postalcode' });
   var userParams = [];
@@ -125,7 +125,7 @@ exports.create = function(req, res) {
             }
           });
           homesCallback(err, homes, callback);
-        });    
+        });
       },
       agents: function(callback){
         agentsCallback(callback, userParams);
@@ -155,12 +155,12 @@ exports.create = function(req, res) {
 
 // Updates an existing homes in the DB.
 exports.update = function(req, res) {
-  console.log("update");  
+  console.log("update");
 };
 
 // Deletes a homes from the DB.
 exports.destroy = function(req, res) {
-  
+
 };
 
 function handleError(res, err) {

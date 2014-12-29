@@ -60,11 +60,17 @@ angular.module('cruvitaApp')
       $scope.map.homes = homes;
       $scope.infiniteHomes = [];
       $scope.loadMoreHomes(20);
+      var lkeys = [];
+      console.log($scope.map.homes);
       angular.forEach($scope.map.homes.results, function(home) {
         home.coordinates = {
           latitude: home.listing.location.latitude,
           longitude: home.listing.location.longitude
         };
+        //Send Metrics to LH
+        var lkey = { lkey: home.listing.listingkey[0]};
+        lkeys.push(lkey);
+
         // home.icon = 'favicon.png';
         home.closeClick = function () {
           $scope.homeWindow = {};
@@ -74,6 +80,14 @@ angular.module('cruvitaApp')
           $scope.homeWindow.showWindow = true;
         };
       });
+      console.log(lkeys);
+      (function(l,i,s,t,h,u,b){l['ListHubAnalyticsObject']=h;l[h]=l[h]||function(){
+        (l[h].q=l[h].q||[]).push(arguments)},l[h].d=1*new Date();u=i.createElement(s),
+        b=i.getElementsByTagName(s)[0];u.async=1;u.src=t;b.parentNode.insertBefore(u,b)
+        })(window,document,'script','//tracking.listhub.net/la.min.js','lh');
+
+        lh('init', {provider:'M-2570', test:true});
+        lh('submit', 'SEARCH_DISPLAY', lkeys);
     }
 
     var schoolCallback = function(schools) {
