@@ -6,19 +6,27 @@ angular.module('cruvitaApp')
       templateUrl: 'components/generalContact/generalContact.html',
       restrict: 'EA',
       replace: true,
-      link: function (scope, element, attrs) {
+      scope: {
+        subject: '=',
+        to: '=',
+        message: '='
       },
-      controller: ['$scope', 'User', function($scope, User){
-        $scope.user = User;
-
-        $scope.emailMessage = {
-          name: '',
-          num: '',
-          subject: 'Need to make this grab the Listing Address',
-          email: '',
-          user: '',
-          message: ''
+      controller: function($scope, Auth, email) {
+        var user = Auth.getCurrentUser();
+        $scope.email = {
+          name: user.name || '',
+          num: user.phone || '',
+          subject: $scope.subject || '',
+          from: user.email || '',
+          body: $scope.message || '',
+          to: $scope.to || 'clloyd1212@gmail.com'
         }
-      }]
+
+        $scope.submit = function() {
+          email.send({},$scope.email, function(resp){
+            console.log(resp);
+          })
+        }
+      }
     };
   });

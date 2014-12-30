@@ -31,7 +31,9 @@
     "socketio-jwt": "^2.0.2",
     "xml2js": "0.4.4",
     "async": "*",
-    "mongoose-query-paginate": "*"
+    "mongoose-query-paginate": "*",
+    "express-mailer": "=0.2.3",
+    "jade": "*"
   },
   "devDependencies": {
     "connect-livereload": "~0.4.0",

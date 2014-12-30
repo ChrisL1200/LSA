@@ -8,6 +8,7 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var express = require('express');
+var mailer = require('express-mailer');
 var mongoose = require('mongoose');
 var config = require('./config/environment');
 
@@ -50,6 +51,22 @@ require('./routes')(app);
 // Start server
 server.listen(config.port, config.ip, function () {
   console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+});
+
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+
+// Configure express-mail and setup default mail data.
+mailer.extend(app, {
+  from: 'no-reply@example.com',
+  host: 'smtp.cruvita.com', // hostname
+  secureConnection: true, // use SSL
+  port: 465, // port for secure SMTP
+  transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
+  auth: {
+    user: 'info@cruvita.com',
+    pass: 'community1809'
+  }
 });
 
 // Expose app
