@@ -28,7 +28,11 @@ exports.show = function(req, res) {
   var userParams = [];
   async.series({
     home: function(callback){
-      Homes.findById(req.params.id, function (err, home) {
+      Homes.findById(req.params.id)
+      .populate('schools.elementary')
+      .populate('schools.middle')
+      .populate('schools.high')
+      .exec(function (err, home) {
         userParams.push({'paidInterests.zips':home.listing.address.postalcode});
         callback(null, home);
       });   
