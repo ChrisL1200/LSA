@@ -80,7 +80,6 @@ angular.module('cruvitaApp')
           $scope.homeWindow.showWindow = true;
         };
       });
-      console.log(lkeys);
       (function(l,i,s,t,h,u,b){l['ListHubAnalyticsObject']=h;l[h]=l[h]||function(){
         (l[h].q=l[h].q||[]).push(arguments)},l[h].d=1*new Date();u=i.createElement(s),
         b=i.getElementsByTagName(s)[0];u.async=1;u.src=t;b.parentNode.insertBefore(u,b)

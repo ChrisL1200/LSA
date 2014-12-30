@@ -20,17 +20,22 @@ angular.module('cruvitaApp')
 	    },
 	    lastSelected: {},
 	    getRequest: function(input, bounds, homes) {
-	    	var selected =  _.where(service.lastSelected, { 'formatted_address': input })[0];
+	    	var selected =  _.where(service.lastSelected, { 'formatted_address': input })[0] || service.lastSelected[0];
 	    	// var map = homes ? homesComponentMap : schoolsComponentMap;
 	    	var requestObject = {};
-	    	_.each(selected.address_components, function(component) {
-	    		if(component.types[0] !== 'country' && component.types[0] !== 'administrative_area_level_2') {
-		    		requestObject[component.types[0]] = component.short_name;
-		    	}
-	    	});
-	    	if(bounds) {
-		    	requestObject.geometry = selected.geometry;
-		    }
+	    	if(selected) {
+		    	_.each(selected.address_components, function(component) {
+		    		if(component.types[0] === 'locality' || component.types[0] === 'administrative_area_level_1' || component.types[0] === 'postal_code') {
+			    		requestObject[component.types[0]] = component.short_name;
+			    	}
+		    	});
+		    	if(bounds) {
+			    	requestObject.geometry = selected.geometry;
+			    }
+			  }
+			  else {
+		  		requestObject.locality = input;
+			  }
 	    	return requestObject;
 	    },
 	    getResults: function(input) {
