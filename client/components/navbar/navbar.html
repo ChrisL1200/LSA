@@ -4,7 +4,8 @@
   </div>
 
   <form class="col-xs-5 headerSearch" ng-submit="updateBounds()">
-    <input ng-hide="location === '/'" type="text" ng-model="locationSelected" placeholder="Search for your new home" typeahead-wait-ms="300" typeahead-on-select="updateBounds()" typeahead="address for address in getLocation($viewValue)" class="form-control">
+    {{currentPath}}
+    <input ng-hide="currentPath === '/'" type="text" ng-model="locationSelected" placeholder="Search for your new home" typeahead-wait-ms="300" typeahead-on-select="updateBounds()" typeahead="address for address in getLocation($viewValue)" class="form-control">
   </form>
 
   <span class="navbarHello" ng-show="isLoggedIn()"><a href="/settings">Hello {{ getCurrentUser().name }} <span ng-class="{active: isActive('/settings')}"><span class="fa fa-gear"></span></a></span></span>

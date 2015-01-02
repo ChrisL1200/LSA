@@ -40,6 +40,7 @@ angular.module('cruvitaApp')
 	    },
 	    getResults: function(input) {
 	    	var requestObject = service.getRequest(input, true);
+	    	$location.$$search = {};
 	  	  $location.search('NELAT', requestObject.geometry.bounds.northeast.lat);
 	  	  $location.search('NELONG', requestObject.geometry.bounds.northeast.lng);
 	  	  $location.search('SWLAT', requestObject.geometry.bounds.southwest.lat);
