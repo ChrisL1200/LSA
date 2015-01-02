@@ -217,7 +217,7 @@ angular.module('cruvitaApp')
         });
         paths.push(path);
       }
-      $scope.homePromise = Homes.retrieve({}, {polygons: paths, queries: queries}, function(response) {
+      $scope.homePromise = Homes.retrieve({}, {polygons: paths.concat(getPolygons()), queries: queries}, function(response) {
         homesCallback(response.homes);
         $scope.agents = response.agents;
       }).$promise;

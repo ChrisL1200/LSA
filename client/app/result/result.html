@@ -5,7 +5,7 @@
     <span class="scoreOverlay">
     <!--This will need more information but until scores are populated there nothign to do-->
       {{home.listing.score}}
-      <span class="score">85</span><span class="score">83</span><span class="score">95</span>
+      <span class="score">{{home.schools.elementary.score.overall | number:2}}</span><span class="score">{{home.schools.middle.score.overall | number:2}}</span><span class="score">{{home.schools.high.score.overall | number:2}}</span>
     </span>
   </a>
   <div class="media-body">

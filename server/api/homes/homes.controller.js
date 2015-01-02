@@ -56,7 +56,10 @@ exports.create = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
   var homeQuery = Homes.find()
-  .select('listing.photos.photo listing.listprice listing.listingkey listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude');
+  .populate('schools.elementary', 'score.overall')
+  .populate('schools.middle', 'score.overall')
+  .populate('schools.high', 'score.overall')
+  .select('schools listing.photos.photo listing.listprice listing.listingkey listing.score listing.address listing.bedrooms listing.bathrooms listing.livingarea listing.propertysubtype listing.location.latitude listing.location.longitude');
 
   _.each(req.body.queries, function(query) {
     switch(query.type) {
