@@ -58,7 +58,7 @@ app.set('view engine', 'jade');
 
 // Configure express-mail and setup default mail data.
 mailer.extend(app, {
-  from: 'no-reply@example.com',
+  from: 'info@cruvita.com',
   host: 'smtp.cruvita.com', // hostname
   secureConnection: true, // use SSL
   port: 465, // port for secure SMTP

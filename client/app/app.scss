@@ -40,6 +40,10 @@ a, a:hover{text-decoration: none; cursor: pointer;}
   padding: 0.2em 0;
 }
 
+.modal-backdrop {
+  height: 100%;
+}
+
 /**************************************************/
 /*********** Header/Navbar Related Styles *********/
 /**************************************************/
@@ -274,8 +278,18 @@ a, a:hover{text-decoration: none; cursor: pointer;}
   text-overflow: ellipsis;
 }
 
+/**************************************************/
+/**************** Animations *******************/
+/**************************************************/
 
+.fade-animate {
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
 
+.fade-animate.ng-hide {
+  opacity:0;
+}
 
 
 
@@ -302,5 +316,6 @@ a, a:hover{text-decoration: none; cursor: pointer;}
 @import 'tos/tos.scss';
 @import '../components/cruGallery/cruGallery.scss';
 @import '../components/generalContact/generalContact.scss';
+@import '../components/login/login.scss';
 @import '../components/schools/schools.scss';
 // endinjector

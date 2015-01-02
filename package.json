@@ -33,7 +33,8 @@
     "async": "*",
     "mongoose-query-paginate": "*",
     "express-mailer": "=0.2.3",
-    "jade": "*"
+    "jade": "*",
+    "request": "*"
   },
   "devDependencies": {
     "connect-livereload": "~0.4.0",

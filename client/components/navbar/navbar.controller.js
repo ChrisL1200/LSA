@@ -20,7 +20,6 @@ angular.module('cruvitaApp')
 
     $scope.logout = function() {
       Auth.logout();
-      $location.path('/login');
     };
 
     $scope.isActive = function(route) {
@@ -30,5 +29,5 @@ angular.module('cruvitaApp')
     $scope.getLocation = Location.autocomplete;
     $scope.updateBounds = function() {
       Location.getResults($scope.locationSelected);
-    }
+    };
   });

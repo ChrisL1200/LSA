@@ -11,7 +11,7 @@ angular.module('cruvitaApp')
         to: '=',
         message: '='
       },
-      controller: function($scope, Auth, email) {
+      controller: function($scope, Auth, email, $timeout) {
         var user = Auth.getCurrentUser();
         $scope.email = {
           name: user.name || '',
@@ -24,9 +24,13 @@ angular.module('cruvitaApp')
 
         $scope.submit = function() {
           if($scope.contactForm.$valid) {
-            email.send({},$scope.email, function(resp){
-              console.log(resp);
-            })
+            $scope.emailPromise = email.send({},$scope.email, function(resp){
+              $scope.emailFail = false;
+              $scope.emailSuccess = true;
+              $timeout(function() { $scope.emailSuccess = false; }, 5000);
+            }, function(err) {
+              $scope.emailFail = true;
+            });
           }
         }
       }

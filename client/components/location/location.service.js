@@ -4,10 +4,9 @@ angular.module('cruvitaApp')
   .service('Location', function ($http, Config, $location, $route) {
   	var service = {
     	autocomplete: function(val) {
-	      return $http.get(Config.autocompleteService, {
+	      return $http.get('/api/geocodes', {
 	        params: {
-	          address: val,
-	          sensor: false
+	          address: val
 	        }
 	      }).then(function(res){
 	        var addresses = [];
