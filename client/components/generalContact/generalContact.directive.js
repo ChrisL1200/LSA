@@ -23,9 +23,11 @@ angular.module('cruvitaApp')
         }
 
         $scope.submit = function() {
-          email.send({},$scope.email, function(resp){
-            console.log(resp);
-          })
+          if($scope.contactForm.$valid) {
+            email.send({},$scope.email, function(resp){
+              console.log(resp);
+            })
+          }
         }
       }
     };

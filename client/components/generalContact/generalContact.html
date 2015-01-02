@@ -1,20 +1,22 @@
 <section class="generalContact">
-  <form ng-submit="submit()">
+  <form name="contactForm" novalidate>
     <h4>Contact This Agent</h4>
-    <div class="form-group">
-      <input type="text" class="form-control input-sm" id="nameInput" ng-model="email.name" placeholder="Your Name">
+    <div class="form-group" ng-class="contactForm.name.$invalid && (contactForm.$submitted || contactForm.name.$touched) ? 'has-error':''">
+        <label class="control-label" ng-show="contactForm.name.$invalid && (contactForm.$submitted || contactForm.name.$touched)">Enter Name</label>
+      <input type="text" class="form-control input-sm" name="name" ng-model="email.name" placeholder="Your Name" required />
     </div>
-    <div class="form-group">
-      <div class="form-inline">
-        <input type="phone" class="form-control input-sm" id="numberInput" ng-model="email.phone" placeholder="Your Phone Number"><input type="email" class="form-control input-sm" id="emailInput" ng-model="email.from" placeholder="Your Email">
-      </div>
+    <div class="form-group" ng-class="contactForm.phone.$invalid && (contactForm.$submitted || contactForm.phone.$touched) ? 'has-error':''">
+        <label class="control-label" ng-show="contactForm.phone.$invalid && (contactForm.$submitted || contactForm.phone.$touched)">Invalid Phone Number</label>
+        <input type="phone" class="form-control input-sm" name="phone" ng-model="email.phone" placeholder="Your Phone Number" required />
     </div>
-    <!-- <div class="form-group">
-      <input type="text" class="form-control input-sm" id="email.subject" ng-model="email.subject">
-    </div> -->
-    <div class="form-group">
-      <textarea class="form-control input-sm" id="messageInput" ng-model="email.body" placeholder="Enter Message"></textarea>
+    <div class="form-group" ng-class="contactForm.emailAddress.$invalid && (contactForm.$submitted || contactForm.emailAddress.$touched) ? 'has-error':''">
+        <label class="control-label" ng-show="contactForm.emailAddress.$invalid && (contactForm.$submitted || contactForm.emailAddress.$touched)">Invalid Email</label>
+        <input type="email" class="form-control input-sm" name="emailAddress" ng-model="email.from" placeholder="Your Email" required />
     </div>
-    <button>Submit</button>
+    <div class="form-group" ng-class="contactForm.body.$invalid && (contactForm.$submitted || contactForm.body.$touched) ? 'has-error':''">
+        <label class="control-label" ng-show="contactForm.body.$invalid && (contactForm.$submitted || contactForm.body.$touched)">Enter Message</label>
+      <textarea class="form-control input-sm" id="messageInput" name="body" ng-model="email.body" placeholder="Enter Message" required></textarea>
+    </div>
+    <button ng-click="submit()">Submit</button>
   </form>
 </section>
