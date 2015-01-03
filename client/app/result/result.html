@@ -1,4 +1,4 @@
-<article ng-click="goToListing(home._id)" class="media homeResult">
+<article ng-click="goToListing(home._id)" class="media homeResult" ng-mouseleave="home.closeClick()" ng-mouseenter="home.onClicked()">
   <a class="media-left">
     <img class="resultThumb" ng-src="/api/images?url={{home.listing.photos[0].photo[0].mediaurl[0]}}" />
     <!-- ONCE IN PROD, USE THIS INSTEAD img class="large" ng-src="/api/images?url={{image.storedId}}" /-->

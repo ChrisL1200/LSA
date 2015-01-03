@@ -10,7 +10,7 @@ var inside = require('point-in-polygon');
 require('mongoose-query-paginate');
 
 var pageOptions = {
-  perPage: 100,
+  perPage: 50,
   delta  : 3,
   page   : 1
 };

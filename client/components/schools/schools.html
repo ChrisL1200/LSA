@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="school in schools | orderBy:'score.school' | limitTo: 5">
+    <tr ng-repeat="school in schools | orderBy:'score.school' | limitTo: 5" ng-mouseleave="school.closeClick()" ng-mouseenter="school.onClicked()">
       <td>{{$index + 1}}</td>
       <td><a ng-href="/school/{{school._id}}">{{school.sch_name | titleCase}}</a</td>
       <td>{{school.address.street}} {{school.address.city}}, {{school.address.state}} {{school.address.zip}}</td>

@@ -272,6 +272,21 @@ angular.module('cruvitaApp')
       updateScore();
     };
 
+    // $scope.schoolHover = function(school) {
+    //   $scope.
+    // };
+
+    $scope.homeHover = function(home) {
+      if(home) {
+        $scope.homeWindow = home;
+        $scope.homeWindow.showWindow = true;
+      }
+      else {
+        $scope.homeWindow = {};
+        $scope.homeWindow.showWindow = false;
+      }
+    };
+
     var draw = function() {
       $scope.map.draw(); //should be defined by now
     };
