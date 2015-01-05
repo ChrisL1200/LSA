@@ -1,6 +1,5 @@
 <section class="generalContact" cg-busy="emailPromise">
   <form name="contactForm" novalidate>
-    <h4>Contact This Agent</h4>
     <div class="form-group" ng-class="contactForm.name.$invalid && (contactForm.$submitted || contactForm.name.$touched) ? 'has-error':''">
         <label class="control-label" ng-show="contactForm.name.$invalid && (contactForm.$submitted || contactForm.name.$touched)">Enter Name</label>
       <input type="text" class="form-control input-sm" name="name" ng-model="email.name" placeholder="Your Name" required />
@@ -17,7 +16,7 @@
         <label class="control-label" ng-show="contactForm.body.$invalid && (contactForm.$submitted || contactForm.body.$touched)">Enter Message</label>
       <textarea class="form-control input-sm" id="messageInput" name="body" ng-model="email.body" placeholder="Enter Message" required></textarea>
     </div>
-    <button ng-click="submit()">Submit</button>
+    <button class='btn btn-default' ng-click="submit()">Submit</button>
     <div class="alert alert-success fade-animate" ng-show="emailSuccess" role="alert">Request sent!</div>
     <div class="alert alert-danger fade-animate" ng-show="emailFail" role="alert">Request failed</div>
   </form>

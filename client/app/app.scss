@@ -64,7 +64,7 @@ a, a:hover{text-decoration: none; cursor: pointer;}
     background-repeat: no-repeat;
   }
 
-  .headerSearch{top: 15px;}
+  .headerSearch{top: 25px;}
 
   .smallHeaderMenu{display: none;}
 
@@ -151,10 +151,14 @@ a, a:hover{text-decoration: none; cursor: pointer;}
   top: 84px;
   position: relative;
   transition: all .5s;
+  margin-bottom: 110px;
 
   &.drop {
     top: 109px;
   }
+}
+.bumper{
+  padding: 0 15px;
 }
 
 .container-flex {
