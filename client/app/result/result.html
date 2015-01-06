@@ -4,8 +4,7 @@
     <!-- ONCE IN PROD, USE THIS INSTEAD img class="large" ng-src="/api/images?url={{image.storedId}}" /-->
     <span class="scoreOverlay">
     <!--This will need more information but until scores are populated there nothign to do-->
-      {{home.listing.score}}
-      <span class="score">{{home.schools.elementary.score.overall | number:2}}</span><span class="score">{{home.schools.middle.score.overall | number:2}}</span><span class="score">{{home.schools.high.score.overall | number:2}}</span>
+      <span class="score">{{home.schools.elementary.score | number:2}}</span><span class="score">{{home.schools.middle.score.overall | number:2}}</span><span class="score">{{home.schools.high.score.overall | number:2}}</span>
     </span>
   </a>
   <div class="media-body">

@@ -3,14 +3,14 @@
   <div class="search-term">
     You searched for {{searchQuery}}.
   </div>
+  <span class="schoolSelect" ng-repeat="(key, filters) in config.advancedSchoolFilters">
+    <select class="form-control input-sm schoolSelect" ng-change="updateSchools(true)" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
+      <option value="">{{filters.defaultText}}</option>
+    </select>
+  </span>
   <a href class="searchOptionsLink" ng-click="showOptions = !showOptions" ng-class="{active: showOptions}">Search Options</a>
   <div ng-if="showOptions" class="searchOptionsPanel">
     <ul>
-      <li class="option-section" ng-repeat="(key, filters) in config.advancedSchoolFilters">
-        <select class="form-control" ng-change="updateSchools(true)" ng-model="homeFilters[key]" ng-options="filter.label for filter in filters.options">
-          <option value="">{{filters.defaultText}}</option>
-        </select>
-      </li>
       <li class="option-section" ng-repeat="(key, filter) in config.advancedHomeRangeFilters">
           <label>{{filter.name}}</label> <span class="pull-right">{{filter.min | number}} to {{filter.max | number}}</span>
           <div range-slider min="filter.minRange" max="filter.maxRange" model-min="filter.min" model-max="filter.max" show-values="false" step="100" prevent-equal-min-max="true" ng-model="homeFilters[key]"></div>
@@ -38,11 +38,11 @@
 <section class="container-flex">
   <div class="col col-75" cg-busy="scorePromise">
     <div class="map">
-      <!--div class="map-overlay" ng-if="!map.homes.results">
+      <div class="map-overlay" ng-if="!map.homes.results">
         <h2 class="center">Unfortunately, it seems that we don't service the area you searched in. </h2>
         <div align="center"><a href="http://visitor.r20.constantcontact.com/d.jsp?llr=t7of4rsab&amp;p=oi&amp;m=1119442090899&amp;sit=futuq9ijb&amp;f=e653c801-04c6-4413-8f47-c6c397801b95" class="button" style="border: 1px solid rgb(91, 91, 91); color: rgb(255, 255, 255); display: inline-block; padding: 8px 10px; text-shadow: none; border-radius: 10px; background-color: rgb(0, 103, 206);">Get Notified of Updates</a>
-
-      </div-->
+        </div>
+      </div>
       <div ng-if="map.polys.length > 0">
         <button class="btn btn-danger" ng-click="clearPolygons()">Clear</button>
         <button class="btn btn-success" ng-click="applyPolygons()">Apply</button>

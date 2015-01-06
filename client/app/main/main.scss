@@ -45,6 +45,14 @@
     }
 }
 
+select.schoolSelect {
+    position: absolute;
+    right: 35%;
+    top: 0px;
+    height: 20px;
+    width: 150px;
+}
+
 .searchOptionsLink, .searchOptionsLink:visited{
     position: absolute;
     right: 25%;
@@ -140,16 +148,6 @@
     line-height: 1;
     letter-spacing: -1px;
 }
-
-.hero-unit {
-    position: relative;
-    padding: 15px;
-    text-align: center;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-    background: $primary-color;
-}
-
-
 
 .marker-result {
     border-bottom: 1px solid #E5E5E5;
