@@ -16,6 +16,15 @@ angular.module('cruvitaApp')
     $scope.searchQuery = $routeParams.q;
     $scope.infiniteHomes = [];
 
+
+
+    $scope.showIframe = function() {
+      angular.element('.ddIframe').css('display', 'block');
+    }
+    $scope.hideIframe = function() {
+      angular.element('.ddIframe').css('display', 'none');
+    }
+
     var keyPromise, promise;
     var firstRequest = true;
     var noBounds = true;
@@ -302,4 +311,5 @@ angular.module('cruvitaApp')
 
     //Initial Load
     updateScore(true);
+
   });

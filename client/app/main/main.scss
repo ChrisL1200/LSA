@@ -27,6 +27,22 @@
     }
 }
 
+.cc-button{
+    margin-top: 20px;
+    font-size: 1.5em;
+}
+
+.ddIframe {
+    color: white;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    iframe { border: none;}
+    span {font-size: 1.5em; position: absolute; top: 0; right: 5px; cursor: pointer;}
+}
+
 .sub-navbar {
     height: 25px;
     color: #eee;
