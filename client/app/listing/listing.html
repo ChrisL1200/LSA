@@ -1,16 +1,16 @@
 <div ng-class="{drop: navclass}" id="sub-navbar" class="sub-navbar top-info">
 <!-- Home information -->
-  <span class="back">&lt; &nbsp; Back</span><span>|</span>
+  <span class="back"><a ng-href="/results">&lt; &nbsp; Back </a></span><span>|</span>
   <span>{{listing.listprice[0] | currency: '$':0}}</span>&middot;
   <span>{{listing.bedrooms[0]}} BR</span>&middot;
   <span>{{listing.bathrooms[0]}} BA</span>&middot;
-  <span>{{listing.livingarea[0]}} SQ FT</span> | <span>{{listing.address[0].fullstreetaddress[0] | titleCase}}, </span><span>{{listing.address[0].city[0] | titleCase}}, </span><span>{{listing.address[0].stateorprovince[0] | titleCase}} </span><span>{{listing.address[0].postalcode[0]}}</span>
+  <span>{{listing.livingarea[0]}} SQ FT</span> | <span>{{listing.address.fullstreetaddress[0] | titleCase}}, </span><span>{{listing.address.city | titleCase}}, </span><span>{{listing.address.stateorprovince | titleCase}} </span><span>{{listing.address.postalcode}}</span>
 </div>
 <section class="container-flex listing">
   <section class="col col-50 resist">
     <cru-gallery> </cru-gallery>
     <div class="listing-content">
-      <h4>{{listing.listingtitle[0]}} <span class="pull-right">{{listing.listprice[0] | currency: '$':0}}</span></h4>
+      <h4>{{listing.listingtitle[0] | titleCase}} <span class="pull-right">{{listing.listprice[0] | currency: '$':0}}</span></h4>
       <p>{{listing.listingdescription[0]}}</p>
       <p class="disc">{{listing.disclaimer[0]}}</p>
     </div>
@@ -22,7 +22,7 @@
           <show-agent agents="agents"></show-agent>
         </div>
         <div class="col col-50" ng-if="listing && agents">
-          <general-contact to="agents[0].email" subject="listing.address.fullstreetaddress[0]"></general-contact>
+          <general-contact to="agents[0].email" subject="listing.address.fullstreetaddress[0]" message="'Dear ' + agents[0].name + ', I am interested in the property at ' +  listing.address.fullstreetaddress[0] + '.  Please get back to me with information. Thank you!'"></general-contact>
         </div>
       </div>
       <div class="col col-50 details">

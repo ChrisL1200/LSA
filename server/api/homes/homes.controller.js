@@ -24,7 +24,7 @@ exports.index = function(req, res) {
 exports.show = function(req, res) {
   var userQuery = User.find({})
   .where('role').equals('agent')
-  .select('email name');
+  .select('email name phone website licenseNumber realtyName picture');
   var userParams = [];
   async.series({
     home: function(callback){
@@ -35,12 +35,12 @@ exports.show = function(req, res) {
       .exec(function (err, home) {
         userParams.push({'paidInterests.zips':home.listing.address.postalcode});
         callback(null, home);
-      });   
+      });
     },
     agent: function(callback){
       userQuery.or(userParams).exec(function (err, users) {
         callback(null, users);
-      }); 
+      });
     }
   },
   function(err, results) {

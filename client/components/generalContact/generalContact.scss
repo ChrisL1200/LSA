@@ -1,8 +1,8 @@
 .generalContact{
   padding: 10px;
 
-  .form-inline{
-    input{width: 48%; vertical-align: top;}
-    input:last-child{float: right;}
+  .inline{
+    width: 49%;
+    display: inline-block;
   }
 }
