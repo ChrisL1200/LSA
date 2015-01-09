@@ -16,8 +16,6 @@ angular.module('cruvitaApp')
     $scope.searchQuery = $routeParams.q;
     $scope.infiniteHomes = [];
 
-
-
     $scope.showIframe = function() {
       angular.element('.ddIframe').css('display', 'block');
     }

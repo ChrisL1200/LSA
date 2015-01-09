@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('cruvitaApp')
-  .service('Location', function ($http, Config, $location, $route) {
+  .service('Location', function ($http, Config, $location, $route, $resource) {
   	var service = {
     	autocomplete: function(val) {
 	      return $http.get('/api/geocodes', {
@@ -17,10 +17,10 @@ angular.module('cruvitaApp')
 	        return addresses;
 	      });
 	    },
+	    resource: $resource('/api/geocodes'),
 	    lastSelected: {},
-	    getRequest: function(input, bounds, homes) {
-	    	var selected =  _.where(service.lastSelected, { 'formatted_address': input })[0] || service.lastSelected[0];
-	    	// var map = homes ? homesComponentMap : schoolsComponentMap;
+	    getRequest: function(input, bounds, fullObject) {
+	    	var selected =  fullObject ? input : _.where(service.lastSelected, { 'formatted_address': input })[0] || service.lastSelected[0];
 	    	var requestObject = {};
 	    	if(selected) {
 		    	_.each(selected.address_components, function(component) {
@@ -37,14 +37,14 @@ angular.module('cruvitaApp')
 			  }
 	    	return requestObject;
 	    },
-	    getResults: function(input) {
-	    	var requestObject = service.getRequest(input, true);
+	    getResults: function(input, fullObject) {
+	    	var requestObject = service.getRequest(input, true, fullObject);
 	    	$location.$$search = {};
 	  	  $location.search('NELAT', requestObject.geometry.bounds.northeast.lat);
 	  	  $location.search('NELONG', requestObject.geometry.bounds.northeast.lng);
 	  	  $location.search('SWLAT', requestObject.geometry.bounds.southwest.lat);
 	  	  $location.search('SWLONG', requestObject.geometry.bounds.southwest.lng);
-	  	  $location.search('q', input);
+	  	  $location.search('q', fullObject ? input.formatted_address : input);
 	      _.each(requestObject, function(value, key) {
 	        if(key !== 'geometry') {
 	          $location.search(key, value);

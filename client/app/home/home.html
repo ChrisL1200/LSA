@@ -1,15 +1,17 @@
 <section class="home splash-bkgd-graphic">
-  <form class="col col-100 overlay" ng-submit="getResults()">
+  <div class="col col-100 overlay">
     <section  class="center col-75">
     <article class="col col-100">
       <h1>Community. School. Home.</h1>
       <div class="splashGraphic"></div>
     </article>
-    <button class="btn btn-xl btn-success" type="submit">
+    <button class="btn btn-xl btn-success" type="submit" ng-click="searchArea()">
     Search your area
     </button>
     <div class="col col-100">
+      <form ng-submit="getResults()">
       <input type="text" ng-model="locationSelected" placeholder="Search for your new home" typeahead="address for address in getLocation($viewValue)" class="form-control input-lg search-bar" typeahead-wait-ms="300" typeahead-on-select="getResults()"><button class="btn btn-lg btn-primary search-button" type="submit">Search</button>
+      </form>
     </div>
-  </form>
+  </div>
 </section>

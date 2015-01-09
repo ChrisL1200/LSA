@@ -8,7 +8,8 @@ angular.module('cruvitaApp', [
   'ngRoute',
   'google-maps'.ns(),
   'ui-rangeSlider',
-  'cgBusy'
+  'cgBusy',
+  'geolocation'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
