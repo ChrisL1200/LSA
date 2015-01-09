@@ -1,12 +1,18 @@
 <section class="agentList">
-  <h4>Featured Agent</h4>
-  <div class="media" ng-repeat="agent in agents" ng-if="agent.name">
-    <a class="media-left" href="#">
-      <img src="assets/images/yeoman.png">
-    </a>
+  <div class="media breakbox" ng-repeat="agent in agents" ng-if="agent.name">
+    <h4 class="media-heading">{{agent.name}}</h4>
+    <div class="media-left">
+      <!--PROD img src="{{agent.picture}}"-->
+      <img src="assets/images/agent-awesome.png">
+    </div>
     <div class="media-body">
-      <h4 class="media-heading">{{agent.name}}</h4>
-      {{agent.email}}
+      <ul class="agent-info">
+        <li>{{agent.email}}</li>
+        <li>{{agent.phone}}</li>
+        <li><a href="{{agent.website}}" targer="_blank">{{agent.website}}</a></li>
+        <li><em>{{agent.realtyName}}</em></li>
+        <li>{{agent.licenseNumber}}</li>
+      </ul>
     </div>
   </div>
 </section>

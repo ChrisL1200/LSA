@@ -10,6 +10,7 @@ angular.module('cruvitaApp')
       $scope.lagent = $scope.listing.listingparticipants.participant;
 			$scope.agents = listing.agent;
 
+      console.log(listing);
       //Send Metrics to LH
       var lkey = $scope.listing.listingkey[0];
         (function(l,i,s,t,h,u,b){l['ListHubAnalyticsObject']=h;l[h]=l[h]||function(){
