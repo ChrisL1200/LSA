@@ -58,7 +58,11 @@
         <ui-gmap-polygon path="polyline.path" clickable='true' fill="{color: '#002e48', opacity: polyline.selected ? 1 : 0.0 }" ng-if="polyline.selected" ng-repeat="polyline in map.polylines"></ui-gmap-polygon>
         <ui-gmap-markers models="map.schools" coords="'coordinates'" idKey="'_id'" click="'onClicked'" icon="'icon'"></ui-gmap-markers>
         <ui-gmap-window coords="schoolWindow.coordinates" idKey="schoolWindow._id" show="schoolWindow.showWindow" closeClick="schoolWindow.closeClick" isIconVisibleOnClick="false">
-            <p>This is an info window at {{ schoolWindow.coordinates.latitude | number:4 }}, {{ schoolWindow.coordinates.longitude | number:4 }}!</p>
+        <div class="media-body">
+          <p><a ng-href="/school/{{schoolWindow._id}}">{{schoolWindow.sch_name | titleCase}}</a</p>
+          <p>{{schoolWindow.address.street}} {{schoolWindow.address.city}}, {{schoolWindow.address.state}} {{schoolWindow.address.zip}}</p>
+          <p class="tableScore">{{schoolWindow.score.overall}}</p>
+        </div>
         </ui-gmap-window>
         <ui-gmap-markers models="map.homes.results" coords="'coordinates'" idKey="'_id'" click="'onClicked'" icon="'icon'">
         </ui-gmap-markers>

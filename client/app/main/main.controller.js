@@ -114,7 +114,7 @@ angular.module('cruvitaApp')
         newPolyline.path = school.wkt;
         newPolyline.id = school._id;
 
-        if($scope.selectedSchool && school._id === $scope.selectedSchool._id) {
+        if(!$scope.selectedSchool || ($scope.selectedSchool && school._id === $scope.selectedSchool._id)) {
           newPolyline.selected = true;
         }
         $scope.map.polylines.push(newPolyline);
