@@ -8,6 +8,9 @@ angular.module('cruvitaApp').constant('Config', {
     polys: [],
     draw: undefined
   },
+  mapOptions: {
+    scrollwheel: false
+  },
   defaultPolyline: {
     stroke: {
       color: '#6060FB',
@@ -23,14 +26,14 @@ angular.module('cruvitaApp').constant('Config', {
     edLevel: {
       defaultText: 'Education Level',
       options: [{
-        label: 'High School',
-        value: 'H'
+        label: 'Elem School',
+        value: '1'
       },{
         label: 'Middle School',
-        value: 'M'
+        value: '2'
       },{
-        label: 'Elem School',
-        value: 'E'
+        label: 'High School',
+        value: '3'
       },{
         label: 'All Schools',
         value: 'A'

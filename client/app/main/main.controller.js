@@ -3,6 +3,7 @@
 angular.module('cruvitaApp')
   .controller('MainCtrl', function ($scope, $http, $timeout, School, Config, Homes, drawChannel, clearChannel, Location, $routeParams) {
     $scope.map = Config.mapDefaults;
+    $scope.mapOptions = Config.mapOptions;
     $scope.currentView = 'schools';
     $scope.getLocation = Location.autocomplete;
     $scope.homeWindow = {};
@@ -78,7 +79,7 @@ angular.module('cruvitaApp')
         var lkey = { lkey: home.listing.listingkey[0]};
         lkeys.push(lkey);
 
-        // home.icon = 'favicon.png';
+        home.icon = 'assets/images/houseicon.png';
         home.closeClick = function () {
           $scope.homeWindow = {};
         };

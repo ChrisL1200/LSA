@@ -1,5 +1,5 @@
 <section class="agentList">
-  <div class="media breakbox" ng-repeat="agent in agents" ng-if="agent.name">
+  <div class="media breakbox" ng-repeat="agent in agents | limitTo: 1" ng-if="agent.name">
     <h4 class="media-heading">{{agent.name}}</h4>
     <div class="media-left">
       <!--PROD img src="{{agent.picture}}"-->
