@@ -5,7 +5,9 @@ angular.module('cruvitaApp')
     return {
       templateUrl: 'app/result/result.html',
       restrict: 'EA',
-      scope: true,
+      scope: {
+        home: '='
+      },
       controller: ['$scope', '$location', function ($scope, $location) {
         $scope.goToListing = function (path) {
           $location.url('/listing/' + path);

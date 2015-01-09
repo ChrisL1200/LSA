@@ -104,9 +104,6 @@ exports.create = function(req, res) {
           if(inside([home.listing.location.latitude, home.listing.location.longitude], poly)) {
             filteredHomes.push(home);
           }
-          else {
-            console.log(home);
-          }
         });
       });
       homes.results = filteredHomes;
@@ -119,6 +116,7 @@ exports.create = function(req, res) {
       callback(null, users);
     });
   }
+  
   var postalcodes = _.where(req.body.queries, { 'key': 'listing.address.postalcode' });
   var userParams = [];
   if(postalcodes.length === 0) {

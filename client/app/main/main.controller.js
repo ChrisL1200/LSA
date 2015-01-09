@@ -75,6 +75,7 @@ angular.module('cruvitaApp')
         home.closeClick = function () {
           $scope.homeWindow = {};
         };
+
         home.onClicked = function ()  {
           $scope.homeWindow = home;
           $scope.homeWindow.showWindow = true;
@@ -271,10 +272,6 @@ angular.module('cruvitaApp')
       $scope.selectedSchool = undefined;
       updateScore();
     };
-
-    // $scope.schoolHover = function(school) {
-    //   $scope.
-    // };
 
     $scope.homeHover = function(home) {
       if(home) {
