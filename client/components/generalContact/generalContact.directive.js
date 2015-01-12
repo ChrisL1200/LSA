@@ -9,7 +9,8 @@ angular.module('cruvitaApp')
       scope: {
         subject: '=',
         to: '=',
-        message: '='
+        message: '=',
+        lkey: '='
       },
       controller: function($scope, Auth, email, $timeout) {
         var user = Auth.getCurrentUser();
@@ -27,6 +28,9 @@ angular.module('cruvitaApp')
             $scope.emailPromise = email.send({},$scope.email, function(resp){
               $scope.emailFail = false;
               $scope.emailSuccess = true;
+              if ($scope.lkey){
+                lh('submit', 'AGENT_EMAIL_SENT', {lkey:$scope.lkey});
+              }
               $timeout(function() { $scope.emailSuccess = false; }, 5000);
             }, function(err) {
               $scope.emailFail = true;

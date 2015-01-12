@@ -17,13 +17,16 @@
   </section>
   <section class="col col-50">
     <div class="container-flex">
-      <div class="premiere-agents container-flex">
+      <div class="premiere-agents container-flex" ng-if="agent">
         <div class="col col-50">
-          <show-agent agents="agents"></show-agent>
+          <show-agent></show-agent>
         </div>
-        <div class="col col-50" ng-if="listing && agents">
-          <general-contact to="agents[0].email" subject="listing.address.fullstreetaddress[0]" message="'Dear ' + agents[0].name + ', I am interested in the property at ' +  listing.address.fullstreetaddress[0] + '.  Please get back to me with information. Thank you!'"></general-contact>
+        <div class="col col-50">
+          <general-contact to="agents[0].email" subject="listing.address.fullstreetaddress[0]" message="'Dear ' + agents[0].name + ', I am interested in the property at ' +  listing.address.fullstreetaddress[0] + '.  Please get back to me with information. Thank you!'" lkey="lkey"></general-contact>
         </div>
+      </div>
+      <div class="agent-filler container-flex" ng-if="!agent">
+        <h4><a href="mailto:sales@cruvita.com">Realtors, click here to advertise with Cruvita for zip code {{listing.address.postalcode}}!</a></h4>
       </div>
       <div class="col col-50 details">
         <ul class="score-block">
@@ -90,10 +93,10 @@
           <h4>Listing Agent</h4>
           <ul>
             <li>{{lagent.firstname[0]}} {{lagent.lastname[0]}}</li>
-            <li>{{alagentgent.primarycontactphone[0]}}</li>
+            <li>{{lagent.primarycontactphone[0]}}</li>
             <li ng-hide="lagent.primarycontactphone[0] == lagent.officephone[0]">{{lagent.officephone[0]}}</li>
             <li>{{lagent.fax[0]}}</li>
-            <li>{{aglagentent.email[0]}}</li>
+            <li><a ng-href="mailto:lagent.email[0]" ng-click="lagentClick()" target="_blank">{{lagent.email[0]}}</a></li>
             <li><a href="lagent.websiteurl[0]">{{lagent.websiteurl[0]}}</a></li>
           </ul>
         </div>

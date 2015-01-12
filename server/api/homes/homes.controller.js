@@ -24,7 +24,7 @@ exports.index = function(req, res) {
 exports.show = function(req, res) {
   var userQuery = User.find({})
   .where('role').equals('agent')
-  .select('email name phone website licenseNumber realtyName picture');
+  .select('email name phone website licenseNumber realtyName picture paidInterests.zips');
   var userParams = [];
   async.series({
     home: function(callback){
@@ -116,7 +116,7 @@ exports.create = function(req, res) {
       callback(null, users);
     });
   }
-  
+
   var postalcodes = _.where(req.body.queries, { 'key': 'listing.address.postalcode' });
   var userParams = [];
   if(postalcodes.length === 0) {

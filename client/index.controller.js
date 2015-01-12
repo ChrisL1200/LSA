@@ -7,6 +7,8 @@ angular.module('cruvitaApp')
       $scope.location = $location.path();
       $scope.location = $scope.location.split("/");
 
+      ga('send', 'pageview');
+
 
       if ($scope.location[1] === 'results' || $scope.location[1] ==='listing') {
         $scope.navclass = true;

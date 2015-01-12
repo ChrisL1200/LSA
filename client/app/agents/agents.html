@@ -1,5 +1,5 @@
 <section class="agentList">
-  <div class="media breakbox" ng-repeat="agent in agents | limitTo: 1" ng-if="agent.name">
+  <div class="media breakbox" ng-if="agent.name">
     <h4 class="media-heading">{{agent.name}}</h4>
     <div class="media-left">
       <!--PROD img src="{{agent.picture}}"-->
@@ -9,7 +9,7 @@
       <ul class="agent-info">
         <li>{{agent.email}}</li>
         <li>{{agent.phone}}</li>
-        <li><a href="{{agent.website}}" targer="_blank">{{agent.website}}</a></li>
+        <li><a href="{{agent.website}}" target="_blank">{{agent.website}}</a></li>
         <li><em>{{agent.realtyName}}</em></li>
         <li>{{agent.licenseNumber}}</li>
       </ul>

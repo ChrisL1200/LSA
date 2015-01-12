@@ -8,17 +8,18 @@ angular.module('cruvitaApp')
 			$scope.listing = listing.home.listing;
       //make it easier to call the listing agent
       $scope.lagent = $scope.listing.listingparticipants.participant;
-			$scope.agents = listing.agent;
+			$scope.agent = listing.agent[0];
 
-      console.log(listing);
+      console.log(listing, $scope.agent);
       //Send Metrics to LH
-      var lkey = $scope.listing.listingkey[0];
-        (function(l,i,s,t,h,u,b){l['ListHubAnalyticsObject']=h;l[h]=l[h]||function(){
-        (l[h].q=l[h].q||[]).push(arguments)},l[h].d=1*new Date();u=i.createElement(s),
-        b=i.getElementsByTagName(s)[0];u.async=1;u.src=t;b.parentNode.insertBefore(u,b)
-        })(window,document,'script','//tracking.listhub.net/la.min.js','lh');
+      $scope.lkey = $scope.listing.listingkey[0];
 
-        lh('init', {provider:'M-2570', test:true});
-        lh('submit', 'DETAIL_PAGE_VIEWED', {lkey:lkey});
+      //LH View Tracking
+      lh('submit', 'DETAIL_PAGE_VIEWED', {lkey:$scope.lkey});
 		})
+
+    //LH Clicktracking
+    $scope.lagentClick = function(){
+      lh('submit', 'AGENT_EMAIL_CLICKED', {lkey:$scope.lkey});
+    }
   });

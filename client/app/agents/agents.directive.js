@@ -6,9 +6,6 @@ angular.module('cruvitaApp')
       templateUrl: 'app/agents/agents.html',
       restrict: 'EA',
       replace: true,
-      scope: {
-        agents: '='
-      },
       link: function (scope, element, attrs) {
       }
     };
