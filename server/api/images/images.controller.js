@@ -11,7 +11,8 @@ exports.index = function(req, res) {
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
   var code = query.url.hashCode();
-  fs.readFile(config.imageLocation + (code % 10000).toString() + '/' + code.toString() + '.jpeg', function(err,img) {
+  var type = query.contentType || 'jpeg';
+  fs.readFile(config.imageLocation + (code % 10000).toString() + '/' + code.toString() + '.' + type, function(err,img) {
     res.writeHead(200, {'Content-Type': 'image/gif' });
     res.end(img, 'binary');
   });

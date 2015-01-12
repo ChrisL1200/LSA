@@ -1,0 +1,4 @@
+<div ng-repeat='advertisement in advertisements'>
+	<h4><a target="_blank" href="{{advertisement.url}}">{{advertisement.company}}<a></h4>
+	<img ng-src="/api/images?url={{advertisement._id}}&contentType=png" />
+</div>

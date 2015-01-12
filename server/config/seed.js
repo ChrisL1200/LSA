@@ -5,8 +5,11 @@
 
 'use strict';
 
+var fs = require('fs');
+var config = require('./environment');
 var User = require('../api/user/user.model');
 var Token = require('../api/token/token.model');
+var Advertisement = require('../api/advertisement/advertisement.model');
 
 User.find({}).remove(function() {
   User.create({
@@ -168,6 +171,19 @@ User.find({}).remove(function() {
   );
 });
 
+Advertisement.find({}).remove(function() {
+  Advertisement.create({
+    company: 'Buy our stuff Inc.',
+    url:'http://www.buyourstuff.com'
+  }, function(err, doc) {
+    fs.readFile('images/advertisement.png', function (err, data) {
+      var code = doc._id.toString().hashCode();
+      if (err) throw err;
+      fs.writeFile(config.imageLocation + (code % 10000).toString() + '/' + code.toString() + '.png', data);
+    });
+  });
+});
+
 Token.find({}).remove(function() {
   Token.create({
       expire: new Date(),
@@ -175,3 +191,19 @@ Token.find({}).remove(function() {
       access:"2npqqwq6ym1x1q3ms1uvvsh7t"
     });
 });
+
+String.prototype.hashCode = function(){
+  var hash = 0;
+  if (this.length === 0) {
+    return hash;
+  }
+  for (var i = 0; i < this.length; i++) {
+    var character = this.charCodeAt(i);
+    hash = ((hash<<5)-hash)+character;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  if(hash < 0) {
+    hash = hash * -1;
+  }
+  return hash;
+};
