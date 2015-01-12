@@ -1,3 +1,3 @@
 <div ng-repeat='advertisement in advertisements'>
-  <a target="_blank" href="{{advertisement.url}}"><img ng-src="/api/images?url={{advertisement._id}}&contentType=png" /><a>
+  <a target="_blank" href="{{advertisement.url}}" title="{{advertisement.url}}"><img ng-src="/api/images?url={{advertisement._id}}&contentType=png" class="ad-image"/><a>
 </div>

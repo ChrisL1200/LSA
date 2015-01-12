@@ -58,7 +58,7 @@
       <ui-gmap-google-map options="mapOptions" center="map.center" zoom="map.zoom" bounds="map.bounds" draggable="true">
         <ui-gmap-map-control template="draw.tpl.html" position="top-right" index="1" controller="mapWidgetCtrl"></ui-gmap-map-control>
         <ui-gmap-free-draw-polygons polygons='map.polys' draw='map.draw'></ui-gmap-free-draw-polygons>
-        <ui-gmap-polygon path="polyline.path" clickable='true' fill="{color: 'rgba(0, 46, 92 ,.2)', opacity: polyline.selected ? 1 : 0.0 }" ng-if="polyline.selected" ng-repeat="polyline in map.polylines"></ui-gmap-polygon>
+        <ui-gmap-polygon path="polyline.path" clickable='true' fill="{color: 'rgba(0, 46, 92 ,.2)', opacity: polyline.selected ? 1 : 0.0 }" stroke="{color: 'rgba(0, 84, 169, .5)', weight: 2}" ng-if="polyline.selected" ng-repeat="polyline in map.polylines"></ui-gmap-polygon>
         <ui-gmap-markers models="map.schools" coords="'coordinates'" idKey="'_id'" click="'onClicked'" icon="'icon'"></ui-gmap-markers>
         <ui-gmap-window coords="schoolWindow.coordinates" idKey="schoolWindow._id" show="schoolWindow.showWindow" closeClick="schoolWindow.closeClick" isIconVisibleOnClick="false">
         <div class="media-body">
