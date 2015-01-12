@@ -48,6 +48,9 @@
           <iframe name ="dropdownIframe" align="top" height="100%" width="100%"></iframe>
         </div>
       </div>
+      <div class="map-overlay-alert" ng-if="map.dragging">
+        <a ng-click="boundsOnly()">See all results</a>
+      </div>
       <div ng-if="map.polys.length > 0">
         <button class="btn btn-danger" ng-click="clearPolygons()">Clear</button>
         <button class="btn btn-success" ng-click="applyPolygons()">Apply</button>

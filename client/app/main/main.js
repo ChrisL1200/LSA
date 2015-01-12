@@ -5,6 +5,7 @@ angular.module('cruvitaApp')
     $routeProvider
       .when('/results', {
         templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        reloadOnSearch: false
       });
   });

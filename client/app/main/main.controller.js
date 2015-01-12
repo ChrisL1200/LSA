@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('cruvitaApp')
-  .controller('MainCtrl', function ($scope, $http, $timeout, School, Config, Homes, drawChannel, clearChannel, Location, $routeParams) {
+  .controller('MainCtrl', function ($scope, $http, $timeout, School, Config, Homes, drawChannel, clearChannel, Location, $routeParams, $location) {
     $scope.map = Config.mapDefaults;
     $scope.mapOptions = Config.mapOptions;
     $scope.currentView = 'schools';
@@ -25,17 +25,12 @@ angular.module('cruvitaApp')
     }
 
     var keyPromise, promise;
-    var firstRequest = true;
-    var noBounds = true;
-    var getBounds = function(map) {
-      return [
+
+    var getParams = function(map) {
+      var params = [
         {type:'range', key: map.latitude, min: $scope.map.bounds.southwest.latitude, max: $scope.map.bounds.northeast.latitude},
         {type:'range', key: map.longitude, min: $scope.map.bounds.southwest.longitude, max: $scope.map.bounds.northeast.longitude}
       ];
-    }
-
-    var getParams = function(map) {
-      var params = [];
       _.each($routeParams, function(value, key) {
         if(key !== 'SWLAT' && key !== 'SWLONG' && key !== 'NELAT' && key !== 'NELONG' && key !== 'q') {
           params.push({type: 'equals', key: map[key], value: value});
@@ -132,7 +127,7 @@ angular.module('cruvitaApp')
         $timeout.cancel(keyPromise);
       keyPromise = $timeout(function() {
         $scope.selectedSchool = undefined;
-        updateScore(noBounds);
+        updateScore();
       }, 500);
     }
 
@@ -147,10 +142,16 @@ angular.module('cruvitaApp')
     $scope.$watch('map.bounds', function(newVal, oldVal) {
       if((!oldVal.northeast || Location.searching) && newVal !== oldVal) {
         Location.searching = false;
+        $scope.map.dragging = false;
         boundUpdate();
       }
       else if(newVal !== oldVal && !$scope.selectedSchool) {
-        noBounds = false;
+        $scope.map.dragging = true;
+        $location.search('NELAT', $scope.map.bounds.northeast.latitude);
+        $location.search('NELONG', $scope.map.bounds.northeast.longitude);
+        $location.search('SWLAT', $scope.map.bounds.southwest.latitude);
+        $location.search('SWLONG', $scope.map.bounds.southwest.longitude);
+        $location.$$compose();
         boundUpdate();
       }
     }, true);
@@ -178,13 +179,7 @@ angular.module('cruvitaApp')
     });
 
     $scope.updateSchools = function() {
-      var queries = [];
-      if(noBounds) {
-        queries = getParams(Location.schoolsComponentMap);
-      }
-      else {
-        queries = getBounds(Location.schoolsComponentMap);
-      }
+      var queries = getParams(Location.schoolsComponentMap);
       angular.forEach($scope.schoolFilters, function(val, key) {
         if(val.value || val.type === 'type' || (val.min && val.max)) {
           queries.push(val);
@@ -196,13 +191,7 @@ angular.module('cruvitaApp')
     }
 
     $scope.updateHomes = function() {
-      var queries = [];
-      if(noBounds) {
-        queries = getParams(Location.homesComponentMap);
-      }
-      else {
-        queries = getBounds(Location.homesComponentMap);
-      }
+      var queries = getParams(Location.homesComponentMap);
       angular.forEach($scope.homeFilters, function(val, key) {
         if(val.value || val.type === 'type' || (val.min && val.max)) {
           queries.push(val);
@@ -276,15 +265,13 @@ angular.module('cruvitaApp')
       updateScore();
     };
 
-    $scope.homeHover = function(home) {
-      if(home) {
-        $scope.homeWindow = home;
-        $scope.homeWindow.showWindow = true;
-      }
-      else {
-        $scope.homeWindow = {};
-        $scope.homeWindow.showWindow = false;
-      }
+    $scope.boundsOnly = function() {
+      delete $location.$$search.administrative_area_level_1;
+      delete $location.$$search.q;
+      delete $location.$$search.locality;
+      delete $location.$$search.postal_code;
+      $location.$$compose();
+      boundUpdate();
     };
 
     var draw = function() {
