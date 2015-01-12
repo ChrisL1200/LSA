@@ -34,8 +34,7 @@ User.find({}).remove(function() {
     "realtyName": "EXOSTREAM",
     "paidInterests": {
       "zips": [
-        20151,
-        22030
+        20151
       ]
     },
     "role": "agent",
