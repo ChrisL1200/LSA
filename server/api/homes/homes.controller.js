@@ -4,6 +4,7 @@ var _ = require('lodash');
 _.mixin(require("lodash-deep"));
 var Homes = require('./homes.model');
 var User = require('../user/user.model');
+var Advertisement = require('../advertisement/advertisement.model');
 var url = require('url');
 var async = require('async');
 var inside = require('point-in-polygon');
@@ -111,10 +112,21 @@ exports.create = function(req, res) {
     callback(null, homes);
   }
 
-  function agentsCallback(callback, userParams) {
-    userQuery.or(userParams).exec(function (err, users) {
-      callback(null, users);
-    });
+  function adAgentsCallback(callback, userParams) {
+    async.parallel({
+      agents: function(agentCallback) {
+        userQuery.or(userParams).exec(function (err, users) {
+          agentCallback(null, users);
+        });
+      },
+      advertisements: function(adCallback) {
+        var advertisementQuery = Advertisement.find({}).select('company url _id');
+        advertisementQuery.or(userParams).exec(function (err, ads) {
+          adCallback(null, ads);
+        });
+      }}, function(err, results) {
+        callback(null, results);
+      });
   }
 
   var postalcodes = _.where(req.body.queries, { 'key': 'listing.address.postalcode' });
@@ -132,19 +144,22 @@ exports.create = function(req, res) {
           homesCallback(err, homes, callback);
         });
       },
-      agents: function(callback){
-        agentsCallback(callback, userParams);
+      adAgents: function(callback){
+        adAgentsCallback(callback, userParams);
       }
     },
     function(err, results) {
+      results.agents = results.adAgents.agents;
+      results.advertisements = results.adAgents.advertisements;
+      delete results.adAgents;
       return res.send(200, results);
     });
   }
   else {
     userParams.push({'paidInterests.zips':postalcodes[0].value});
     async.parallel({
-      agents: function(callback){
-        agentsCallback(callback);
+      adAgents: function(callback){
+        adAgentsCallback(callback);
       },
       homes: function(callback){
         homeQuery.paginate(pageOptions, function (err, homes) {
@@ -153,6 +168,9 @@ exports.create = function(req, res) {
       }
     },
     function(err, results) {
+      results.agents = results.adAgents.agents;
+      results.advertisements = results.adAgents.advertisements;
+      delete results.adAgents;
       return res.send(200, results);
     });
   }

@@ -5,6 +5,10 @@ var mongoose = require('mongoose'),
 
 var AdvertisementSchema = new Schema({
   company: String,
+  paidInterests: {
+    zips: [ String ]
+  },
+  expiration: Date,
   url: String
 });
 

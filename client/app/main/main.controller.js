@@ -213,6 +213,8 @@ angular.module('cruvitaApp')
       $scope.homePromise = Homes.retrieve({}, {polygons: paths.concat(getPolygons()), queries: queries}, function(response) {
         homesCallback(response.homes);
         $scope.agents = response.agents;
+        console.log(response.advertisements);
+        $scope.advertisements = response.advertisements;
       }).$promise;
     }
 

@@ -173,7 +173,10 @@ User.find({}).remove(function() {
 Advertisement.find({}).remove(function() {
   Advertisement.create({
     company: 'Buy our stuff Inc.',
-    url:'http://www.buyourstuff.com'
+    url:'http://www.buyourstuff.com',
+    paidInterests: {
+      zips: [22032]
+    }
   }, function(err, doc) {
     fs.readFile('images/advertisement.png', function (err, data) {
       var code = doc._id.toString().hashCode();
